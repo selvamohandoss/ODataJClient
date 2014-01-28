@@ -27,6 +27,7 @@ import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ComplexType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntitySet;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityType;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EnumType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
 import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -104,6 +105,14 @@ public class V3MetadataMojo extends AbstractMetadataMojo {
                 final Map<String, Object> objs = new HashMap<String, Object>();
 
                 // write types into types package
+                for (EnumType enumType : schema.getEnumTypes()) {
+                    final String className = utility.capitalize(enumType.getName());
+                    complexTypeNames.add(typesPkg + "." + className);
+                    objs.clear();
+                    objs.put("enumType", enumType);
+                    parseObj(typesBaseDir, typesPkg, "enumType", className + ".java", objs);
+                }
+
                 for (ComplexType complex : schema.getComplexTypes()) {
                     final String className = utility.capitalize(complex.getName());
                     complexTypeNames.add(typesPkg + "." + className);

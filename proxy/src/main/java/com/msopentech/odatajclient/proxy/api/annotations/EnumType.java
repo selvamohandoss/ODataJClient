@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface EnumType {
 
-    String value();
+    String name();
 
     EdmSimpleType underlyingType() default EdmSimpleType.Int32;
 
