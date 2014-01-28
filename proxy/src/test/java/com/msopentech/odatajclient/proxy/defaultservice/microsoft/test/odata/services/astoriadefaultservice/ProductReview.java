@@ -45,6 +45,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
+
 @EntitySet(name = "ProductReview")
 public interface ProductReview extends AbstractEntitySet<com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.ProductReview, ProductReviewKey, com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.ProductReviewCollection> {
 

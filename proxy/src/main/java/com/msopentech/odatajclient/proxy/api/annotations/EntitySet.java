@@ -34,4 +34,6 @@ import java.lang.annotation.Target;
 public @interface EntitySet {
 
     String name();
+
+    boolean includeInServiceDocument() default true;
 }

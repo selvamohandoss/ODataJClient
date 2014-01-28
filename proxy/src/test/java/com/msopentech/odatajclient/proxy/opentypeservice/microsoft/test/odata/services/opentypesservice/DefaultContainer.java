@@ -23,7 +23,7 @@ package com.msopentech.odatajclient.proxy.opentypeservice.microsoft.test.odata.s
 import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.proxy.api.annotations.Namespace;
 import com.msopentech.odatajclient.proxy.api.annotations.EntityContainer;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractContainer;
@@ -55,6 +55,8 @@ public interface DefaultContainer extends AbstractContainer {
     Row getRow();
 
     RowIndex getRowIndex();
+
+
 
 
 }

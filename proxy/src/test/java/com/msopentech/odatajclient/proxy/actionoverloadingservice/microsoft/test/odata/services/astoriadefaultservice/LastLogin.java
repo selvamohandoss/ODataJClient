@@ -45,6 +45,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
+
 @EntitySet(name = "LastLogin")
 public interface LastLogin extends AbstractEntitySet<com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.LastLogin, String, com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.LastLoginCollection> {
 

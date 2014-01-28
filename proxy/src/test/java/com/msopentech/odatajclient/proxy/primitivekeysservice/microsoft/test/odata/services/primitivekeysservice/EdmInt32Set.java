@@ -45,6 +45,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
+
 @EntitySet(name = "EdmInt32Set")
 public interface EdmInt32Set extends AbstractEntitySet<com.msopentech.odatajclient.proxy.primitivekeysservice.microsoft.test.odata.services.primitivekeysservice.types.EdmInt32, Integer, com.msopentech.odatajclient.proxy.primitivekeysservice.microsoft.test.odata.services.primitivekeysservice.types.EdmInt32Collection> {
 

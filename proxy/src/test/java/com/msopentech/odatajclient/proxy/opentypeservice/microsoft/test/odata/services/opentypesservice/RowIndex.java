@@ -45,6 +45,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
+
 @EntitySet(name = "RowIndex")
 public interface RowIndex extends AbstractEntitySet<com.msopentech.odatajclient.proxy.opentypeservice.microsoft.test.odata.services.opentypesservice.types.RowIndex, Integer, com.msopentech.odatajclient.proxy.opentypeservice.microsoft.test.odata.services.opentypesservice.types.RowIndexCollection> {
 

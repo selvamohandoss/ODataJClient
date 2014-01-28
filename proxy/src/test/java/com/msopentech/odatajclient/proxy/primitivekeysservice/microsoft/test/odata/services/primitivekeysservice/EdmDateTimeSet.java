@@ -45,6 +45,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 
+
 @EntitySet(name = "EdmDateTimeSet")
 public interface EdmDateTimeSet extends AbstractEntitySet<com.msopentech.odatajclient.proxy.primitivekeysservice.microsoft.test.odata.services.primitivekeysservice.types.EdmDateTime, ODataTimestamp, com.msopentech.odatajclient.proxy.primitivekeysservice.microsoft.test.odata.services.primitivekeysservice.types.EdmDateTimeCollection> {
 

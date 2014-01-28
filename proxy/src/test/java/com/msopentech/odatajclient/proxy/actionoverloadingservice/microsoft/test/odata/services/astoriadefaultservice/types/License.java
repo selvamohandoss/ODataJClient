@@ -26,14 +26,13 @@ import com.msopentech.odatajclient.proxy.api.annotations.Key;
 import com.msopentech.odatajclient.proxy.api.annotations.KeyRef;
 import com.msopentech.odatajclient.proxy.api.annotations.NavigationProperty;
 import com.msopentech.odatajclient.proxy.api.annotations.Property;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractComplexType;
 import com.msopentech.odatajclient.proxy.api.AbstractOpenType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmContentKind;
 import com.msopentech.odatajclient.engine.data.metadata.edm.ConcurrencyMode;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.OnDeleteAction;
 import com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.*;
 import com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.*;
 
@@ -73,7 +72,7 @@ public interface License extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -96,7 +95,7 @@ public interface License extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -119,7 +118,7 @@ public interface License extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -142,7 +141,7 @@ public interface License extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -165,7 +164,7 @@ public interface License extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -181,10 +180,12 @@ public interface License extends Serializable {
 
     
 
+
     @NavigationProperty(name = "Driver", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.License_Driver", 
-                fromRole = "License", 
-                toRole = "Driver")
+                type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Driver", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "Driver")
     public com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Driver getDriver();
 
     public void setDriver(final com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Driver _driver);

@@ -33,9 +33,11 @@ public @interface NavigationProperty {
 
     String name();
 
-    String relationship();
+    String type();
 
-    String fromRole();
+    String targetSchema();
 
-    String toRole();
+    String targetContainer();
+
+    String targetEntitySet();
 }

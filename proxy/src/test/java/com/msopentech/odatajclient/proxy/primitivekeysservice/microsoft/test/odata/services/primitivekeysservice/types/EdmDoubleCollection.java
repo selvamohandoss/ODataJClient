@@ -21,7 +21,7 @@
 package com.msopentech.odatajclient.proxy.primitivekeysservice.microsoft.test.odata.services.primitivekeysservice.types;
 
 import com.msopentech.odatajclient.proxy.api.AbstractEntityCollection;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.primitivekeysservice.microsoft.test.odata.services.primitivekeysservice.*;
@@ -45,4 +45,5 @@ import java.io.Serializable;
 import java.util.Collection;
 
 public interface EdmDoubleCollection extends AbstractEntityCollection<EdmDouble> {
+
 }

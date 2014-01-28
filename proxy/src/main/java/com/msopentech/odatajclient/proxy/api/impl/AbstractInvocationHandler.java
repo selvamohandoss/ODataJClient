@@ -29,7 +29,7 @@ import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.data.metadata.EdmType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV3Type;
 import com.msopentech.odatajclient.proxy.api.EntityContainerFactory;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.proxy.utils.ClassUtils;
 import com.msopentech.odatajclient.proxy.utils.EngineUtils;
@@ -149,7 +149,7 @@ abstract class AbstractInvocationHandler implements InvocationHandler {
     }
 
     protected Object functionImport(
-            final FunctionImport annotation, final Method method, final Object[] args, final URI target,
+            final Operation annotation, final Method method, final Object[] args, final URI target,
             final com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport funcImp)
             throws InstantiationException, IllegalAccessException, NoSuchMethodException,
             IllegalArgumentException, InvocationTargetException {

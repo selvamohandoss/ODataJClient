@@ -24,7 +24,7 @@ import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 import com.msopentech.odatajclient.proxy.api.EntityContainerFactory;
 import com.msopentech.odatajclient.proxy.api.annotations.EntityContainer;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.utils.ClassUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -103,16 +103,16 @@ public class EntityContainerInvocationHandler extends AbstractInvocationHandler 
                         new Class<?>[] { returnType },
                         EntitySetInvocationHandler.getInstance(returnType, this));
             } // 2. invoke function imports
-            else if (methodAnnots[0] instanceof FunctionImport) {
+            else if (methodAnnots[0] instanceof Operation) {
                 final com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer container =
                         getFactory().getMetadata().getSchema(schemaName).getEntityContainer(entityContainerName);
                 final com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport funcImp =
-                        container.getFunctionImport(((FunctionImport) methodAnnots[0]).name());
+                        container.getFunctionImport(((Operation) methodAnnots[0]).name());
 
                 final URIBuilder uriBuilder = client.getURIBuilder(factory.getServiceRoot()).
                         appendFunctionImportSegment(URIUtils.rootFunctionImportURISegment(container, funcImp));
 
-                return functionImport((FunctionImport) methodAnnots[0], method, args, uriBuilder.build(), funcImp);
+                return functionImport((Operation) methodAnnots[0], method, args, uriBuilder.build(), funcImp);
             } else {
                 throw new UnsupportedOperationException("Method not found: " + method);
             }

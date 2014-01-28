@@ -19,185 +19,61 @@
  */
 package com.msopentech.odatajclient.plugin;
 
+import com.msopentech.odatajclient.engine.utils.NavigationPropertyBindingDetails;
+import com.msopentech.odatajclient.engine.data.metadata.AbstractEdmMetadata;
 import com.msopentech.odatajclient.engine.data.metadata.EdmType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV3Type;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntitySet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityType;
+import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractNavigationProperty;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Association;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.AssociationEnd;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.PropertyRef;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v3.NavigationProperty;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
-import java.io.InputStream;
+import com.msopentech.odatajclient.engine.utils.AssociationSetBindingDetails;
+import com.msopentech.odatajclient.engine.utils.MetadataUtils;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.lang.StringUtils;
 
-public class Utility {
-
-    private static final String FC_TARGET_PATH = "fcTargetPath";
-
-    private static final String FC_SOURCE_PATH = "fcSourcePath";
-
-    private static final String FC_KEEP_IN_CONTENT = "fcKeepInContent";
-
-    private static final String FC_CONTENT_KIND = "fcContentKind";
-
-    private static final String FC_NS_PREFIX = "fcNSPrefix";
-
-    private static final String FC_NS_URI = "fcNSURI";
-
-    private static final String TYPE_SUB_PKG = "types";
+public class V3Utility extends AbstractUtility {
 
     private final EdmV3Metadata metadata;
 
     private final Schema schema;
 
-    private final String basePackage;
-
-    private final String schemaName;
-
-    private final String namespace;
-
-    private final Map<String, List<EntityType>> allEntityTypes = new HashMap<String, List<EntityType>>();
-
-    public Utility(final EdmV3Metadata metadata, final Schema schema, final String basePackage) {
+    public V3Utility(final EdmV3Metadata metadata, final Schema schema, final String basePackage) {
+        super(schema.getNamespace(), schema.getAlias(), basePackage);
         this.metadata = metadata;
         this.schema = schema;
-        this.basePackage = basePackage;
-        this.namespace = schema.getNamespace();
-        this.schemaName = schema.getAlias() == null ? getNameFromNS(namespace) : schema.getAlias();
 
-        for (Schema _schema : metadata.getSchemas()) {
-            allEntityTypes.put(_schema.getNamespace(), _schema.getEntityTypes());
-            if (StringUtils.isNotBlank(_schema.getAlias())) {
-                allEntityTypes.put(_schema.getAlias(), _schema.getEntityTypes());
-            }
-        }
+        collectEntityTypes();
     }
 
-    public String getBasePackage() {
-        return basePackage;
+    @Override
+    public EdmType getEdmType(final AbstractEdmMetadata<?, ?, ?, ?, ?, ?, ?> metadata, final String expression) {
+        return new EdmV3Type((EdmV3Metadata) metadata, expression);
     }
 
-    public String getSchemaName() {
-        return schemaName;
+    @Override
+    protected EdmV3Metadata getMetadata() {
+        return metadata;
     }
 
-    public String getNamespace() {
-        return namespace;
+    @Override
+    protected Schema getSchema() {
+        return schema;
     }
 
-    public String capitalize(final String str) {
-        return StringUtils.capitalize(str);
-    }
+    @Override
+    public String getNavigationType(final AbstractNavigationProperty property) {
+        final NavigationProperty navigationProperty = (NavigationProperty) property;
 
-    public String uncapitalize(final String str) {
-        return StringUtils.uncapitalize(str);
-    }
-
-    public String getJavaType(final String typeExpression) {
-        final StringBuilder res = new StringBuilder();
-
-        final EdmType edmType = new EdmV3Type(metadata, typeExpression);
-
-        if (edmType.isCollection() && !edmType.isEntityType()) {
-            res.append("Collection<");
-        }
-
-        if ("Edm.Stream".equals(typeExpression)) {
-            res.append(InputStream.class.getName());
-        } else if (edmType.isSimpleType()) {
-            res.append(edmType.getSimpleType().javaType().getSimpleName());
-        } else if (edmType.isComplexType()) {
-            res.append(basePackage).append('.').append(edmType.getNamespaceOrAlias().toLowerCase()).append('.').
-                    append(TYPE_SUB_PKG).append('.').append(capitalize(edmType.getComplexType().getName()));
-        } else if (edmType.isEntityType()) {
-            res.append(basePackage).append('.').append(edmType.getNamespaceOrAlias().toLowerCase()).append('.').
-                    append(TYPE_SUB_PKG).append('.').append(capitalize(edmType.getEntityType().getName()));
-        } else if (edmType.isEnumType()) {
-            res.append(basePackage).append('.').append(edmType.getNamespaceOrAlias().toLowerCase()).
-                    append('.').append(TYPE_SUB_PKG).append('.').append(capitalize(edmType.getEnumType().getName()));
-        } else {
-            throw new IllegalArgumentException("Invalid type expression '" + typeExpression + "'");
-        }
-
-        if (edmType.isCollection()) {
-            if (edmType.isEntityType()) {
-                res.append("Collection");
-            } else {
-                res.append(">");
-            }
-        }
-
-        return res.toString();
-    }
-
-    public Map<String, String> getFcProperties(final AbstractProperty property) {
-        final Map<String, String> fcProps = new HashMap<String, String>();
-
-        if (StringUtils.isNotBlank(property.getFcTargetPath())) {
-            fcProps.put(FC_TARGET_PATH, property.getFcTargetPath());
-        }
-        if (StringUtils.isNotBlank(property.getFcSourcePath())) {
-            fcProps.put(FC_SOURCE_PATH, property.getFcSourcePath());
-        }
-        if (StringUtils.isNotBlank(property.getFcNSPrefix())) {
-            fcProps.put(FC_NS_PREFIX, property.getFcNSPrefix());
-        }
-        if (StringUtils.isNotBlank(property.getFcNSURI())) {
-            fcProps.put(FC_NS_URI, property.getFcNSURI());
-        }
-        fcProps.put(FC_CONTENT_KIND, property.getFcContentKind().name());
-        fcProps.put(FC_KEEP_IN_CONTENT, Boolean.toString(property.isFcKeepInContent()));
-
-        return fcProps;
-    }
-
-    public EdmType getEdmType(final AbstractEntitySet entitySet) {
-        return new EdmV3Type(metadata, entitySet.getEntityType());
-    }
-
-    public Map<String, String> getEntityKeyType(final AbstractEntitySet entitySet) {
-        return getEntityKeyType(getEdmType(entitySet).getEntityType());
-    }
-
-    public Map<String, String> getEntityKeyType(final AbstractEntityType entityType) {
-        AbstractEntityType baseType = entityType;
-        while (baseType.getKey() == null && baseType.getBaseType() != null) {
-            baseType = new EdmV3Type(metadata, baseType.getBaseType()).getEntityType();
-        }
-
-        final List<String> properties = new ArrayList<String>();
-        for (PropertyRef pref : baseType.getKey().getPropertyRefs()) {
-            properties.add(pref.getName());
-        }
-
-        final Map<String, String> res = new HashMap<String, String>();
-
-        for (AbstractProperty prop : baseType.getProperties()) {
-            if (properties.contains(prop.getName())) {
-                res.put(prop.getName(), getJavaType(prop.getType()));
-            }
-        }
-
-        return res;
-    }
-
-    public String getNavigationRoleType(final String associationName, final String associationRole) {
-        final String name = getNameFromNS(associationName);
+        final String name = getNameFromNS(navigationProperty.getRelationship());
         final Association association = schema.getAssociation(name);
         if (association != null) {
             for (AssociationEnd end : association.getEnds()) {
-                if (end.getRole().equalsIgnoreCase(associationRole)) {
+                if (end.getRole().equalsIgnoreCase(navigationProperty.getToRole())) {
                     return "*".equals(end.getMultiplicity())
                             ? "Collection(" + end.getType() + ")"
                             : end.getType();
@@ -205,66 +81,25 @@ public class Utility {
             }
         }
 
-        return associationRole;
+        return navigationProperty.getToRole();
     }
 
-    public final String getNameInNamespace(final String name) {
-        return schema.getNamespace() + "." + name;
-    }
+    public NavigationPropertyBindingDetails getNavigationBindingDetails(final AbstractNavigationProperty property) {
+        final NavigationProperty navProperty = (NavigationProperty) property;
 
-    public final String getNameInNamespace(final EdmType entityType) {
-        return entityType.getNamespaceOrAlias() + "." + entityType.getEntityType().getName();
-    }
+        // 1) get association
+        final Association association = MetadataUtils.getAssociation(schema, navProperty.getRelationship());
 
-    public final String getNameFromNS(final String ns) {
-        return getNameFromNS(ns, false);
-    }
+        // 2) get schema,  entity container and association set
+        final AssociationSetBindingDetails associationSetDetails =
+                MetadataUtils.getAssociationSetBindingDetails(association, schema.getNamespace(), metadata);
 
-    public final String getNameFromNS(final String ns, final boolean toLowerCase) {
-        final int lastpt = ns.lastIndexOf('.');
-        final String res = ns.substring(lastpt < 0 ? 0 : lastpt + 1);
-        return toLowerCase ? res.toLowerCase() : res;
-    }
-
-    public boolean isSameType(
-            final String entityTypeExpression, final String fullTypeExpression, final boolean collection) {
-
-        final Set<String> types = new HashSet<String>(2);
-
-        types.add((collection ? "Collection(" : StringUtils.EMPTY)
-                + getNameInNamespace(entityTypeExpression)
-                + (collection ? ")" : StringUtils.EMPTY));
-        if (StringUtils.isNotBlank(schema.getAlias())) {
-            types.add((collection ? "Collection(" : StringUtils.EMPTY)
-                    + schema.getAlias() + "." + entityTypeExpression
-                    + (collection ? ")" : StringUtils.EMPTY));
-        }
-
-        return types.contains(fullTypeExpression);
-    }
-
-    private void populateDescendants(final EdmType base, final List<String> descendants) {
-        for (Map.Entry<String, List<EntityType>> entry : allEntityTypes.entrySet()) {
-            for (EntityType type : entry.getValue()) {
-                if (StringUtils.isNotBlank(type.getBaseType())
-                        && base.getEntityType().getName().equals(getNameFromNS(type.getBaseType()))) {
-
-                    final EdmType entityType = new EdmV3Type(metadata, entry.getKey() + "." + type.getName());
-
-                    descendants.add(getNameInNamespace(entityType));
-                    populateDescendants(entityType, descendants);
-                }
-            }
-        }
-    }
-
-    public List<String> getDescendantsOrSelf(final EdmType entityType) {
-        final List<String> descendants = new ArrayList<String>();
-
-        descendants.add(getNameInNamespace(entityType));
-        populateDescendants(entityType, descendants);
-
-        return descendants;
+        // 3) get navigation property binding details
+        return getNavigationBindingDetails(
+                property,
+                MetadataUtils.getEntitySetName(associationSetDetails.getAssociationSet(), navProperty.getToRole()),
+                associationSetDetails.getSchema(),
+                associationSetDetails.getContainer());
     }
 
     public List<FunctionImport> getFunctionImportsBoundTo(

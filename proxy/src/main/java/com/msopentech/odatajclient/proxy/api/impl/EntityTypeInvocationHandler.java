@@ -27,11 +27,6 @@ import com.msopentech.odatajclient.engine.data.ODataInlineEntitySet;
 import com.msopentech.odatajclient.engine.data.ODataLink;
 import com.msopentech.odatajclient.engine.data.ODataOperation;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Association;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.AssociationSet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
 import com.msopentech.odatajclient.engine.format.ODataMediaFormat;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 import com.msopentech.odatajclient.proxy.api.AbstractEntityCollection;
@@ -39,7 +34,7 @@ import com.msopentech.odatajclient.proxy.api.context.AttachedEntityStatus;
 import com.msopentech.odatajclient.proxy.api.EntityContainerFactory;
 import com.msopentech.odatajclient.proxy.api.context.EntityContext;
 import com.msopentech.odatajclient.proxy.api.annotations.EntityType;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.NavigationProperty;
 import com.msopentech.odatajclient.proxy.api.annotations.Property;
 import com.msopentech.odatajclient.proxy.api.context.EntityUUID;
@@ -91,7 +86,7 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
 
     static EntityTypeInvocationHandler getInstance(
             final ODataEntity entity,
-            final EntitySetInvocationHandler entitySet,
+            final EntitySetInvocationHandler<?, ?, ?> entitySet,
             final Class<?> typeRef) {
 
         return getInstance(
@@ -214,20 +209,20 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
 
         if (isSelfMethod(method, args)) {
             return invokeSelfMethod(method, args);
-        } else if (!ArrayUtils.isEmpty(methodAnnots) && methodAnnots[0] instanceof FunctionImport) {
-            final ODataOperation operation = this.entity.getOperation(((FunctionImport) methodAnnots[0]).name());
+        } else if (!ArrayUtils.isEmpty(methodAnnots) && methodAnnots[0] instanceof Operation) {
+            final ODataOperation operation = this.entity.getOperation(((Operation) methodAnnots[0]).name());
             if (operation == null) {
                 throw new IllegalArgumentException(
-                        "Could not find any FunctionImport named " + ((FunctionImport) methodAnnots[0]).name());
+                        "Could not find any FunctionImport named " + ((Operation) methodAnnots[0]).name());
             }
 
             final com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer container =
                     containerHandler.getFactory().getMetadata().getSchema(ClassUtils.getNamespace(typeRef)).
                     getEntityContainer(entityContainerName);
             final com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport funcImp =
-                    container.getFunctionImport(((FunctionImport) methodAnnots[0]).name());
+                    container.getFunctionImport(((Operation) methodAnnots[0]).name());
 
-            return functionImport((FunctionImport) methodAnnots[0], method, args,
+            return functionImport((Operation) methodAnnots[0], method, args,
                     operation.getTarget(), funcImp);
         } // Assumption: for each getter will always exist a setter and viceversa.
         else if (method.getName().startsWith("get")) {
@@ -293,18 +288,18 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
             collItemType = type;
         }
 
-        final EdmV3Metadata metadata = containerHandler.getFactory().getMetadata();
-        final Schema schema = metadata.getSchema(ClassUtils.getNamespace(typeRef));
-
-        // 1) get association
-        final Association association = EngineUtils.getAssociation(schema, property.relationship());
-
-        // 2) get entity container and association set
-        final Map.Entry<EntityContainer, AssociationSet> associationSet =
-                EngineUtils.getAssociationSet(association, schema.getNamespace(), metadata);
-
-        // 3) get entitySet
-        final String targetEntitySetName = EngineUtils.getEntitySetName(associationSet.getValue(), property.toRole());
+//        final EdmV3Metadata metadata = containerHandler.getFactory().getMetadata();
+//        final Schema schema = metadata.getSchema(ClassUtils.getNamespace(typeRef));
+//
+//        // 1) get association
+//        final Association association = EngineUtils.getAssociation(schema, property.relationship());
+//
+//        // 2) get entity container and association set
+//        final Map.Entry<EntityContainer, AssociationSet> associationSet =
+//                EngineUtils.getAssociationSet(association, schema.getNamespace(), metadata);
+//
+//        // 3) get entitySet
+//        final String targetEntitySetName = EngineUtils.getEntitySetName(associationSet.getValue(), property.toRole());
 
         final Object navPropValue;
 
@@ -316,8 +311,8 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
                 // return entity
                 navPropValue = getEntityProxy(
                         ((ODataInlineEntity) link).getEntity(),
-                        associationSet.getKey().getName(),
-                        targetEntitySetName,
+                        property.targetContainer(),
+                        property.targetEntitySet(),
                         type,
                         false);
             } else if (link instanceof ODataInlineEntitySet) {
@@ -325,7 +320,7 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
                 navPropValue = getEntityCollection(
                         collItemType,
                         type,
-                        associationSet.getKey().getName(),
+                        property.targetContainer(),
                         ((ODataInlineEntitySet) link).getEntitySet(),
                         link.getLink(),
                         false);
@@ -338,7 +333,7 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
                     navPropValue = getEntityCollection(
                             collItemType,
                             type,
-                            associationSet.getKey().getName(),
+                            property.targetContainer(),
                             client.getRetrieveRequestFactory().getEntitySetRequest(uri).execute().getBody(),
                             uri,
                             true);
@@ -348,8 +343,8 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
 
                     navPropValue = getEntityProxy(
                             res.getBody(),
-                            associationSet.getKey().getName(),
-                            targetEntitySetName,
+                            property.targetContainer(),
+                            property.targetEntitySet(),
                             type,
                             res.getEtag(),
                             true);
@@ -376,9 +371,9 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
 
                 res = type == null
                         ? EngineUtils.getValueFromProperty(
-                                containerHandler.getFactory().getMetadata(), entity.getProperty(name))
+                        containerHandler.getFactory().getMetadata(), entity.getProperty(name))
                         : EngineUtils.getValueFromProperty(
-                                containerHandler.getFactory().getMetadata(), entity.getProperty(name), type);
+                        containerHandler.getFactory().getMetadata(), entity.getProperty(name), type);
 
                 if (res != null) {
                     int checkpoint = propertyChanges.hashCode();

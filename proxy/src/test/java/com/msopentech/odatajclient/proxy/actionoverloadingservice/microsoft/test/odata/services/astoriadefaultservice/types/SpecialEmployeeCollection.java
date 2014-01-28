@@ -21,7 +21,7 @@
 package com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types;
 
 import com.msopentech.odatajclient.proxy.api.AbstractEntityCollection;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.*;
@@ -45,7 +45,8 @@ import java.io.Serializable;
 import java.util.Collection;
 
 public interface SpecialEmployeeCollection extends AbstractEntityCollection<SpecialEmployee> {
-    @FunctionImport(name = "IncreaseSalaries"      )
+
+    @Operation(name = "IncreaseSalaries"      )
     void increaseSalaries(
             @Parameter(name = "n", type = "Edm.Int32", nullable = false) Integer n
         );

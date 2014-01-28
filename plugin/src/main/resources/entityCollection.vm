@@ -20,7 +20,7 @@
 package ${package};
 
 import com.msopentech.odatajclient.proxy.api.AbstractEntityCollection;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 #foreach($ns in $namespaces)
@@ -46,24 +46,5 @@ import java.io.Serializable;
 import java.util.Collection;
 
 public interface $utility.capitalize($entityType.Name)Collection extends AbstractEntityCollection<$utility.capitalize($entityType.Name)> {
-#foreach($operation in $utility.getFunctionImportsBoundTo($entityType.Name, true))
-    @FunctionImport(name = "$operation.Name" #if ($operation.EntitySet), 
-                    entitySet = $operation.EntitySet$clsSuffix#end #if ($operation.EntitySetPath),
-                    entitySetPath = $operation.EntitySetPath#end #if ($operation.isIsComposable),
-                    isComposable = $operation.isIsComposable#end #if ($operation.isIsSideEffecting),
-                    isSideEffecting = $operation.isIsSideEffecting#end #if ($operation.HttpMethod),
-                    httpMethod = HttpMethod.$operation.HttpMethod#end #if ($operation.ReturnType),
-                    returnType = "$operation.ReturnType"#end)
-    #if($operation.ReturnType)$utility.getJavaType($operation.ReturnType)#{else}void#end $utility.uncapitalize($operation.Name)(
-    #if($operation.Parameters)
-      #set( $count = $operation.Parameters.size() )#*
-      *##foreach($param in $operation.Parameters)#*
-        *##set( $count = $count - 1 )#*
-        *##if( !$utility.isSameType($entityType.Name, $param.Type, true) )#*
-      *#    @Parameter(name = "$param.Name", type = "$param.Type", nullable = $param.Nullable#if ($param.Mode), mode = ParameterMode.$param.Mode.toString()#end) $utility.getJavaType($param.Type) $utility.uncapitalize($param.Name)#if( $count > 0 ), #end
-
-    #end
-    #end#*
-    *##end);
-#end
+#parse( "${odataVersion}/entityCollection.vm" )
 }

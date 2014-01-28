@@ -23,7 +23,7 @@ package com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.se
 import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.proxy.api.annotations.Namespace;
 import com.msopentech.odatajclient.proxy.api.annotations.EntityContainer;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractContainer;
@@ -101,65 +101,67 @@ public interface DefaultContainer extends AbstractContainer {
     PersonMetadata getPersonMetadata();
 
 
-      @FunctionImport(name = "GetPrimitiveString"     ,
+
+
+      @Operation(name = "GetPrimitiveString"     ,
                     httpMethod = HttpMethod.GET ,
                     returnType = "Edm.String")
     String getPrimitiveString(
     );
-        @FunctionImport(name = "GetSpecificCustomer" , 
+        @Operation(name = "GetSpecificCustomer" , 
                     entitySet = Customer.class    ,
                     httpMethod = HttpMethod.GET ,
                     returnType = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.Customer)")
     com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.CustomerCollection getSpecificCustomer(
         @Parameter(name = "Name", type = "Edm.String", nullable = true) String name
     );
-        @FunctionImport(name = "GetCustomerCount"     ,
+        @Operation(name = "GetCustomerCount"     ,
                     httpMethod = HttpMethod.GET ,
                     returnType = "Edm.Int32")
     Integer getCustomerCount(
     );
-        @FunctionImport(name = "GetArgumentPlusOne"     ,
+        @Operation(name = "GetArgumentPlusOne"     ,
                     httpMethod = HttpMethod.GET ,
                     returnType = "Edm.Int32")
     Integer getArgumentPlusOne(
         @Parameter(name = "arg1", type = "Edm.Int32", nullable = false) Integer arg1
     );
-        @FunctionImport(name = "EntityProjectionReturnsCollectionOfComplexTypes"     ,
+        @Operation(name = "EntityProjectionReturnsCollectionOfComplexTypes"     ,
                     httpMethod = HttpMethod.GET ,
                     returnType = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.ContactDetails)")
     Collection<com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.ContactDetails> entityProjectionReturnsCollectionOfComplexTypes(
     );
-        @FunctionImport(name = "ResetDataSource"     ,
+        @Operation(name = "ResetDataSource"     ,
                     httpMethod = HttpMethod.POST )
     void resetDataSource(
     );
-        @FunctionImport(name = "InStreamErrorGetCustomer" , 
+        @Operation(name = "InStreamErrorGetCustomer" , 
                     entitySet = Customer.class    ,
                     httpMethod = HttpMethod.GET ,
                     returnType = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.Customer)")
     com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.CustomerCollection inStreamErrorGetCustomer(
     );
-        @FunctionImport(name = "IncreaseSalaries"      )
+        @Operation(name = "IncreaseSalaries"      )
     void increaseSalaries(
         @Parameter(name = "employees", type = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.Employee)", nullable = true) com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.EmployeeCollection employees, 
         @Parameter(name = "n", type = "Edm.Int32", nullable = false) Integer n
     );
-        @FunctionImport(name = "Sack"      )
+        @Operation(name = "Sack"      )
     void sack(
         @Parameter(name = "employee", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Employee", nullable = true) com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.Employee employee
     );
-        @FunctionImport(name = "GetComputer" , 
+        @Operation(name = "GetComputer" , 
                     entitySet = Computer.class     ,
                     returnType = "Microsoft.Test.OData.Services.AstoriaDefaultService.Computer")
     com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.Computer getComputer(
         @Parameter(name = "computer", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Computer", nullable = true) com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.Computer computer
     );
-        @FunctionImport(name = "ChangeProductDimensions"      )
+        @Operation(name = "ChangeProductDimensions"      )
     void changeProductDimensions(
         @Parameter(name = "product", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Product", nullable = true) com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.Product product, 
         @Parameter(name = "dimensions", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Dimensions", nullable = true) com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.Dimensions dimensions
     );
-        @FunctionImport(name = "ResetComputerDetailsSpecifications"      )
+        @Operation(name = "ResetComputerDetailsSpecifications"      )
     void resetComputerDetailsSpecifications(
         @Parameter(name = "computerDetail", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.ComputerDetail", nullable = true) com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.ComputerDetail computerDetail, 
         @Parameter(name = "specifications", type = "Collection(Edm.String)", nullable = false) Collection<String> specifications, 

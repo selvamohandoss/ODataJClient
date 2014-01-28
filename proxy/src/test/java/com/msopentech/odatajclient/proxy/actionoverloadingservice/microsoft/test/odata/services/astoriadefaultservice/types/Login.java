@@ -26,14 +26,13 @@ import com.msopentech.odatajclient.proxy.api.annotations.Key;
 import com.msopentech.odatajclient.proxy.api.annotations.KeyRef;
 import com.msopentech.odatajclient.proxy.api.annotations.NavigationProperty;
 import com.msopentech.odatajclient.proxy.api.annotations.Property;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractComplexType;
 import com.msopentech.odatajclient.proxy.api.AbstractOpenType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmContentKind;
 import com.msopentech.odatajclient.engine.data.metadata.edm.ConcurrencyMode;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.OnDeleteAction;
 import com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.*;
 import com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.*;
 
@@ -73,7 +72,7 @@ public interface Login extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -96,7 +95,7 @@ public interface Login extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -112,46 +111,52 @@ public interface Login extends Serializable {
 
     
 
+
     @NavigationProperty(name = "Customer", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.Login_Customer", 
-                fromRole = "Login", 
-                toRole = "Customer")
+                type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Customer", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "Customer")
     public com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Customer getCustomer();
 
     public void setCustomer(final com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Customer _customer);
 
 
     @NavigationProperty(name = "LastLogin", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.Login_LastLogin", 
-                fromRole = "Login", 
-                toRole = "LastLogin")
+                type = "Microsoft.Test.OData.Services.AstoriaDefaultService.LastLogin", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "LastLogin")
     public com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.LastLogin getLastLogin();
 
     public void setLastLogin(final com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.LastLogin _lastLogin);
 
 
     @NavigationProperty(name = "SentMessages", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.Login_SentMessages", 
-                fromRole = "Login", 
-                toRole = "SentMessages")
+                type = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.Message)", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "Message")
     public com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.MessageCollection getSentMessages();
 
     public void setSentMessages(final com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.MessageCollection _sentMessages);
 
 
     @NavigationProperty(name = "ReceivedMessages", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.Login_ReceivedMessages", 
-                fromRole = "Login", 
-                toRole = "ReceivedMessages")
+                type = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.Message)", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "Message")
     public com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.MessageCollection getReceivedMessages();
 
     public void setReceivedMessages(final com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.MessageCollection _receivedMessages);
 
 
     @NavigationProperty(name = "Orders", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.Login_Orders", 
-                fromRole = "Login", 
-                toRole = "Orders")
+                type = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.Order)", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "Order")
     public com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.OrderCollection getOrders();
 
     public void setOrders(final com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.OrderCollection _orders);

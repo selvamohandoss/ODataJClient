@@ -23,7 +23,7 @@ package com.msopentech.odatajclient.proxy.primitivekeysservice.microsoft.test.od
 import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.proxy.api.annotations.Namespace;
 import com.msopentech.odatajclient.proxy.api.annotations.EntityContainer;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractContainer;
@@ -81,6 +81,8 @@ public interface TestContext extends AbstractContainer {
     EdmDateTimeOffsetSet getEdmDateTimeOffsetSet();
 
     Folders getFolders();
+
+
 
 
 }

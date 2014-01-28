@@ -26,14 +26,13 @@ import com.msopentech.odatajclient.proxy.api.annotations.Key;
 import com.msopentech.odatajclient.proxy.api.annotations.KeyRef;
 import com.msopentech.odatajclient.proxy.api.annotations.NavigationProperty;
 import com.msopentech.odatajclient.proxy.api.annotations.Property;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractComplexType;
 import com.msopentech.odatajclient.proxy.api.AbstractOpenType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmContentKind;
 import com.msopentech.odatajclient.engine.data.metadata.edm.ConcurrencyMode;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.OnDeleteAction;
 import com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.*;
 import com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.*;
 
@@ -73,7 +72,7 @@ public interface SpecialEmployee extends com.msopentech.odatajclient.proxy.actio
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -96,7 +95,7 @@ public interface SpecialEmployee extends com.msopentech.odatajclient.proxy.actio
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -119,7 +118,7 @@ public interface SpecialEmployee extends com.msopentech.odatajclient.proxy.actio
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -135,19 +134,21 @@ public interface SpecialEmployee extends com.msopentech.odatajclient.proxy.actio
 
     
 
+
     @NavigationProperty(name = "Car", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.SpecialEmployee_Car", 
-                fromRole = "SpecialEmployee", 
-                toRole = "Car")
+                type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Car", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "Car")
     public com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Car getCar();
 
     public void setCar(final com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Car _car);
 
 
-    @FunctionImport(name = "UpdatePersonInfo"      )
+    @Operation(name = "UpdatePersonInfo"      )
     void updatePersonInfo(
         );
-    @FunctionImport(name = "IncreaseEmployeeSalary"      ,
+    @Operation(name = "IncreaseEmployeeSalary"      ,
                     returnType = "Edm.Int32")
     Integer increaseEmployeeSalary(
         );

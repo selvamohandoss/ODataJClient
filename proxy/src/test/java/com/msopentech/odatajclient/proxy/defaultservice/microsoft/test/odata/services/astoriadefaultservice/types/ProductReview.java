@@ -26,14 +26,13 @@ import com.msopentech.odatajclient.proxy.api.annotations.Key;
 import com.msopentech.odatajclient.proxy.api.annotations.KeyRef;
 import com.msopentech.odatajclient.proxy.api.annotations.NavigationProperty;
 import com.msopentech.odatajclient.proxy.api.annotations.Property;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractComplexType;
 import com.msopentech.odatajclient.proxy.api.AbstractOpenType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmContentKind;
 import com.msopentech.odatajclient.engine.data.metadata.edm.ConcurrencyMode;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.OnDeleteAction;
 import com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.*;
 import com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.*;
 
@@ -73,7 +72,7 @@ public interface ProductReview extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -96,7 +95,7 @@ public interface ProductReview extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -110,6 +109,29 @@ public interface ProductReview extends Serializable {
 
     public void setReviewId(final Integer _reviewId);
 
+    
+    @Property(name = "Review", 
+                type = "Edm.String", 
+                nullable = true,
+                defaultValue = "",
+                maxLenght = Integer.MAX_VALUE,
+                fixedLenght = false,
+                precision = 0,
+                scale = 0,
+                unicode = true,
+                collation = "",
+                srid = "",
+                concurrencyMode = ConcurrencyMode.None,
+                fcSourcePath = "",
+                fcTargetPath = "",
+                fcContentKind = EdmContentKind.text,
+                fcNSPrefix = "",
+                fcNSURI = "",
+                fcKeepInContent = true)
+    public String getReview();
+
+    public void setReview(final String _review);
+
     @Key
     @Property(name = "RevisionId", 
                 type = "Edm.String", 
@@ -119,7 +141,7 @@ public interface ProductReview extends Serializable {
                 fixedLenght = false,
                 precision = 0,
                 scale = 0,
-                unicode = false,
+                unicode = true,
                 collation = "",
                 srid = "",
                 concurrencyMode = ConcurrencyMode.None,
@@ -134,34 +156,13 @@ public interface ProductReview extends Serializable {
     public void setRevisionId(final String _revisionId);
 
     
-    @Property(name = "Review", 
-                type = "Edm.String", 
-                nullable = true,
-                defaultValue = "",
-                maxLenght = Integer.MAX_VALUE,
-                fixedLenght = false,
-                precision = 0,
-                scale = 0,
-                unicode = false,
-                collation = "",
-                srid = "",
-                concurrencyMode = ConcurrencyMode.None,
-                fcSourcePath = "",
-                fcTargetPath = "",
-                fcContentKind = EdmContentKind.text,
-                fcNSPrefix = "",
-                fcNSURI = "",
-                fcKeepInContent = true)
-    public String getReview();
 
-    public void setReview(final String _review);
-
-    
 
     @NavigationProperty(name = "Product", 
-                relationship = "Microsoft.Test.OData.Services.AstoriaDefaultService.ProductReview_Product", 
-                fromRole = "ProductReview", 
-                toRole = "Product")
+                type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Product", 
+                targetSchema = "Microsoft.Test.OData.Services.AstoriaDefaultService", 
+                targetContainer = "DefaultContainer", 
+                targetEntitySet = "Product")
     public com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.Product getProduct();
 
     public void setProduct(final com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.Product _product);

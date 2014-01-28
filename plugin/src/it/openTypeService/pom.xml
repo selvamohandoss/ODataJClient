@@ -80,10 +80,10 @@
               <serviceRootURL>@serviceRootURL@/OpenTypeService.svc</serviceRootURL>
               <basePackage>com.msopentech.odatajclient.proxy.opentypeservice</basePackage>
             </configuration>
-            <id>pojos</id>
+            <id>pojosV3</id>
             <phase>generate-sources</phase>
             <goals>
-              <goal>pojos</goal>
+              <goal>pojosV3</goal>
             </goals>
           </execution>
         </executions>

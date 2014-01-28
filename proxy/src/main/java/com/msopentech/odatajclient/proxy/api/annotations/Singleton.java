@@ -25,13 +25,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Give entity set a name.
- * If interface extending EntitySet is not annotated with this, the effective name will be class'
+ * Give singleton a name.
+ * If interface extending Singleton is not annotated with this, the effective name will be class'
  * <tt>getSimpleName()</tt>.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface EntitySet {
+public @interface Singleton {
 
     String name();
 }

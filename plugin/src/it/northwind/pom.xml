@@ -80,10 +80,10 @@
               <serviceRootURL>http://services.odata.org/v3/(S(g00nkir0ssikgdmz3maw5l1x))/Northwind/Northwind.svc</serviceRootURL>
               <basePackage>com.msopentech.odatajclient.proxy.northwind</basePackage>
             </configuration>
-            <id>pojos</id>
+	    <id>pojosV3</id>
             <phase>generate-sources</phase>
             <goals>
-              <goal>pojos</goal>
+              <goal>pojosV3</goal>
             </goals>
           </execution>
         </executions>

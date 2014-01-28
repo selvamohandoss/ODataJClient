@@ -28,14 +28,11 @@ import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntitySet;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
-import org.apache.maven.plugin.AbstractMojo;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collections;
@@ -43,42 +40,24 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 /**
  * POJOs generator.
  */
-@Mojo(name = "pojos", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
-public class MetadataMojo extends AbstractMojo {
+@Mojo(name = "pojosV3", defaultPhase = LifecyclePhase.PROCESS_SOURCES)
+public class V3MetadataMojo extends AbstractMetadataMojo {
 
-    /**
-     * Generated files base root.
-     */
-    @Parameter(property = "outputDirectory", required = true)
-    private String outputDirectory;
+    @Override
+    protected V3Utility getUtility() {
+        return (V3Utility) utility;
+    }
 
-    /**
-     * OData service root URL.
-     */
-    @Parameter(property = "serviceRootURL", required = true)
-    private String serviceRootURL;
-
-    /**
-     * Base package.
-     */
-    @Parameter(property = "basePackage", required = true)
-    private String basePackage;
-
-    private Utility utility = null;
-
-    private final Set<String> namespaces = new HashSet<String>();
-
-    private static String TOOL_DIR = "ojc-plugin";
+    @Override
+    protected String getVersion() {
+        return ODataVersion.V3.name().toLowerCase();
+    }
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -109,7 +88,7 @@ public class MetadataMojo extends AbstractMojo {
             final File services = mkdir("META-INF/services");
 
             for (Schema schema : metadata.getSchemas()) {
-                utility = new Utility(metadata, schema, basePackage);
+                utility = new V3Utility(metadata, schema, basePackage);
 
                 // write package-info for the base package
                 final String schemaPath = utility.getNamespace().toLowerCase().replace('.', File.separatorChar);
@@ -141,14 +120,14 @@ public class MetadataMojo extends AbstractMojo {
 
                     EntityType baseType = null;
                     if (entity.getBaseType() == null) {
-                        keys = utility.getEntityKeyType(entity);
+                        keys = getUtility().getEntityKeyType(entity);
                     } else {
                         baseType = schema.getEntityType(utility.getNameFromNS(entity.getBaseType()));
-                        objs.put("baseType", utility.getJavaType(entity.getBaseType()));
+                        objs.put("baseType", getUtility().getJavaType(entity.getBaseType()));
                         while (baseType.getBaseType() != null) {
                             baseType = schema.getEntityType(utility.getNameFromNS(baseType.getBaseType()));
                         }
-                        keys = utility.getEntityKeyType(baseType);
+                        keys = getUtility().getEntityKeyType(baseType);
                     }
 
                     if (keys.size() > 1) {
@@ -198,99 +177,5 @@ public class MetadataMojo extends AbstractMojo {
                     ? (MojoExecutionException) t
                     : new MojoExecutionException("While executin mojo", t);
         }
-    }
-
-    private File mkdir(final String path) {
-        final File dir = new File(outputDirectory + File.separator + TOOL_DIR + File.separator + path);
-
-        if (dir.exists()) {
-            if (!dir.isDirectory()) {
-                throw new IllegalArgumentException("Invalid path '" + path + "': it is not a directory");
-            }
-        } else {
-            dir.mkdirs();
-        }
-
-        return dir;
-    }
-
-    private File mkPkgDir(final String path) {
-        return mkdir(basePackage.replace('.', File.separatorChar) + File.separator + path);
-    }
-
-    private void writeFile(final String name, final File path, final VelocityContext ctx, final Template template,
-            final boolean append) throws MojoExecutionException {
-
-        if (!path.exists()) {
-            throw new IllegalArgumentException("Invalid base path '" + path.getAbsolutePath() + "'");
-        }
-
-        FileWriter writer = null;
-        try {
-            final File toBeWritten = new File(path, name);
-            if (!append && toBeWritten.exists()) {
-                throw new IllegalStateException("File '" + toBeWritten.getAbsolutePath() + "' already exists");
-            }
-            writer = new FileWriter(toBeWritten, append);
-            template.merge(ctx, writer);
-        } catch (IOException e) {
-            throw new MojoExecutionException("Error creating file '" + name + "'", e);
-        } finally {
-            IOUtils.closeQuietly(writer);
-        }
-    }
-
-    private VelocityContext newContext() {
-
-        final VelocityContext ctx = new VelocityContext();
-
-        ctx.put("utility", utility);
-        ctx.put("basePackage", basePackage);
-        ctx.put("schemaName", utility.getSchemaName());
-        ctx.put("namespace", utility.getNamespace());
-        ctx.put("namespaces", namespaces);
-
-        return ctx;
-    }
-
-    private void parseObj(final File base, final String pkg, final String name, final String out)
-            throws MojoExecutionException {
-
-        parseObj(base, false, pkg, name, out, Collections.<String, Object>emptyMap());
-    }
-
-    private void parseObj(
-            final File base,
-            final String pkg,
-            final String name,
-            final String out,
-            final Map<String, Object> objs)
-            throws MojoExecutionException {
-
-        parseObj(base, false, pkg, name, out, objs);
-    }
-
-    private void parseObj(
-            final File base,
-            final boolean append,
-            final String pkg,
-            final String name,
-            final String out,
-            final Map<String, Object> objs)
-            throws MojoExecutionException {
-
-        final VelocityContext ctx = newContext();
-        ctx.put("package", pkg);
-
-        if (objs != null) {
-            for (Map.Entry<String, Object> obj : objs.entrySet()) {
-                if (StringUtils.isNotBlank(obj.getKey()) && obj.getValue() != null) {
-                    ctx.put(obj.getKey(), obj.getValue());
-                }
-            }
-        }
-
-        final Template template = Velocity.getTemplate(name + ".vm");
-        writeFile(out, base, ctx, template, append);
     }
 }

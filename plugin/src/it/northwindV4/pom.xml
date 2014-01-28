@@ -77,13 +77,13 @@
           <execution>
             <configuration>
               <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
-              <serviceRootURL>http://services.odata.org/v3/(S(g00nkir0ssikgdmz3maw5l1x))/Northwind/Northwind.svc</serviceRootURL>
-              <basePackage>com.msopentech.odatajclient.proxy.northwind</basePackage>
+              <serviceRootURL>http://services.odata.org/V4/Northwind/Northwind.svc</serviceRootURL>
+              <basePackage>com.msopentech.odatajclient.proxy.northwindV4</basePackage>
             </configuration>
-            <id>pojos</id>
+            <id>pojosV4</id>
             <phase>generate-sources</phase>
             <goals>
-              <goal>pojos</goal>
+              <goal>pojosV4</goal>
             </goals>
           </execution>
         </executions>

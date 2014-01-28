@@ -23,7 +23,7 @@ package com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.tes
 import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.proxy.api.annotations.Namespace;
 import com.msopentech.odatajclient.proxy.api.annotations.EntityContainer;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractContainer;
@@ -101,57 +101,59 @@ public interface DefaultContainer extends AbstractContainer {
     PersonMetadata getPersonMetadata();
 
 
-      @FunctionImport(name = "RetrieveProduct"     ,
+
+
+      @Operation(name = "RetrieveProduct"     ,
                     httpMethod = HttpMethod.POST ,
                     returnType = "Edm.Int32")
     Integer retrieveProduct(
     );
-        @FunctionImport(name = "RetrieveProduct"      ,
+        @Operation(name = "RetrieveProduct"      ,
                     returnType = "Edm.Int32")
     Integer retrieveProduct(
         @Parameter(name = "product", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Product", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Product product
     );
-        @FunctionImport(name = "RetrieveProduct"      ,
+        @Operation(name = "RetrieveProduct"      ,
                     returnType = "Edm.Int32")
     Integer retrieveProduct(
         @Parameter(name = "orderLine", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.OrderLine", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.OrderLine orderLine
     );
-        @FunctionImport(name = "IncreaseSalaries"      )
+        @Operation(name = "IncreaseSalaries"      )
     void increaseSalaries(
         @Parameter(name = "employees", type = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.Employee)", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.EmployeeCollection employees, 
         @Parameter(name = "n", type = "Edm.Int32", nullable = false) Integer n
     );
-        @FunctionImport(name = "IncreaseSalaries"      )
+        @Operation(name = "IncreaseSalaries"      )
     void increaseSalaries(
         @Parameter(name = "specialEmployees", type = "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.SpecialEmployee)", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.SpecialEmployeeCollection specialEmployees, 
         @Parameter(name = "n", type = "Edm.Int32", nullable = false) Integer n
     );
-        @FunctionImport(name = "UpdatePersonInfo"      )
+        @Operation(name = "UpdatePersonInfo"      )
     void updatePersonInfo(
     );
-        @FunctionImport(name = "UpdatePersonInfo"      )
+        @Operation(name = "UpdatePersonInfo"      )
     void updatePersonInfo(
         @Parameter(name = "person", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Person", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Person person
     );
-        @FunctionImport(name = "UpdatePersonInfo"      )
+        @Operation(name = "UpdatePersonInfo"      )
     void updatePersonInfo(
         @Parameter(name = "employee", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Employee", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Employee employee
     );
-        @FunctionImport(name = "UpdatePersonInfo"      )
+        @Operation(name = "UpdatePersonInfo"      )
     void updatePersonInfo(
         @Parameter(name = "specialEmployee", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.SpecialEmployee", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.SpecialEmployee specialEmployee
     );
-        @FunctionImport(name = "UpdatePersonInfo"      )
+        @Operation(name = "UpdatePersonInfo"      )
     void updatePersonInfo(
         @Parameter(name = "contractor", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Contractor", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Contractor contractor
     );
-        @FunctionImport(name = "IncreaseEmployeeSalary"      ,
+        @Operation(name = "IncreaseEmployeeSalary"      ,
                     returnType = "Edm.Boolean")
     Boolean increaseEmployeeSalary(
         @Parameter(name = "employee", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.Employee", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.Employee employee, 
         @Parameter(name = "n", type = "Edm.Int32", nullable = false) Integer n
     );
-        @FunctionImport(name = "IncreaseEmployeeSalary"      ,
+        @Operation(name = "IncreaseEmployeeSalary"      ,
                     returnType = "Edm.Int32")
     Integer increaseEmployeeSalary(
         @Parameter(name = "specialEmployee", type = "Microsoft.Test.OData.Services.AstoriaDefaultService.SpecialEmployee", nullable = true) com.msopentech.odatajclient.proxy.actionoverloadingservice.microsoft.test.odata.services.astoriadefaultservice.types.SpecialEmployee specialEmployee

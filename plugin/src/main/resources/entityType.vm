@@ -26,7 +26,7 @@ import com.msopentech.odatajclient.proxy.api.annotations.Key;
 import com.msopentech.odatajclient.proxy.api.annotations.KeyRef;
 import com.msopentech.odatajclient.proxy.api.annotations.NavigationProperty;
 import com.msopentech.odatajclient.proxy.api.annotations.Property;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ParameterMode;
 import com.msopentech.odatajclient.proxy.api.AbstractComplexType;
@@ -99,39 +99,7 @@ public interface $utility.capitalize($entityType.Name) extends #if( $baseType )$
 
 #end
     
-#foreach($property in $entityType.NavigationProperties)
-    #set( $toRoleType = $utility.getNavigationRoleType($property.Relationship, $property.ToRole) )
-
-    @NavigationProperty(name = "$property.Name", 
-                relationship = "$property.Relationship", 
-                fromRole = "$property.FromRole", 
-                toRole = "$property.ToRole")
-    public $utility.getJavaType($toRoleType) get$utility.capitalize($property.Name)();
-
-    public void set$utility.capitalize($property.Name)(final $utility.getJavaType($toRoleType) _$utility.uncapitalize($property.Name));
-
-#end
-
-#foreach($operation in $utility.getFunctionImportsBoundTo($entityType.Name, false))
-    @FunctionImport(name = "$operation.Name" #if($operation.EntitySet), 
-                    entitySet = $operation.EntitySet$clsSuffix#end #if($operation.EntitySetPath),
-                    entitySetPath = $operation.EntitySetPath#end #if($operation.isIsComposable),
-                    isComposable = $operation.isIsComposable#end #if($operation.isIsSideEffecting),
-                    isSideEffecting = $operation.isIsSideEffecting#end #if($operation.HttpMethod),
-                    httpMethod = HttpMethod.$operation.HttpMethod#end #if($operation.ReturnType),
-                    returnType = "$operation.ReturnType"#end)
-    #if($operation.ReturnType)$utility.getJavaType($operation.ReturnType)#{else}void#end $utility.uncapitalize($operation.Name)(
-    #if($operation.Parameters)
-      #set( $count = $operation.Parameters.size() )#*
-      *##foreach($param in $operation.Parameters)#*
-        *##set( $count = $count - 1 )#*
-        *##if( !$utility.isSameType($entityType.Name, $param.Type, false) )#*
-      *#    @Parameter(name = "$param.Name", type = "$param.Type", nullable = $param.Nullable#if($param.Mode), mode = ParameterMode.$param.Mode.toString()#end) $utility.getJavaType($param.Type) $utility.uncapitalize($param.Name)#if( $count > 0 ), #end
-
-    #end
-    #end#*
-    *##end);
-#end
+#parse( "${odataVersion}/entityType.vm" )
 
 #if($entityType.isHasStream())
     public void setStream(java.io.InputStream stream);

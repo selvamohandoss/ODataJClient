@@ -133,7 +133,8 @@ public class Schema extends AbstractSchema<EntityContainer, EntityType, ComplexT
 
     @Override
     public List<EntityContainer> getEntityContainers() {
-        return Collections.singletonList(entityContainer);
+        return entityContainer == null
+                ? Collections.<EntityContainer>emptyList() : Collections.singletonList(entityContainer);
     }
 
     @Override
@@ -168,5 +169,4 @@ public class Schema extends AbstractSchema<EntityContainer, EntityType, ComplexT
     public void setAnnotation(final Annotation annotation) {
         this.annotation = annotation;
     }
-
 }

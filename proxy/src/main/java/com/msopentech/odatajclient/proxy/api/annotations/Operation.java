@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface FunctionImport {
+public @interface Operation {
 
     String name();
 
@@ -43,10 +43,10 @@ public @interface FunctionImport {
     Class<? extends Serializable> entitySet() default Serializable.class;
 
     /**
-     * Defines the EntitySet that contains the entities that are returned by the FunctionImport when
-     * that EntitySet is dependent on one of the FunctionImport parameters.
+     * Defines the EntitySet that contains the entities that are returned by the Operation when
+     * that EntitySet is dependent on one of the Operation parameters.
      *
-     * @return EntitySet path, dependent on one of the FunctionImport parameters
+     * @return EntitySet path, dependent on one of the Operation parameters
      * @see Parameter
      */
     String entitySetPath() default "";

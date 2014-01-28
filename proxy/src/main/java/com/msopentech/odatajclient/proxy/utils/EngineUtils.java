@@ -36,13 +36,8 @@ import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.data.metadata.EdmType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV3Type;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Association;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.AssociationSet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.AssociationSetEnd;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
 import com.msopentech.odatajclient.proxy.api.AbstractComplexType;
 import com.msopentech.odatajclient.proxy.api.annotations.ComplexType;
 import com.msopentech.odatajclient.proxy.api.annotations.CompoundKeyElement;
@@ -55,7 +50,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -76,65 +70,20 @@ public final class EngineUtils {
         // Empty private constructor for static utility classes
     }
 
-    public static Map.Entry<EntityContainer, AssociationSet> getAssociationSet(
-            final Association association, final String associationNamespace, final EdmV3Metadata metadata) {
-
-        final StringBuilder associationName = new StringBuilder();
-        associationName.append(associationNamespace).append('.').append(association.getName());
-
-        for (Schema schema : metadata.getSchemas()) {
-            for (EntityContainer container : schema.getEntityContainers()) {
-                final AssociationSet associationSet = getAssociationSet(associationName.toString(),
-                        container);
-                if (associationSet != null) {
-                    return new AbstractMap.SimpleEntry<EntityContainer, AssociationSet>(container, associationSet);
-                }
-            }
-        }
-
-        throw new IllegalStateException("Association set not found");
-    }
-
-    public static Association getAssociation(final Schema schema, final String relationship) {
-        return schema.getAssociation(relationship.substring(relationship.lastIndexOf('.') + 1));
-    }
-
-    public static AssociationSet getAssociationSet(final String association, final EntityContainer container) {
-        LOG.debug("Search for association set {}", association);
-
-        for (AssociationSet associationSet : container.getAssociationSets()) {
-            LOG.debug("Retrieved association set '{}:{}'", associationSet.getName(), associationSet.getAssociation());
-            if (associationSet.getAssociation().equals(association)) {
-                return associationSet;
-            }
-        }
-
-        return null;
-    }
-
-    public static String getEntitySetName(final AssociationSet associationSet, final String role) {
-        for (AssociationSetEnd end : associationSet.getEnds()) {
-            if (end.getRole().equals(role)) {
-                return end.getEntitySet();
-            }
-        }
-        return null;
-    }
-
-    public static NavigationProperty getNavigationProperty(final Class<?> entityTypeRef, final String relationship) {
-        NavigationProperty res = null;
-        final Method[] methods = entityTypeRef.getClass().getDeclaredMethods();
-
-        for (int i = 0; i < methods.length && res == null; i++) {
-            final Annotation ann = methods[i].getAnnotation(NavigationProperty.class);
-            if ((ann instanceof NavigationProperty)
-                    && ((NavigationProperty) ann).relationship().equalsIgnoreCase(relationship)) {
-                res = (NavigationProperty) ann;
-            }
-        }
-
-        return res;
-    }
+//    public static NavigationProperty getNavigationProperty(final Class<?> entityTypeRef, final String relationship) {
+//        NavigationProperty res = null;
+//        final Method[] methods = entityTypeRef.getClass().getDeclaredMethods();
+//
+//        for (int i = 0; i < methods.length && res == null; i++) {
+//            final Annotation ann = methods[i].getAnnotation(NavigationProperty.class);
+//            if ((ann instanceof NavigationProperty)
+//                    && ((NavigationProperty) ann).relationship().equalsIgnoreCase(relationship)) {
+//                res = (NavigationProperty) ann;
+//            }
+//        }
+//
+//        return res;
+//    }
 
     public static ODataLink getNavigationLink(final String name, final ODataEntity entity) {
         ODataLink res = null;

@@ -20,7 +20,7 @@
 package com.msopentech.odatajclient.proxy.api.impl;
 
 import com.msopentech.odatajclient.proxy.api.AbstractEntityCollection;
-import com.msopentech.odatajclient.proxy.api.annotations.FunctionImport;
+import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.utils.ClassUtils;
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -66,7 +66,7 @@ public class EntityCollectionInvocationHandler<T extends Serializable>
 
         if (isSelfMethod(method, args)) {
             return invokeSelfMethod(method, args);
-        } else if (!ArrayUtils.isEmpty(methodAnnots) && methodAnnots[0] instanceof FunctionImport) {
+        } else if (!ArrayUtils.isEmpty(methodAnnots) && methodAnnots[0] instanceof Operation) {
             if (this.uri == null) {
                 throw new IllegalStateException("This entity collection has not yet been flushed");
             }
@@ -75,11 +75,11 @@ public class EntityCollectionInvocationHandler<T extends Serializable>
                     containerHandler.getFactory().getMetadata().getSchema(ClassUtils.getNamespace(itemRef)).
                     getEntityContainer(entityContainerName);
             final com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport funcImp =
-                    container.getFunctionImport(((FunctionImport) methodAnnots[0]).name());
+                    container.getFunctionImport(((Operation) methodAnnots[0]).name());
 
-            return functionImport((FunctionImport) methodAnnots[0], method, args,
+            return functionImport((Operation) methodAnnots[0], method, args,
                     client.getURIBuilder(this.uri.toASCIIString()).
-                    appendFunctionImportSegment(((FunctionImport) methodAnnots[0]).name()).build(),
+                    appendFunctionImportSegment(((Operation) methodAnnots[0]).name()).build(),
                     funcImp);
         } else {
             throw new UnsupportedOperationException("Method not found: " + method);
