@@ -36,7 +36,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.client.HttpClient;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -52,7 +52,7 @@ public abstract class ODataResponseImpl implements ODataResponse {
     /**
      * HTTP client.
      */
-    protected final CloseableHttpClient client;
+    protected final HttpClient client;
 
     /**
      * HTTP response.
@@ -104,7 +104,7 @@ public abstract class ODataResponseImpl implements ODataResponse {
      * @param client HTTP client.
      * @param res HTTP response.
      */
-    public ODataResponseImpl(final CloseableHttpClient client, final HttpResponse res) {
+    public ODataResponseImpl(final HttpClient client, final HttpResponse res) {
         this.client = client;
         this.res = res;
 
@@ -228,7 +228,7 @@ public abstract class ODataResponseImpl implements ODataResponse {
         if (client == null) {
             IOUtils.closeQuietly(payload);
         } else {
-            IOUtils.closeQuietly(client);
+            this.client.getConnectionManager().shutdown();
         }
 
         if (batchInfo != null) {
