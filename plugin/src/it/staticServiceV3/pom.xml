@@ -77,7 +77,7 @@
           <execution>
             <configuration>
               <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
-              <serviceRootURL>http://localhost:9080/StaticService.svc</serviceRootURL>
+              <serviceRootURL>http://localhost:9080/StaticService/V3/Static.svc</serviceRootURL>
               <basePackage>com.msopentech.odatajclient.proxy.staticservice</basePackage>
             </configuration>
             <id>pojosV3</id>

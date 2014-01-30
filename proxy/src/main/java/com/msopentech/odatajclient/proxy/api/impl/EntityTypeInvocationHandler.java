@@ -288,19 +288,6 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
             collItemType = type;
         }
 
-//        final EdmV3Metadata metadata = containerHandler.getFactory().getMetadata();
-//        final Schema schema = metadata.getSchema(ClassUtils.getNamespace(typeRef));
-//
-//        // 1) get association
-//        final Association association = EngineUtils.getAssociation(schema, property.relationship());
-//
-//        // 2) get entity container and association set
-//        final Map.Entry<EntityContainer, AssociationSet> associationSet =
-//                EngineUtils.getAssociationSet(association, schema.getNamespace(), metadata);
-//
-//        // 3) get entitySet
-//        final String targetEntitySetName = EngineUtils.getEntitySetName(associationSet.getValue(), property.toRole());
-
         final Object navPropValue;
 
         if (linkChanges.containsKey(property)) {

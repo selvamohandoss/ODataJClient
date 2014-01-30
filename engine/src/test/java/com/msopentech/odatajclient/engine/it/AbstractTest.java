@@ -39,7 +39,6 @@ import com.msopentech.odatajclient.engine.communication.response.ODataEntityUpda
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
 import com.msopentech.odatajclient.engine.data.ODataCollectionValue;
 import com.msopentech.odatajclient.engine.data.ODataComplexValue;
-import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
@@ -267,7 +266,7 @@ public abstract class AbstractTest {
 
         entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Information",
                 client.getPrimitiveValueBuilder().setText(sampleinfo).setType(
-                        EdmSimpleType.String).build()));
+                EdmSimpleType.String).build()));
 
         return entity;
     }
@@ -281,12 +280,12 @@ public abstract class AbstractTest {
         // add name attribute
         entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Name",
                 client.getPrimitiveValueBuilder().setText(sampleName).setType(
-                        EdmSimpleType.String).build()));
+                EdmSimpleType.String).build()));
 
         // add key attribute
         entity.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
                 client.getPrimitiveValueBuilder().setText(String.valueOf(id)).setType(
-                        EdmSimpleType.Int32).build()));
+                EdmSimpleType.Int32).build()));
 
         // add BackupContactInfo attribute (collection)
         final ODataCollectionValue backupContactInfoValue = new ODataCollectionValue(

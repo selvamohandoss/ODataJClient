@@ -20,15 +20,34 @@
     governing permissions and limitations under the License.
 
 -->
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                               http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<web-app version="2.5" 
+         xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>WEB-INF/beans.xml</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+  
   <servlet>
-    <servlet-name>staticmetadata</servlet-name>
-    <servlet-class>com.msopentech.odatajclient.testauthproxy.staticmetadata.StaticMetadataServlet</servlet-class>
+    <servlet-name>CXFServlet</servlet-name>
+    <servlet-class>
+      org.apache.cxf.transport.servlet.CXFServlet
+    </servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
-    <servlet-name>staticmetadata</servlet-name>
-    <url-pattern>/StaticService.svc/$metadata</url-pattern>
+    <servlet-name>CXFServlet</servlet-name>
+    <url-pattern>/StaticService/*</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <servlet-name>proxy</servlet-name>
     <servlet-class>org.esigate.servlet.RewriteProxyServlet</servlet-class>
@@ -37,6 +56,7 @@
     <servlet-name>proxy</servlet-name>
     <url-pattern>/DefaultService.svc/*</url-pattern>
   </servlet-mapping>
+  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Auth</web-resource-name>

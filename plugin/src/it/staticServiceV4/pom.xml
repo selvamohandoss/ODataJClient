@@ -77,10 +77,10 @@
           <execution>
             <configuration>
               <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
-              <serviceRootURL>http://services.odata.org/V4/Northwind/Northwind.svc</serviceRootURL>
-              <basePackage>com.msopentech.odatajclient.proxy.northwindV4</basePackage>
+              <serviceRootURL>http://localhost:9080/StaticService/V4/Static.svc</serviceRootURL>
+              <basePackage>com.msopentech.odatajclient.proxy.staticservice</basePackage>
             </configuration>
-            <id>pojosV4</id>
+            <id>pojosV3</id>
             <phase>generate-sources</phase>
             <goals>
               <goal>pojosV4</goal>
