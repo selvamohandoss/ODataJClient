@@ -28,6 +28,7 @@ import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractNavigationProperty;
 import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractProperty;
 import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractSchema;
+import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.PropertyRef;
 import com.msopentech.odatajclient.engine.utils.MetadataUtils;
 import java.io.InputStream;
@@ -121,6 +122,10 @@ public abstract class AbstractUtility {
         }
 
         return res.toString();
+    }
+
+    public EdmSimpleType getEdmSimpleType(final String expression) {
+        return EdmSimpleType.fromValue(expression);
     }
 
     public EdmType getEdmType(final AbstractEntitySet entitySet) {

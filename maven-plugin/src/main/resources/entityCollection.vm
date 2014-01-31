@@ -19,6 +19,7 @@
  *#
 package ${package};
 
+import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.proxy.api.AbstractEntityCollection;
 import com.msopentech.odatajclient.proxy.api.annotations.Operation;
 import com.msopentech.odatajclient.proxy.api.annotations.Parameter;

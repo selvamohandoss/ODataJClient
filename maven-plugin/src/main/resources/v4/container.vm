@@ -19,12 +19,12 @@
  *#
 #foreach($operation in $container.FunctionImports)
 #set( $function = $utility.getFunctionByName($operation.Function) )
-    @Operation(name = "$function.Name"
+    @Operation(name = "$function.Name",
                     isSideEffecting = false#if($function.EntitySetPath),
-                    entitySetPath = $function.EntitySetPath#end#if($function.isIsComposable),
+                    entitySetPath = "$function.EntitySetPath"#end#if($function.isIsComposable),
                     isComposable = $function.isIsComposable#end#if($function.ReturnType),
-                    returnType = "$function.ReturnType"#end)
-    #if($function.ReturnType)$utility.getJavaType($function.ReturnType)#{else}void#end $utility.uncapitalize($function.Name)(
+                    returnType = "$function.ReturnType.Type"#end)
+    #if($function.ReturnType)$utility.getJavaType($function.ReturnType.Type)#{else}void#end $utility.uncapitalize($function.Name)(
     #if($function.Parameters)
       #set( $count = $function.Parameters.size() )#*
       *##foreach($param in $function.Parameters)#*
@@ -37,12 +37,11 @@
 
 #foreach($operation in $container.ActionImports)
 #set( $action = $utility.getActionByName($operation.Action) )
-    @Operation(name = "$action.Name"
+    @Operation(name = "$action.Name",
                     httpMethod = HttpMethod.POST#if($action.EntitySetPath),
-                    entitySetPath = $action.EntitySetPath#end#if($action.isIsComposable),
-                    isComposable = $action.isIsComposable#end#if($action.ReturnType),
-                    returnType = "$action.ReturnType"#end)
-    #if($action.ReturnType)$utility.getJavaType($action.ReturnType)#{else}void#end $utility.uncapitalize($action.Name)(
+                    entitySetPath = "$action.EntitySetPath"#end#if($action.ReturnType),
+                    returnType = "$action.ReturnType.Type"#end)
+    #if($action.ReturnType)$utility.getJavaType($action.ReturnType.Type)#{else}void#end $utility.uncapitalize($action.Name)(
     #if($action.Parameters)
       #set( $count = $action.Parameters.size() )#*
       *##foreach($param in $action.Parameters)#*

@@ -23,6 +23,30 @@
 <edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
   <edmx:DataServices>
     <Schema Namespace="NorthwindModel" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <!-- EnumType with values -->
+      <EnumType Name="FileAccess" UnderlyingType="Edm.Int32" IsFlags="true">
+        <Member Name="Read"   Value="1" />
+        <Member Name="Write"  Value="2" />
+        <Member Name="Create" Value="4" />
+        <Member Name="Delete" Value="8" />
+      </EnumType>
+      <!-- EnumType without any values -->
+      <EnumType Name="ShippingMethod">
+        <Member Name="FirstClass" />
+        <Member Name="TwoDay" />
+        <Member Name="Overnight" />
+      </EnumType>
+      <!-- ComplexType -->
+      <ComplexType Name="Dimensions">
+        <Property Name="Height" Nullable="false" Type="Edm.Decimal" />
+        <Property Name="Weight" Nullable="false" Type="Edm.Decimal" />
+        <Property Name="Length" Nullable="false" Type="Edm.Decimal" />
+      </ComplexType>
+      <!-- ComplexType with enum property -->
+      <ComplexType Name="ACL">
+        <Property Name="Filename" Nullable="false" Type="Edm.String" />
+        <Property Name="Access" Nullable="false" Type="NorthwindModel.FileAccess" />
+      </ComplexType>
       <EntityType Name="Category">
         <Key>
           <PropertyRef Name="CategoryID" />
@@ -56,6 +80,8 @@
         <Property Name="Country" Type="Edm.String" MaxLength="15" />
         <Property Name="Phone" Type="Edm.String" MaxLength="24" />
         <Property Name="Fax" Type="Edm.String" MaxLength="24" />
+        <!-- EnumType attribute -->
+        <Property Name="FileAccess" Type="NorthwindModel.FileAccess" />
         <NavigationProperty Name="Orders" Type="Collection(NorthwindModel.Order)" Partner="Customer" />
         <NavigationProperty Name="CustomerDemographics" Type="Collection(NorthwindModel.CustomerDemographic)" Partner="Customers" />
       </EntityType>
@@ -148,6 +174,9 @@
         <Property Name="UnitsOnOrder" Type="Edm.Int16" />
         <Property Name="ReorderLevel" Type="Edm.Int16" />
         <Property Name="Discontinued" Type="Edm.Boolean" Nullable="false" />
+        <!-- ComplexType attributes -->
+        <Property Name="ProductDimensions" Type="NorthwindModel.Dimensions" />
+        <Property Name="ShippingDimensions" Type="NorthwindModel.Dimensions" />
         <NavigationProperty Name="Category" Type="NorthwindModel.Category" Partner="Products">
           <ReferentialConstraint Property="CategoryID" ReferencedProperty="CategoryID" />
         </NavigationProperty>
@@ -404,6 +433,19 @@
       <Annotations Target="ODataWebExperimental.Northwind.Model.NorthwindEntities">
         <Annotation Term="Com.Microsoft.OData.Service.Conventions.V1.UrlConventions" String="KeyAsSegment" />
       </Annotations>
+      <!-- Function -->
+      <Function Name="TopSellingProducts" ReturnType="Collection(NorthwindModel.Product)" IsComposable="true" EntitySetPath="ODataWebExperimental.Northwind.Model.Products">
+        <Parameter Name="Year" Type="Edm.Decimal" Precision="4" Scale="0" />
+      </Function>
+      <Function Name="TopSellingProducts2" ReturnType="Collection(NorthwindModel.Product)" IsComposable="true" EntitySetPath="ODataWebExperimental.Northwind.Model.Products" IsBound="true">
+        <Parameter Name="Product" Type="NorthwindModel.Product" />
+        <Parameter Name="Year" Type="Edm.Decimal" Precision="4" Scale="0" />
+      </Function>
+      <!-- Action -->
+      <Action Name="TopSellingProducts" EntitySetPath="ODataWebExperimental.Northwind.Model.Products" IsBound="true">
+        <Parameter Name="Product" Type="NorthwindModel.Product" />
+        <Parameter Name="Year" Type="Edm.Decimal" Precision="4" Scale="0" />
+      </Action>
     </Schema>
     <Schema Namespace="ODataWebExperimental.Northwind.Model" xmlns="http://docs.oasis-open.org/odata/ns/edm">
       <EntityContainer Name="NorthwindEntities" p4:LazyLoadingEnabled="true" xmlns:p4="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
@@ -466,6 +508,12 @@
         <EntitySet Name="Sales_Totals_by_Amounts" EntityType="NorthwindModel.Sales_Totals_by_Amount" />
         <EntitySet Name="Summary_of_Sales_by_Quarters" EntityType="NorthwindModel.Summary_of_Sales_by_Quarter" />
         <EntitySet Name="Summary_of_Sales_by_Years" EntityType="NorthwindModel.Summary_of_Sales_by_Year" />
+        <!-- Singleton -->
+        <Singleton Name="Contoso" Type="NorthwindModel.Supplier">
+          <NavigationPropertyBinding Path="Products" Target="Products"/>
+        </Singleton>
+        <!-- FunctionImport -->
+        <FunctionImport Name="TopSellingProducts" EntitySet="Products" Function="NorthwindModel.TopSellingProducts"/>
       </EntityContainer>
     </Schema>
   </edmx:DataServices>

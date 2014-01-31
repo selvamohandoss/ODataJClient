@@ -18,12 +18,12 @@
  * governing permissions and limitations under the License.
  *#
 #foreach($operation in $utility.getFunctionsBoundTo($entityType.Name, true))
-    @Operation(name = "$operation.Name"
+    @Operation(name = "$operation.Name",
                     isSideEffecting = false#if($operation.EntitySetPath),
-                    entitySetPath = $operation.EntitySetPath#end#if($operation.isIsComposable),
+                    entitySetPath = "$operation.EntitySetPath"#end#if($operation.isIsComposable),
                     isComposable = $operation.isIsComposable#end#if($operation.ReturnType),
-                    returnType = "$operation.ReturnType"#end)
-    #if($operation.ReturnType)$utility.getJavaType($operation.ReturnType)#{else}void#end $utility.uncapitalize($operation.Name)(
+                    returnType = "$operation.ReturnType.Type"#end)
+    #if($operation.ReturnType)$utility.getJavaType($operation.ReturnType.Type)#{else}void#end $utility.uncapitalize($operation.Name)(
     #if($operation.Parameters)
       #set( $count = $operation.Parameters.size() )#*
       *##foreach($param in $operation.Parameters)#*
@@ -37,12 +37,11 @@
 #end
 
 #foreach($operation in $utility.getActionsBoundTo($entityType.Name, true))
-    @Operation(name = "$operation.Name"
+    @Operation(name = "$operation.Name",
                     httpMethod = HttpMethod.POST#if($operation.EntitySetPath),
-                    entitySetPath = $operation.EntitySetPath#end#if($operation.isIsComposable),
-                    isComposable = $operation.isIsComposable#end#if($operation.ReturnType),
-                    returnType = "$operation.ReturnType"#end)
-    #if($operation.ReturnType)$utility.getJavaType($operation.ReturnType)#{else}void#end $utility.uncapitalize($operation.Name)(
+                    entitySetPath = "$operation.EntitySetPath"#end#if($operation.ReturnType),
+                    returnType = "$operation.ReturnType.Type"#end)
+    #if($operation.ReturnType)$utility.getJavaType($operation.ReturnType.Type)#{else}void#end $utility.uncapitalize($operation.Name)(
     #if($operation.Parameters)
       #set( $count = $operation.Parameters.size() )#*
       *##foreach($param in $operation.Parameters)#*

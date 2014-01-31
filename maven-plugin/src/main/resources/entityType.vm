@@ -20,6 +20,7 @@
 #set( $clsSuffix = ".class" )
 package ${package};
 
+import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.proxy.api.annotations.Namespace;
 import com.msopentech.odatajclient.proxy.api.annotations.EntityType;
 import com.msopentech.odatajclient.proxy.api.annotations.Key;

@@ -60,6 +60,10 @@ public class V4Utility extends AbstractUtility {
         return new EdmV4Type((EdmV4Metadata) metadata, expression);
     }
 
+    public EdmType getEdmType(final Singleton singleton) {
+        return getEdmType(getMetadata(), singleton.getType());
+    }
+
     public Map<String, String> getEntityKeyType(final Singleton singleton) {
         return getEntityKeyType(getEdmType(metadata, singleton.getType()).getEntityType());
     }
@@ -127,15 +131,16 @@ public class V4Utility extends AbstractUtility {
         return null;
     }
 
-    public List<Function> getFunctionsBoundTo(
-            final String typeExpression, final boolean collection) {
+    public List<Function> getFunctionsBoundTo(final String typeExpression, final boolean collection) {
 
         final List<Function> result = new ArrayList<Function>();
 
-        for (Function function : schema.getFunctions()) {
-            if (function.isBound()) {
-                for (int i = 0; i < function.getParameters().size(); i++) {
-                    if (isSameType(typeExpression, function.getParameters().get(i).getType(), collection)) {
+        for (Schema sch : getMetadata().getSchemas()) {
+            for (Function function : sch.getFunctions()) {
+                if (function.isBound()) {
+                    if (!function.getParameters().isEmpty() && isSameType(
+                            new QualifiedName(namespace, typeExpression).toString(),
+                            function.getParameters().get(0).getType(), collection)) {
                         result.add(function);
                     }
                 }
@@ -145,15 +150,15 @@ public class V4Utility extends AbstractUtility {
         return result;
     }
 
-    public List<Action> getActionsBoundTo(
-            final String typeExpression, final boolean collection) {
+    public List<Action> getActionsBoundTo(final String typeExpression, final boolean collection) {
 
         final List<Action> result = new ArrayList<Action>();
 
-        for (Action action : schema.getActions()) {
-            if (action.isBound()) {
-                for (int i = 0; i < action.getParameters().size(); i++) {
-                    if (isSameType(typeExpression, action.getParameters().get(i).getType(), collection)) {
+        for (Schema sch : getMetadata().getSchemas()) {
+            for (Action action : sch.getActions()) {
+                if (action.isBound()) {
+                    if (!action.getParameters().isEmpty()
+                            && isSameType(typeExpression, action.getParameters().get(0).getType(), collection)) {
                         result.add(action);
                     }
                 }

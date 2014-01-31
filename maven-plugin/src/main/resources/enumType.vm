@@ -21,6 +21,7 @@ package ${package};
 
 import com.msopentech.odatajclient.proxy.api.annotations.Namespace;
 import com.msopentech.odatajclient.proxy.api.annotations.EnumType;
+import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 
 #set( $enumName = $utility.capitalize($enumType.Name) )
 #set( $count = $enumType.Members.size() )
@@ -31,20 +32,25 @@ import com.msopentech.odatajclient.proxy.api.annotations.EnumType;
 #end
 
 @Namespace("$namespace")
-@EnumType(name = "$enumType.Name",#if( $enumType.UnderlyingType ) underlyingType = $enumType.UnderlyingType,#end IsFlags = $enumType.Flags)
+@EnumType(name = "$enumType.Name",
+          #if( $enumType.UnderlyingType )underlyingType = EdmSimpleType.$utility.getEdmSimpleType($enumType.UnderlyingType).name(),
+          #{end}isFlags = $enumType.Flags)
 public enum $enumName {
 #foreach ($member in $enumType.Members)#*
     *##set( $count = $count - 1 )
-    $member.Name($member.Value)#if( $count > 0 ),#elseif( $count <= 0 );#end
+    $member.Name#if( $member.Value )($member.Value)#set( $valued = 1 )#end#if( $count > 0 ),#elseif( $count <= 0 );#end
+
 #end
 
+#if( $valued )
     private $javatype value;
     
-    private $enumName($javatype value){
-      this.value=value;
-    }
-
     public $javatype getValue(){
       return this.value;
     }
+
+    private $enumName($javatype value){
+      this.value=value;
+    }
+#end
 }
