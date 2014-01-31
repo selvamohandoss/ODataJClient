@@ -38,7 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.Test;
 
-public class ActionOverloadingTestITCase extends AbstractTest {
+public class ActionOverloadingTestITCase extends AbstractTestITCase {
 
     @Test
     public void retrieveProducts() {

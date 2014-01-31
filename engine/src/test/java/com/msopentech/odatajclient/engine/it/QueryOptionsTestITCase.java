@@ -19,7 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.it;
 
-import static com.msopentech.odatajclient.engine.it.AbstractTest.testDefaultServiceRootURL;
+import static com.msopentech.odatajclient.engine.it.AbstractTestITCase.testDefaultServiceRootURL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -42,7 +42,7 @@ import org.junit.Test;
 /**
  * This is the unit test class to check for query options.
  */
-public class QueryOptionsTestITCase extends AbstractTest {
+public class QueryOptionsTestITCase extends AbstractTestITCase {
 
     /**
      * Test <tt>$expand</tt>.

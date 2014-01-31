@@ -32,7 +32,7 @@ import com.msopentech.odatajclient.engine.data.ODataEntitySet;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 
-public class EntitySetRetrieveTestITCase extends AbstractTest {
+public class EntitySetRetrieveTestITCase extends AbstractTestITCase {
     // retrieves an entity set
 
     private void retreiveEntityTest(ODataPubFormat reqFormat, String acceptFormat) {

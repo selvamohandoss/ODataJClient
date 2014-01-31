@@ -49,7 +49,7 @@ import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.format.ODataValueFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 
-public class PropertyUpdateTestITCase extends AbstractTest {
+public class PropertyUpdateTestITCase extends AbstractTestITCase {
     // update complex property
 
     public void updateComplexProperty(

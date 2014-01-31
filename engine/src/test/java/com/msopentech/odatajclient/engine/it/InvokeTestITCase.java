@@ -58,7 +58,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-public class InvokeTestITCase extends AbstractTest {
+public class InvokeTestITCase extends AbstractTestITCase {
 
     private void getWithNoParams(final ODataPubFormat format) {
         final EdmV3Metadata metadata =

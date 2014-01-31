@@ -38,7 +38,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-public class MediaEntityUpdateTestITCase extends AbstractTest {
+public class MediaEntityUpdateTestITCase extends AbstractTestITCase {
 
     private void updateMediaEntity(
             final ODataPubFormat format,

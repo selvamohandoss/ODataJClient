@@ -20,14 +20,8 @@
 package com.msopentech.odatajclient.engine;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
-import java.io.File;
 
 public abstract class AbstractMetadataTest extends AbstractTest {
 
     protected abstract ODataClient getClient();
-
-    protected String getPath(final String filename) {
-        return getClient().getWorkingVersion().name().toLowerCase() + File.separatorChar + filename;
-    }
-
 }

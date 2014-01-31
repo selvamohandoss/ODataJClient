@@ -28,7 +28,7 @@ import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.format.ODataValueFormat;
 
-public class CountTestITCase extends AbstractTest {
+public class CountTestITCase extends AbstractTestITCase {
     //counts the total number of customers
 
     @Test

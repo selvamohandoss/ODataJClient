@@ -76,12 +76,12 @@ import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractTest {
+public abstract class AbstractTestITCase {
 
     /**
      * Logger.
      */
-    protected static final Logger LOG = LoggerFactory.getLogger(AbstractTest.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(AbstractTestITCase.class);
 
     protected static final String TEST_PRODUCT_TYPE = "Microsoft.Test.OData.Services.AstoriaDefaultService.Product";
 
@@ -112,7 +112,7 @@ public abstract class AbstractTest {
 
         InputStream propStream = null;
         try {
-            propStream = AbstractTest.class.getResourceAsStream("/test.properties");
+            propStream = AbstractTestITCase.class.getResourceAsStream("/test.properties");
             final Properties props = new Properties();
             props.load(propStream);
 
@@ -266,7 +266,7 @@ public abstract class AbstractTest {
 
         entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Information",
                 client.getPrimitiveValueBuilder().setText(sampleinfo).setType(
-                EdmSimpleType.String).build()));
+                        EdmSimpleType.String).build()));
 
         return entity;
     }
@@ -280,12 +280,12 @@ public abstract class AbstractTest {
         // add name attribute
         entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Name",
                 client.getPrimitiveValueBuilder().setText(sampleName).setType(
-                EdmSimpleType.String).build()));
+                        EdmSimpleType.String).build()));
 
         // add key attribute
         entity.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
                 client.getPrimitiveValueBuilder().setText(String.valueOf(id)).setType(
-                EdmSimpleType.Int32).build()));
+                        EdmSimpleType.Int32).build()));
 
         // add BackupContactInfo attribute (collection)
         final ODataCollectionValue backupContactInfoValue = new ODataCollectionValue(

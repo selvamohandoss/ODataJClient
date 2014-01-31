@@ -29,7 +29,7 @@ import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveRe
 import com.msopentech.odatajclient.engine.data.ODataServiceDocument;
 import com.msopentech.odatajclient.engine.format.ODataFormat;
 
-public class ServiceDocumentRetrieveTestITCase extends AbstractTest {
+public class ServiceDocumentRetrieveTestITCase extends AbstractTestITCase {
     // retrieve service document
 
     private void retrieveServiceDocumentTest(final ODataFormat reqFormat, final String acceptFormat) {

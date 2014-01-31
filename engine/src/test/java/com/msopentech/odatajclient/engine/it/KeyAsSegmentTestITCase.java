@@ -32,7 +32,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class KeyAsSegmentTestITCase extends AbstractTest {
+public class KeyAsSegmentTestITCase extends AbstractTestITCase {
 
     @BeforeClass
     public static void enableKeyAsSegment() {

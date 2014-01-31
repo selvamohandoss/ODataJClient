@@ -23,8 +23,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEdmDeserializer;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.DynExprConstruct;
 import java.io.IOException;
 
 public class AnnotationDeserializer extends AbstractEdmDeserializer<Annotation> {
@@ -35,26 +35,19 @@ public class AnnotationDeserializer extends AbstractEdmDeserializer<Annotation> 
 
         final Annotation annotation = new Annotation();
 
-        // Replace as per Issue #155
-        // for (; jp.getCurrentToken() != JsonToken.END_OBJECT; jp.nextToken()) {
-        for (; jp.getCurrentToken() != JsonToken.END_OBJECT
-                || !"Annotation".equals(((FromXmlParser) jp).getStaxReader().getLocalName()); jp.nextToken()) {
-
+        for (; jp.getCurrentToken() != null && jp.getCurrentToken() != JsonToken.END_OBJECT; jp.nextToken()) {
             final JsonToken token = jp.getCurrentToken();
             if (token == JsonToken.FIELD_NAME) {
                 if ("Term".equals(jp.getCurrentName())) {
                     annotation.setTerm(jp.nextTextValue());
                 } else if ("Qualifier".equals(jp.getCurrentName())) {
                     annotation.setQualifier(jp.nextTextValue());
-                } else if (AnnotationConstantExpressionType.fromString(jp.getCurrentName()) != null) {
-                    annotation.setConstantExpressionType(
-                            AnnotationConstantExpressionType.fromString(jp.getCurrentName()));
-                    if (jp.getCurrentName().equals(((FromXmlParser) jp).getStaxReader().getLocalName())) {
-                        jp.nextToken();
-                    }
-                    annotation.setConstantExpressionValue(jp.nextTextValue());
-                } else {
-                    // Issue #155
+                } // Constant Expressions
+                else if (isAnnotationConstExprConstruct(jp)) {
+                    annotation.setConstExpr(parseAnnotationConstExprConstruct(jp));
+                } // Dynamic Expressions
+                else {
+                    annotation.setDynExpr(jp.getCodec().readValue(jp, DynExprConstruct.class));
                 }
             }
         }

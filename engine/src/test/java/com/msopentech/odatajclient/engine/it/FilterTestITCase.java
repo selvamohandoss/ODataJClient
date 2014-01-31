@@ -25,7 +25,7 @@ import org.junit.Test;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 
-public class FilterTestITCase extends AbstractTest {
+public class FilterTestITCase extends AbstractTestITCase {
     // filter test
 
     private void filterQueryTest(final String entity, final String filter, final int expected) {

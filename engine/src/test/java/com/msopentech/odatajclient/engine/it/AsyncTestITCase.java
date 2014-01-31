@@ -42,7 +42,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-public class AsyncTestITCase extends AbstractTest {
+public class AsyncTestITCase extends AbstractTestITCase {
 
     @Test
     public void retrieveEntitySet() throws InterruptedException, ExecutionException {

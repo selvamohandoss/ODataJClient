@@ -61,7 +61,7 @@ import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 
-public class CreateNavigationLinkTestITCase extends AbstractTest {
+public class CreateNavigationLinkTestITCase extends AbstractTestITCase {
 
     // create navigation link with ATOM
     @Test

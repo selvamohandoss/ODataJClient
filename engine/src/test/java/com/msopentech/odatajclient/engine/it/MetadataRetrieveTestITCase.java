@@ -35,7 +35,7 @@ import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityType;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 
-public class MetadataRetrieveTestITCase extends AbstractTest {
+public class MetadataRetrieveTestITCase extends AbstractTestITCase {
 
     private void retreiveMetadataTest(final ODataPubFormat reqFormat, final String acceptFormat) {
         // testing entity types which are not open
@@ -89,13 +89,11 @@ public class MetadataRetrieveTestITCase extends AbstractTest {
             assertEquals(415, e.getStatusLine().getStatusCode());
         }
     }
-    //unsupported media type. 415 error
 
     @Test
     public void jsonTest() {
         retreiveMetadataTest(ODataPubFormat.JSON, "application/json");
     }
-    //unsupported media type. 415 error
 
     @Test
     public void atomTest() {
@@ -106,40 +104,43 @@ public class MetadataRetrieveTestITCase extends AbstractTest {
     public void xmlTest() {
         retreiveMetadataTest(ODataPubFormat.JSON, "application/xml");
     }
-    //unsupported media type. 415 error
 
     @Test
     public void fullMetadataTest() {
         retreiveMetadataTest(ODataPubFormat.JSON_FULL_METADATA, "application/json");
     }
-    //unsupported media type. 415 error
 
     @Test
     public void noMetadataTest() {
         retreiveMetadataTest(ODataPubFormat.JSON_NO_METADATA, "application/json");
     }
-    //null format test
 
     @Test
     public void nullAcceptTest() {
         retreiveMetadataTest(ODataPubFormat.JSON_NO_METADATA, null);
     }
-    //null format test
 
     @Test
     public void nullFormatTest() {
         retreiveMetadataTest(null, "application/json");
     }
-    //null format test
 
     @Test
     public void atomWithNoAcceptTest() {
         retreiveMetadataTest(ODataPubFormat.ATOM, null);
     }
-    //null format test
 
     @Test
     public void noFormatTest() {
         retreiveMetadataTest(null, "application/xml");
+    }
+
+    @Test
+    public void large() {
+        final EdmV3Metadata metadata = client.getRetrieveRequestFactory().
+                getMetadataRequest(testLargeModelServiceRootURL).execute().getBody();
+        assertNotNull(metadata);
+
+        assertEquals(400, metadata.getSchemas().get(0).getEntityContainers().get(0).getEntitySets().size());
     }
 }

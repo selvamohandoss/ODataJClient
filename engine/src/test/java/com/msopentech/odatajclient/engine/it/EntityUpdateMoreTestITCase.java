@@ -46,7 +46,7 @@ import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 
-public class EntityUpdateMoreTestITCase extends AbstractTest {
+public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
     // update an entity
 
     private void updateEntity(

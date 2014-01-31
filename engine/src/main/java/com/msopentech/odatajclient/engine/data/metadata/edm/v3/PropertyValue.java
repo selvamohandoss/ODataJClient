@@ -19,10 +19,101 @@
  */
 package com.msopentech.odatajclient.engine.data.metadata.edm.v3;
 
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractPropertyValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEdm;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
 
-public class PropertyValue extends AbstractPropertyValue {
+public class PropertyValue extends AbstractEdm {
 
-    private static final long serialVersionUID = -7386748366134430646L;
+    private static final long serialVersionUID = -6580934436491418564L;
 
+    @JsonProperty(value = "Property", required = true)
+    private String property;
+
+    @JsonProperty("Path")
+    private String path;
+
+    @JsonProperty("String")
+    private String string;
+
+    @JsonProperty("Int")
+    private BigInteger _int;
+
+    @JsonProperty("Float")
+    private Double _float;
+
+    @JsonProperty("Decimal")
+    private BigDecimal decimal;
+
+    @JsonProperty("Bool")
+    private Boolean bool;
+
+    @JsonProperty("DateTime")
+    private Date dateTime;
+
+    public String getProperty() {
+        return property;
+    }
+
+    public void setProperty(final String property) {
+        this.property = property;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(final String path) {
+        this.path = path;
+    }
+
+    public String getString() {
+        return string;
+    }
+
+    public void setString(final String string) {
+        this.string = string;
+    }
+
+    public BigInteger getInt() {
+        return _int;
+    }
+
+    public void setInt(final BigInteger _int) {
+        this._int = _int;
+    }
+
+    public Double getFloat() {
+        return _float;
+    }
+
+    public void setFloat(final Double _float) {
+        this._float = _float;
+    }
+
+    public BigDecimal getDecimal() {
+        return decimal;
+    }
+
+    public void setDecimal(final BigDecimal decimal) {
+        this.decimal = decimal;
+    }
+
+    public Boolean getBool() {
+        return bool;
+    }
+
+    public void setBool(final Boolean bool) {
+        this.bool = bool;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(final Date dateTime) {
+        this.dateTime = dateTime;
+    }
 }

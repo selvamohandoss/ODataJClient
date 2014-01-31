@@ -17,13 +17,14 @@
  * See the Apache License, Version 2.0 for the specific language
  * governing permissions and limitations under the License.
  */
-package com.msopentech.odatajclient.engine;
+package com.msopentech.odatajclient.engine.v3;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import com.msopentech.odatajclient.engine.AbstractMetadataTest;
 import com.msopentech.odatajclient.engine.client.ODataV3Client;
 import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.engine.data.metadata.EdmType;
@@ -47,7 +48,7 @@ public class V3MetadataTest extends AbstractMetadataTest {
     @Test
     public void parse() {
         final EdmV3Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("metadata.xml"));
         assertNotNull(metadata);
 
         final EdmV3Type orderCollection =
@@ -99,7 +100,7 @@ public class V3MetadataTest extends AbstractMetadataTest {
     @Test
     public void multipleSchemas() {
         final EdmV3Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("northwind-metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("northwind-metadata.xml"));
         assertNotNull(metadata);
 
         final Schema first = metadata.getSchema("NorthwindModel");
@@ -116,7 +117,7 @@ public class V3MetadataTest extends AbstractMetadataTest {
     @Test
     public void entityType() {
         final EdmV3Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("metadata.xml"));
         assertNotNull(metadata);
 
         final EntityContainer container = metadata.getSchema(0).getEntityContainers().get(0);
@@ -134,7 +135,7 @@ public class V3MetadataTest extends AbstractMetadataTest {
     @Test
     public void complexType() {
         final EdmV3Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("metadata.xml"));
         assertNotNull(metadata);
 
         final EntityContainer container = metadata.getSchema(0).getEntityContainers().get(0);
@@ -149,7 +150,7 @@ public class V3MetadataTest extends AbstractMetadataTest {
     @Test
     public void functionImport() {
         final EdmV3Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("metadata.xml"));
         assertNotNull(metadata);
 
         final EntityContainer container = metadata.getSchema(0).getEntityContainers().get(0);

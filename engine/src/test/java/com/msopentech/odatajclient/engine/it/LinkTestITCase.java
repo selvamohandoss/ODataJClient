@@ -46,7 +46,7 @@ import org.junit.Test;
 /**
  * This is the unit test class to check basic link operations.
  */
-public class LinkTestITCase extends AbstractTest {
+public class LinkTestITCase extends AbstractTestITCase {
 
     protected String getServiceRoot() {
         return testDefaultServiceRootURL;

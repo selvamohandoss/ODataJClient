@@ -43,7 +43,7 @@ import org.junit.Test;
 /**
  * This is the unit test class to check basic feed operations.
  */
-public class EntitySetTestITCase extends AbstractTest {
+public class EntitySetTestITCase extends AbstractTestITCase {
 
     protected String getServiceRoot() {
         return testDefaultServiceRootURL;

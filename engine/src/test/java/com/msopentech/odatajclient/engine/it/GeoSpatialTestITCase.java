@@ -50,7 +50,7 @@ import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Point;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 
-public class GeoSpatialTestITCase extends AbstractTest {
+public class GeoSpatialTestITCase extends AbstractTestITCase {
     // test with json full metadata
 
     @Test

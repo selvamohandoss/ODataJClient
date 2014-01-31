@@ -50,7 +50,7 @@ import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import org.apache.commons.io.input.BoundedInputStream;
 
-public class CreateMediaEntityTestITCase extends AbstractTest {
+public class CreateMediaEntityTestITCase extends AbstractTestITCase {
 
     // create media entity with json
     @Test

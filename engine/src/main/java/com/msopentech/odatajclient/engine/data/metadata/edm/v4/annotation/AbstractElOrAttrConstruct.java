@@ -17,22 +17,22 @@
  * See the Apache License, Version 2.0 for the specific language
  * governing permissions and limitations under the License.
  */
-package com.msopentech.odatajclient.engine.it;
+package com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+/**
+ * Groups dynamic expressions that may be provided using element notation or attribute notation.
+ */
+abstract class AbstractElOrAttrConstruct extends DynExprConstruct {
 
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
-import org.junit.Test;
+    private static final long serialVersionUID = 5503275111425750339L;
 
-public class MetadataTestITCase extends AbstractTest {
+    private String value;
 
-    @Test
-    public void large() {
-        final EdmV3Metadata metadata = client.getRetrieveRequestFactory().
-                getMetadataRequest(testLargeModelServiceRootURL).execute().getBody();
-        assertNotNull(metadata);
+    public String getValue() {
+        return value;
+    }
 
-        assertEquals(400, metadata.getSchemas().get(0).getEntityContainers().get(0).getEntitySets().size());
+    public void setValue(final String value) {
+        this.value = value;
     }
 }

@@ -57,7 +57,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpResponse;
 
-public class BatchTestITCase extends AbstractTest {
+public class BatchTestITCase extends AbstractTestITCase {
 
     private static String PREFIX = "!!PREFIX!!";
 

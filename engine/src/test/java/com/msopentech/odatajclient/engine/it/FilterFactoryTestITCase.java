@@ -28,7 +28,7 @@ import com.msopentech.odatajclient.engine.uri.filter.ODataFilter;
 import com.msopentech.odatajclient.engine.uri.filter.ODataFilterArgFactory;
 import org.junit.Test;
 
-public class FilterFactoryTestITCase extends AbstractTest {
+public class FilterFactoryTestITCase extends AbstractTestITCase {
 
     private void match(final String entitySet, final ODataFilter filter, final int expected) {
         final URIBuilder uriBuilder = client.getURIBuilder(testDefaultServiceRootURL).

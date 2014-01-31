@@ -26,11 +26,23 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.ReturnType;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.ConstExprConstruct;
 import java.io.IOException;
 
 public abstract class AbstractEdmDeserializer<T> extends JsonDeserializer<T> {
 
     protected ODataClient client;
+
+    protected boolean isAnnotationConstExprConstruct(final JsonParser jp) throws IOException {
+        return ConstExprConstruct.Type.fromString(jp.getCurrentName()) != null;
+    }
+
+    protected ConstExprConstruct parseAnnotationConstExprConstruct(final JsonParser jp) throws IOException {
+        final ConstExprConstruct constExpr = new ConstExprConstruct();
+        constExpr.setType(ConstExprConstruct.Type.fromString(jp.getCurrentName()));
+        constExpr.setValue(jp.nextTextValue());
+        return constExpr;
+    }
 
     protected ReturnType parseReturnType(final JsonParser jp, final String elementName) throws IOException {
         ReturnType returnType;

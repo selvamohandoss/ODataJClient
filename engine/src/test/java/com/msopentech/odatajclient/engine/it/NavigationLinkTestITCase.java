@@ -33,7 +33,7 @@ import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 
-public class NavigationLinkTestITCase extends AbstractTest {
+public class NavigationLinkTestITCase extends AbstractTestITCase {
     //collection of navigation links
 
     private void getListNavigationLinks(String acceptFormat) {

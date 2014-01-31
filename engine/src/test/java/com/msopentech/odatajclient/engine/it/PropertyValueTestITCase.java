@@ -33,7 +33,7 @@ import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.format.ODataValueFormat;
 
-public class PropertyValueTestITCase extends AbstractTest {
+public class PropertyValueTestITCase extends AbstractTestITCase {
     //retrieves Edm.Int32
 
     @Test

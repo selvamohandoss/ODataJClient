@@ -17,26 +17,21 @@
  * See the Apache License, Version 2.0 for the specific language
  * governing permissions and limitations under the License.
  */
-package com.msopentech.odatajclient.engine.data.metadata.edm.v4;
+package com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractPropertyValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PropertyValue extends AbstractPropertyValue implements AnnotatedEdm {
+@JsonDeserialize(using = CollectionDeserializer.class)
+public class Collection extends DynExprConstruct {
 
-    private static final long serialVersionUID = -8890867308157487957L;
+    private static final long serialVersionUID = -4975881520695477686L;
 
-    @JsonProperty("Annotation")
-    private Annotation annotation;
+    private final List<ExprConstruct> items = new ArrayList<ExprConstruct>();
 
-    @Override
-    public Annotation getAnnotation() {
-        return annotation;
-    }
-
-    @Override
-    public void setAnnotation(final Annotation annotation) {
-        this.annotation = annotation;
+    public List<ExprConstruct> getItems() {
+        return items;
     }
 
 }

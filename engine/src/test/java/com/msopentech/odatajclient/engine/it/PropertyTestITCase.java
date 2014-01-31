@@ -51,7 +51,7 @@ import org.junit.Test;
 /**
  * This is the unit test class to check basic entity operations.
  */
-public class PropertyTestITCase extends AbstractTest {
+public class PropertyTestITCase extends AbstractTestITCase {
 
     protected String getServiceRoot() {
         return testDefaultServiceRootURL;

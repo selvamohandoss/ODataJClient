@@ -28,7 +28,7 @@ import com.msopentech.odatajclient.engine.format.ODataFormat;
 import java.net.URI;
 import org.junit.Test;
 
-public class ServiceDocumentTestITCase extends AbstractTest {
+public class ServiceDocumentTestITCase extends AbstractTestITCase {
 
     private void retrieveServiceDocument(final ODataFormat format) {
         final ODataServiceDocumentRequest req =

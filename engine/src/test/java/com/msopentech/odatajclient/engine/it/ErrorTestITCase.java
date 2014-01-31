@@ -50,7 +50,7 @@ import org.junit.Test;
 /**
  * This is the unit test class to check basic entity operations.
  */
-public class ErrorTestITCase extends AbstractTest {
+public class ErrorTestITCase extends AbstractTestITCase {
 
     private class ErrorGeneratingRequest
             extends AbstractODataBasicRequestImpl<ODataEntityCreateResponse, ODataPubFormat> {

@@ -33,7 +33,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 import org.junit.Test;
 
-public class PrimitiveKeysTestITCase extends AbstractTest {
+public class PrimitiveKeysTestITCase extends AbstractTestITCase {
 
     private void readEntity(final String entityType, final Object key, final ODataPubFormat format) {
         final ODataEntityRequest req = client.getRetrieveRequestFactory().getEntityRequest(

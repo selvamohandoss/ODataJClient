@@ -54,7 +54,7 @@ import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 
-public class InvokeOperationTestITCase extends AbstractTest {
+public class InvokeOperationTestITCase extends AbstractTestITCase {
     // get operation with no parameters
 
     private void invokeOperationWithNoParameters(final ODataPubFormat format,

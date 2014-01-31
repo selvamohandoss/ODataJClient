@@ -17,30 +17,33 @@
  * See the Apache License, Version 2.0 for the specific language
  * governing permissions and limitations under the License.
  */
-package com.msopentech.odatajclient.engine.data.metadata.edm.v4;
+package com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation;
 
-public enum AnnotationConstantExpressionType {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-    Binary,
-    Bool,
-    Date,
-    DateTimeOffset,
-    Decimal,
-    Duration,
-    EnumMember,
-    Float,
-    Guid,
-    Int,
-    String,
-    TimeOfDay;
+@JsonDeserialize(using = PropertyValueDeserializer.class)
+public class PropertyValue extends AnnotatedDynExprConstruct {
 
-    public static AnnotationConstantExpressionType fromString(final String value) {
-        AnnotationConstantExpressionType result = null;
-        try {
-            result = valueOf(value);
-        } catch (IllegalArgumentException e) {
-            // ignore
-        }
-        return result;
+    private static final long serialVersionUID = 3081968466425707461L;
+
+    private String property;
+
+    private ExprConstruct value;
+
+    public String getProperty() {
+        return property;
     }
+
+    public void setProperty(final String property) {
+        this.property = property;
+    }
+
+    public ExprConstruct getValue() {
+        return value;
+    }
+
+    public void setValue(final ExprConstruct value) {
+        this.value = value;
+    }
+
 }

@@ -39,7 +39,7 @@ import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.format.ODataFormat;
 
-public class PropertyRetrieveTestITCase extends AbstractTest {
+public class PropertyRetrieveTestITCase extends AbstractTestITCase {
     // retrieve property
 
     private void retreivePropertyTest(final ODataFormat format, final String accept, String entitySegment,

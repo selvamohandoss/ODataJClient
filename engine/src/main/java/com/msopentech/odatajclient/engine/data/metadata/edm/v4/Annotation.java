@@ -21,6 +21,8 @@ package com.msopentech.odatajclient.engine.data.metadata.edm.v4;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEdm;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.ConstExprConstruct;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.DynExprConstruct;
 
 @JsonDeserialize(using = AnnotationDeserializer.class)
 public class Annotation extends AbstractEdm {
@@ -31,9 +33,9 @@ public class Annotation extends AbstractEdm {
 
     private String qualifier;
 
-    private AnnotationConstantExpressionType constantExpressionType;
+    private ConstExprConstruct constExpr;
 
-    private String constantExpressionValue;
+    private DynExprConstruct dynExpr;
 
     public String getTerm() {
         return term;
@@ -51,20 +53,20 @@ public class Annotation extends AbstractEdm {
         this.qualifier = qualifier;
     }
 
-    public AnnotationConstantExpressionType getConstantExpressionType() {
-        return constantExpressionType;
+    public ConstExprConstruct getConstExpr() {
+        return constExpr;
     }
 
-    public void setConstantExpressionType(final AnnotationConstantExpressionType constantExpressionType) {
-        this.constantExpressionType = constantExpressionType;
+    public void setConstExpr(final ConstExprConstruct constExpr) {
+        this.constExpr = constExpr;
     }
 
-    public String getConstantExpressionValue() {
-        return constantExpressionValue;
+    public DynExprConstruct getDynExpr() {
+        return dynExpr;
     }
 
-    public void setConstantExpressionValue(final String constantExpressionValue) {
-        this.constantExpressionValue = constantExpressionValue;
+    public void setDynExpr(final DynExprConstruct dynExpr) {
+        this.dynExpr = dynExpr;
     }
 
 }

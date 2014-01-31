@@ -19,7 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.it;
 
-import static com.msopentech.odatajclient.engine.it.AbstractTest.testDefaultServiceRootURL;
+import static com.msopentech.odatajclient.engine.it.AbstractTestITCase.testDefaultServiceRootURL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -46,7 +46,7 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-public class MediaEntityTestITCase extends AbstractTest {
+public class MediaEntityTestITCase extends AbstractTestITCase {
 
     @Test
     public void read() throws Exception {

@@ -19,7 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.it;
 
-import static com.msopentech.odatajclient.engine.it.AbstractTest.testDefaultServiceRootURL;
+import static com.msopentech.odatajclient.engine.it.AbstractTestITCase.testDefaultServiceRootURL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -60,7 +60,7 @@ import org.junit.Test;
 /**
  * This is the unit test class to check create entity operations.
  */
-public class EntityCreateTestITCase extends AbstractTest {
+public class EntityCreateTestITCase extends AbstractTestITCase {
 
     protected String getServiceRoot() {
         return testDefaultServiceRootURL;

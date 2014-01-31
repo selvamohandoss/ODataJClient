@@ -47,7 +47,7 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.Test;
 
-public class OpenTypeTestITCase extends AbstractTest {
+public class OpenTypeTestITCase extends AbstractTestITCase {
 
     @Test
     public void checkOpenTypeEntityTypesExist() {

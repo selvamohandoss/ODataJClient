@@ -19,7 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.it;
 
-import static com.msopentech.odatajclient.engine.it.AbstractTest.TEST_PRODUCT_TYPE;
+import static com.msopentech.odatajclient.engine.it.AbstractTestITCase.TEST_PRODUCT_TYPE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -43,7 +43,7 @@ import org.junit.Test;
 /**
  * This is the unit test class to check entity update operations.
  */
-public class EntityUpdateTestITCase extends AbstractTest {
+public class EntityUpdateTestITCase extends AbstractTestITCase {
 
     protected String getServiceRoot() {
         return testDefaultServiceRootURL;

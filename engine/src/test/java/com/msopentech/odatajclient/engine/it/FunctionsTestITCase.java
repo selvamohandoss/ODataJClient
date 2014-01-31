@@ -38,7 +38,7 @@ import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import java.util.Iterator;
 
-public class FunctionsTestITCase extends AbstractTest {
+public class FunctionsTestITCase extends AbstractTestITCase {
     //function returns a reference 
 
     private void refReturnFunction(final ODataPubFormat format, final String accept) {

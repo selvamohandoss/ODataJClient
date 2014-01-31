@@ -17,20 +17,22 @@
  * See the Apache License, Version 2.0 for the specific language
  * governing permissions and limitations under the License.
  */
-package com.msopentech.odatajclient.engine;
+package com.msopentech.odatajclient.engine.v4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import com.msopentech.odatajclient.engine.AbstractMetadataTest;
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV4Metadata;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV4Type;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.StoreGeneratedPattern;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Action;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.AnnotationConstantExpressionType;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Annotation;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Annotations;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.ComplexType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EntityContainer;
@@ -41,6 +43,10 @@ import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Function;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.FunctionImport;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Schema;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Singleton;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.Apply;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.Collection;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.ConstExprConstruct;
+import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.Path;
 import java.util.List;
 import org.junit.Test;
 
@@ -54,7 +60,7 @@ public class V4MetadataTest extends AbstractMetadataTest {
     @Test
     public void parse() {
         final EdmV4Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("metadata.xml"));
         assertNotNull(metadata);
 
         // 1. Enum
@@ -114,23 +120,23 @@ public class V4MetadataTest extends AbstractMetadataTest {
     @Test
     public void demo() {
         final EdmV4Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("demo-metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("demo-metadata.xml"));
         assertNotNull(metadata);
 
         assertFalse(metadata.getSchema(0).getAnnotationsList().isEmpty());
         Annotations annots = metadata.getSchema(0).getAnnotationsList("ODataDemo.DemoService/Suppliers");
         assertNotNull(annots);
         assertFalse(annots.getAnnotations().isEmpty());
-        assertEquals(AnnotationConstantExpressionType.String,
-                annots.getAnnotation("Org.OData.Publication.V1.PrivacyPolicyUrl").getConstantExpressionType());
+        assertEquals(ConstExprConstruct.Type.String,
+                annots.getAnnotation("Org.OData.Publication.V1.PrivacyPolicyUrl").getConstExpr().getType());
         assertEquals("http://www.odata.org/",
-                annots.getAnnotation("Org.OData.Publication.V1.PrivacyPolicyUrl").getConstantExpressionValue());
+                annots.getAnnotation("Org.OData.Publication.V1.PrivacyPolicyUrl").getConstExpr().getValue());
     }
 
     @Test
     public void multipleSchemas() {
         final EdmV4Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("northwind-metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("northwind-metadata.xml"));
         assertNotNull(metadata);
 
         final Schema first = metadata.getSchema("NorthwindModel");
@@ -154,7 +160,7 @@ public class V4MetadataTest extends AbstractMetadataTest {
     @Test
     public void fromdoc1() {
         final EdmV4Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("fromdoc1-metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("fromdoc1-metadata.xml"));
         assertNotNull(metadata);
 
         assertFalse(metadata.getReferences().isEmpty());
@@ -163,7 +169,7 @@ public class V4MetadataTest extends AbstractMetadataTest {
         final EntityType product = metadata.getSchema(0).getEntityType("Product");
         assertTrue(product.isHasStream());
         assertEquals("UoM.ISOCurrency", product.getProperty("Price").getAnnotation().getTerm());
-        //assertEquals("Currency", product.getProperty("Price").getAnnotation().getPath());
+        //assertEquals("Currency", product.getProperty("Price").getAnnotation().));
         assertEquals("Products", product.getNavigationProperty("Supplier").getPartner());
 
         final EntityType category = metadata.getSchema(0).getEntityType("Category");
@@ -200,7 +206,55 @@ public class V4MetadataTest extends AbstractMetadataTest {
     @Test
     public void fromdoc2() {
         final EdmV4Metadata metadata = getClient().getReader().
-                readMetadata(getClass().getResourceAsStream(getPath("fromdoc2-metadata.xml")));
+                readMetadata(getClass().getResourceAsStream("fromdoc2-metadata.xml"));
+        assertNotNull(metadata);
+
+        // Check displayName
+        final Annotation displayName = metadata.getSchema(0).getAnnotationsList("ODataDemo.Supplier").
+                getAnnotation("Vocabulary1.DisplayName");
+        assertNotNull(displayName);
+        assertNull(displayName.getConstExpr());
+        assertNotNull(displayName.getDynExpr());
+
+        assertTrue(displayName.getDynExpr() instanceof Apply);
+        final Apply apply = (Apply) displayName.getDynExpr();
+        assertEquals(Apply.CANONICAL_FUNCTION_CONCAT, apply.getFunction());
+        assertEquals(3, apply.getParameters().size());
+
+        final Path firstArg = new Path();
+        firstArg.setValue("Name");
+        assertEquals(firstArg, apply.getParameters().get(0));
+
+        final ConstExprConstruct secondArg = new ConstExprConstruct();
+        secondArg.setType(ConstExprConstruct.Type.String);
+        secondArg.setValue(" in ");
+        assertEquals(secondArg, apply.getParameters().get(1));
+
+        final Path thirdArg = new Path();
+        thirdArg.setValue("Address/CountryName");
+        assertEquals(thirdArg, apply.getParameters().get(2));
+
+        // Check Tags
+        final Annotation tags = metadata.getSchema(0).getAnnotationsList("ODataDemo.Product").
+                getAnnotation("Vocabulary1.Tags");
+        assertNotNull(tags);
+        assertNull(tags.getConstExpr());
+        assertNotNull(tags.getDynExpr());
+
+        assertTrue(tags.getDynExpr() instanceof Collection);
+        final Collection collection = (Collection) tags.getDynExpr();
+        assertEquals(1, collection.getItems().size());
+        assertEquals(ConstExprConstruct.Type.String, ((ConstExprConstruct) collection.getItems().get(0)).getType());
+        assertEquals("MasterData", ((ConstExprConstruct) collection.getItems().get(0)).getValue());
+    }
+
+    /**
+     * Various annotation examples taken from CSDL specification.
+     */
+    @Test
+    public void fromdoc3() {
+        final EdmV4Metadata metadata = getClient().getReader().
+                readMetadata(getClass().getResourceAsStream("fromdoc3-metadata.xml"));
         assertNotNull(metadata);
     }
 }
