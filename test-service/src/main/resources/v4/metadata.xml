@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 
     Copyright © Microsoft Open Technologies, Inc.
@@ -20,6 +20,7 @@
     governing permissions and limitations under the License.
 
 -->
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
   <edmx:DataServices>
     <Schema Namespace="NorthwindModel" xmlns="http://docs.oasis-open.org/odata/ns/edm">
       <EntityType Name="Category">

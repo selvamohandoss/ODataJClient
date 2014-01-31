@@ -138,14 +138,7 @@
         </dependency>
         <dependency>
           <groupId>com.msopentech.odatajclient</groupId>
-          <artifactId>odatajclient-test-auth-rproxy</artifactId>
-          <version>${project.version}</version>
-          <type>war</type>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>com.msopentech.odatajclient</groupId>
-          <artifactId>odatajclient-static-server</artifactId>
+          <artifactId>odatajclient-test-service</artifactId>
           <version>${project.version}</version>
           <type>war</type>
           <scope>test</scope>
@@ -159,7 +152,7 @@
             <filtering>true</filtering>
           </testResource>
           <testResource>
-            <directory>${basedir}/../test-auth-rproxy/src/main/resources</directory>
+            <directory>${basedir}/../test-service/src/main/resources</directory>
             <filtering>true</filtering>
           </testResource>
           <testResource>

@@ -17,7 +17,7 @@
  * See the Apache License, Version 2.0 for the specific language
  * governing permissions and limitations under the License.
  */
-package com.msopentech.odatajclient.cxf;
+package com.msopentech.odatajclient.testservice;
 
 import java.io.File;
 import javax.ws.rs.GET;

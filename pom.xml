@@ -80,6 +80,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
     <hc.client.version>4.2.6</hc.client.version>
+    <jackson.version>2.3.1</jackson.version>
     
     <commons.io.version>2.4</commons.io.version>
     <commons.lang3.version>3.2.1</commons.lang3.version>
@@ -135,17 +136,22 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.3.1</version>
+        <version>${jackson.version}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
-        <version>2.3.0</version>
+        <version>${jackson.version}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.dataformat</groupId>
         <artifactId>jackson-dataformat-xml</artifactId>
-        <version>2.3.1</version>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.jaxrs</groupId>
+        <artifactId>jackson-jaxrs-json-provider</artifactId>
+        <version>${jackson.version}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml</groupId>
@@ -489,7 +495,7 @@
               <deployables>
                 <deployable>
                   <groupId>com.msopentech.odatajclient</groupId>
-                  <artifactId>odatajclient-test-auth-rproxy</artifactId>
+                  <artifactId>odatajclient-test-service</artifactId>
                   <type>war</type>
                   <properties>
                     <context>/</context>
@@ -502,7 +508,7 @@
       </build>
 
       <modules>
-        <module>test-auth-rproxy</module>
+        <module>test-service</module>
       </modules>
     </profile>
 
@@ -551,7 +557,7 @@
   </profiles>
 
   <modules>
-    <module>plugin</module>
+    <module>maven-plugin</module>
     <module>engine-xml</module>
     <module>engine</module>
     <module>extensions</module>
