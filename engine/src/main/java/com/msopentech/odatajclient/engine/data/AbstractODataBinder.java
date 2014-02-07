@@ -335,10 +335,10 @@ public abstract class AbstractODataBinder implements ODataBinder {
             linkResource.setInlineEntry(getEntry(inlineEntity, ResourceFactory.entryClassForLink(reference)));
         } else if (link instanceof ODataInlineEntitySet) {
             // append inline feed
-            final ODataEntitySet inlineFeed = ((ODataInlineEntitySet) link).getEntitySet();
-            LOG.debug("Append in-line feed\n{}", inlineFeed);
+            final ODataEntitySet InlineFeed = ((ODataInlineEntitySet) link).getEntitySet();
+            LOG.debug("Append in-line feed\n{}", InlineFeed);
 
-            linkResource.setInlineFeed(getFeed(inlineFeed, ResourceFactory.feedClassForLink(reference)));
+            linkResource.setInlineFeed(getFeed(InlineFeed, ResourceFactory.feedClassForLink(reference)));
         }
 
         return linkResource;
@@ -561,8 +561,9 @@ public abstract class AbstractODataBinder implements ODataBinder {
         final NodeList elements = prop.getChildNodes();
 
         for (int i = 0; i < elements.getLength(); i++) {
-            final Element child = (Element) elements.item(i);
-            if (child.getNodeType() != Node.TEXT_NODE) {
+            if (elements.item(i).getNodeType() != Node.TEXT_NODE) {
+                final Element child = (Element) elements.item(i);
+
                 switch (guessPropertyType(child)) {
                     case COMPLEX:
                         value.add(fromComplexValueElement(child, type));
