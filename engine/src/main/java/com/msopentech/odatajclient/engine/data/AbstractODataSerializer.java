@@ -30,6 +30,7 @@ import com.msopentech.odatajclient.engine.data.json.JSONProperty;
 import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
 import com.msopentech.odatajclient.engine.format.ODataFormat;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -44,8 +45,11 @@ public abstract class AbstractODataSerializer extends AbstractJacksonMarshaller 
 
     private static final long serialVersionUID = -357777648541325363L;
 
+    private final AtomSerializer atomSerializer;
+
     public AbstractODataSerializer(final ODataClient client) {
         super(client);
+        this.atomSerializer = new AtomSerializer(client);
     }
 
     @Override
@@ -119,7 +123,7 @@ public abstract class AbstractODataSerializer extends AbstractJacksonMarshaller 
      */
     protected <T extends AbstractPayloadObject> void atom(final T obj, final Writer writer) {
         try {
-            dom(AtomSerializer.serialize(obj), writer);
+            dom(atomSerializer.serialize(obj), writer);
         } catch (Exception e) {
             throw new IllegalArgumentException("While serializing Atom object", e);
         }
@@ -145,9 +149,11 @@ public abstract class AbstractODataSerializer extends AbstractJacksonMarshaller 
 
     protected void xmlLink(final ODataLink link, final Writer writer) {
         try {
-            final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+            final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
             final Document doc = builder.newDocument();
-            final Element uri = doc.createElementNS(ODataConstants.NS_DATASERVICES, ODataConstants.ELEM_URI);
+            final Element uri = doc.createElementNS(
+                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES),
+                    ODataConstants.ELEM_URI);
             uri.appendChild(doc.createTextNode(link.getLink().toASCIIString()));
 
             dom(uri, writer);

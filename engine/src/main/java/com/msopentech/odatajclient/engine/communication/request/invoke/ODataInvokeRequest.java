@@ -28,7 +28,6 @@ import com.msopentech.odatajclient.engine.communication.response.ODataInvokeResp
 import com.msopentech.odatajclient.engine.communication.response.ODataResponseImpl;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataInvokeResult;
 import com.msopentech.odatajclient.engine.data.ODataNoContent;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
@@ -114,16 +113,19 @@ public class ODataInvokeRequest<T extends ODataInvokeResult>
     protected InputStream getPayload() {
         if (!this.parameters.isEmpty() && this.method == HttpMethod.POST) {
             // Additional, non-binding parameters MUST be sent as JSON
-            final ODataEntity tmp = ODataObjectFactory.newEntity("");
+            final ODataEntity tmp = odataClient.getObjectFactory().newEntity("");
             for (Map.Entry<String, ODataValue> param : parameters.entrySet()) {
                 ODataProperty property = null;
 
                 if (param.getValue().isPrimitive()) {
-                    property = ODataObjectFactory.newPrimitiveProperty(param.getKey(), param.getValue().asPrimitive());
+                    property = odataClient.getObjectFactory().
+                            newPrimitiveProperty(param.getKey(), param.getValue().asPrimitive());
                 } else if (param.getValue().isComplex()) {
-                    property = ODataObjectFactory.newComplexProperty(param.getKey(), param.getValue().asComplex());
+                    property = odataClient.getObjectFactory().
+                            newComplexProperty(param.getKey(), param.getValue().asComplex());
                 } else if (param.getValue().isCollection()) {
-                    property = ODataObjectFactory.newCollectionProperty(param.getKey(), param.getValue().asCollection());
+                    property = odataClient.getObjectFactory().
+                            newCollectionProperty(param.getKey(), param.getValue().asCollection());
                 }
 
                 if (property != null) {

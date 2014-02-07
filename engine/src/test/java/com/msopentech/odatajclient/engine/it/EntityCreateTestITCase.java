@@ -29,12 +29,10 @@ import com.msopentech.odatajclient.engine.client.http.NoContentException;
 import com.msopentech.odatajclient.engine.communication.header.ODataHeaderValues;
 import com.msopentech.odatajclient.engine.communication.header.ODataHeaders;
 import com.msopentech.odatajclient.engine.communication.request.UpdateType;
-import com.msopentech.odatajclient.engine.communication.request.cud.CUDRequestFactory;
 import com.msopentech.odatajclient.engine.communication.request.cud.ODataDeleteRequest;
 import com.msopentech.odatajclient.engine.communication.request.cud.ODataEntityCreateRequest;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataEntityRequest;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataEntitySetRequest;
-import com.msopentech.odatajclient.engine.communication.request.retrieve.RetrieveRequestFactory;
 import com.msopentech.odatajclient.engine.communication.response.ODataDeleteResponse;
 import com.msopentech.odatajclient.engine.communication.response.ODataEntityCreateResponse;
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
@@ -43,10 +41,8 @@ import com.msopentech.odatajclient.engine.data.ODataEntitySet;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataInlineEntitySet;
 import com.msopentech.odatajclient.engine.data.ODataLink;
-import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 import java.net.URI;
@@ -123,7 +119,7 @@ public class EntityCreateTestITCase extends AbstractTestITCase {
         final int id = 5;
         final ODataEntity original = getSampleCustomerProfile(id, "Sample customer", false);
 
-        original.addLink(ODataObjectFactory.newInlineEntity(
+        original.addLink(client.getObjectFactory().newInlineEntity(
                 "Info", null, getSampleCustomerInfo(id, "Sample Customer_Info")));
 
         createEntity(getServiceRoot(), format, original, "Customer");
@@ -150,7 +146,7 @@ public class EntityCreateTestITCase extends AbstractTestITCase {
         final int id = 6;
         final ODataEntity original = getSampleCustomerProfile(id, "Sample customer", false);
 
-        original.addLink(ODataObjectFactory.newInlineEntity(
+        original.addLink(client.getObjectFactory().newInlineEntity(
                 "Info", null, getSampleCustomerInfo(id, "Sample Customer_Info")));
 
         createEntity(getServiceRoot(), format, original, "Customer");
@@ -289,18 +285,18 @@ public class EntityCreateTestITCase extends AbstractTestITCase {
 
         for (Integer key : keys) {
             final ODataEntity order =
-                    ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Order");
+                    client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Order");
 
-            order.addProperty(ODataObjectFactory.newPrimitiveProperty("OrderId",
+            order.addProperty(client.getObjectFactory().newPrimitiveProperty("OrderId",
                     client.getPrimitiveValueBuilder().setValue(key).setType(EdmSimpleType.Int32).build()));
-            order.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
+            order.addProperty(client.getObjectFactory().newPrimitiveProperty("CustomerId",
                     client.getPrimitiveValueBuilder().setValue(id).setType(EdmSimpleType.Int32).build()));
 
             final ODataEntityCreateRequest createReq = client.getCUDRequestFactory().getEntityCreateRequest(
                     client.getURIBuilder(getServiceRoot()).appendEntitySetSegment("Order").build(), order);
             createReq.setFormat(format);
 
-            original.addLink(ODataObjectFactory.newFeedNavigationLink(
+            original.addLink(client.getObjectFactory().newFeedNavigationLink(
                     "Orders",
                     createReq.execute().getBody().getEditLink()));
         }
@@ -343,7 +339,7 @@ public class EntityCreateTestITCase extends AbstractTestITCase {
         final String sampleName = "Sample customer";
 
         final ODataEntity original = getSampleCustomerProfile(id, sampleName, false);
-        original.addLink(ODataObjectFactory.newEntityNavigationLink(
+        original.addLink(client.getObjectFactory().newEntityNavigationLink(
                 "Info", URI.create(getServiceRoot() + "/CustomerInfo(12)")));
 
         final ODataEntity created = createEntity(getServiceRoot(), format, original, "Customer");
@@ -382,20 +378,22 @@ public class EntityCreateTestITCase extends AbstractTestITCase {
         ODataEntity customer = getSampleCustomerProfile(id, sampleName, false);
         customer = createEntity(getServiceRoot(), format, customer, "Customer");
 
-        ODataEntity order = ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Order");
-        order.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
+        ODataEntity order = client.getObjectFactory().newEntity(
+                "Microsoft.Test.OData.Services.AstoriaDefaultService.Order");
+        order.addProperty(client.getObjectFactory().newPrimitiveProperty("CustomerId",
                 client.getPrimitiveValueBuilder().setValue(id).setType(EdmSimpleType.Int32).build()));
-        order.addProperty(ODataObjectFactory.newPrimitiveProperty("OrderId",
+        order.addProperty(client.getObjectFactory().newPrimitiveProperty("OrderId",
                 client.getPrimitiveValueBuilder().setValue(id).setType(EdmSimpleType.Int32).build()));
 
-        order.addLink(ODataObjectFactory.newEntityNavigationLink(
+        order.addLink(client.getObjectFactory().newEntityNavigationLink(
                 "Customer", URIUtils.getURI(getServiceRoot(), customer.getEditLink().toASCIIString())));
 
         order = createEntity(getServiceRoot(), format, order, "Order");
 
-        ODataEntity changes = ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
+        ODataEntity changes = client.getObjectFactory().newEntity(
+                "Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
         changes.setEditLink(customer.getEditLink());
-        changes.addLink(ODataObjectFactory.newFeedNavigationLink(
+        changes.addLink(client.getObjectFactory().newFeedNavigationLink(
                 "Orders", URIUtils.getURI(getServiceRoot(), order.getEditLink().toASCIIString())));
         update(UpdateType.PATCH, changes, format, null);
 
@@ -437,29 +435,30 @@ public class EntityCreateTestITCase extends AbstractTestITCase {
     }
 
     private void multiKey(final ODataPubFormat format) {
-        final ODataEntity message = ODataObjectFactory.newEntity(
+        final ODataEntity message = client.getObjectFactory().newEntity(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Message");
 
-        message.addProperty(ODataObjectFactory.newPrimitiveProperty("MessageId",
+        message.addProperty(client.getObjectFactory().newPrimitiveProperty("MessageId",
                 client.getPrimitiveValueBuilder().setValue(1000).setType(EdmSimpleType.Int32).build()));
-        message.addProperty(ODataObjectFactory.newPrimitiveProperty("FromUsername",
+        message.addProperty(client.getObjectFactory().newPrimitiveProperty("FromUsername",
                 client.getPrimitiveValueBuilder().setValue("1").
                 setType(EdmSimpleType.String).build()));
-        message.addProperty(ODataObjectFactory.newPrimitiveProperty("ToUsername",
+        message.addProperty(client.getObjectFactory().newPrimitiveProperty("ToUsername",
                 client.getPrimitiveValueBuilder().setValue("xlodhxzzusxecbzptxlfxprneoxkn").
                 setType(EdmSimpleType.String).build()));
-        message.addProperty(ODataObjectFactory.newPrimitiveProperty("Subject",
+        message.addProperty(client.getObjectFactory().newPrimitiveProperty("Subject",
                 client.getPrimitiveValueBuilder().setValue("Test subject").
                 setType(EdmSimpleType.String).build()));
-        message.addProperty(ODataObjectFactory.newPrimitiveProperty("Body",
+        message.addProperty(client.getObjectFactory().newPrimitiveProperty("Body",
                 client.getPrimitiveValueBuilder().setValue("Test body").
                 setType(EdmSimpleType.String).build()));
-        message.addProperty(ODataObjectFactory.newPrimitiveProperty("IsRead",
+        message.addProperty(client.getObjectFactory().newPrimitiveProperty("IsRead",
                 client.getPrimitiveValueBuilder().setValue(false).setType(EdmSimpleType.Boolean).build()));
 
         final URIBuilder builder =
                 client.getURIBuilder(getServiceRoot()).appendEntitySetSegment("Message");
-        final ODataEntityCreateRequest req = client.getCUDRequestFactory().getEntityCreateRequest(builder.build(), message);
+        final ODataEntityCreateRequest req = client.getCUDRequestFactory().getEntityCreateRequest(builder.build(),
+                message);
         req.setFormat(format);
 
         final ODataEntityCreateResponse res = req.execute();

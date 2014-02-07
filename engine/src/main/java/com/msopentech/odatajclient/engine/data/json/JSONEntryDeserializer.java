@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.msopentech.odatajclient.engine.data.ODataLinkType;
 import com.msopentech.odatajclient.engine.data.ODataOperation;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
+import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashSet;
@@ -165,7 +167,8 @@ public class JSONEntryDeserializer extends ODataJsonDeserializer<AbstractJSONEnt
             if (field.getKey().endsWith(ODataConstants.JSON_NAVIGATION_LINK_SUFFIX)) {
                 final JSONLink link = new JSONLink();
                 link.setTitle(getTitle(field));
-                link.setRel(ODataConstants.NAVIGATION_LINK_REL + getTitle(field));
+                link.setRel(client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NAVIGATION_LINK_REL)
+                        + getTitle(field));
                 if (field.getValue().isValueNode()) {
                     link.setHref(field.getValue().textValue());
                     link.setType(ODataLinkType.ENTITY_NAVIGATION.toString());
@@ -183,7 +186,8 @@ public class JSONEntryDeserializer extends ODataJsonDeserializer<AbstractJSONEnt
             } else if (field.getKey().endsWith(ODataConstants.JSON_ASSOCIATION_LINK_SUFFIX)) {
                 final JSONLink link = new JSONLink();
                 link.setTitle(getTitle(field));
-                link.setRel(ODataConstants.ASSOCIATION_LINK_REL + getTitle(field));
+                link.setRel(client.getWorkingVersion().getNamespaceMap().get(ODataVersion.ASSOCIATION_LINK_REL)
+                        + getTitle(field));
                 link.setHref(field.getValue().textValue());
                 link.setType(ODataLinkType.ASSOCIATION.toString());
                 entry.addAssociationLink(link);
@@ -192,7 +196,8 @@ public class JSONEntryDeserializer extends ODataJsonDeserializer<AbstractJSONEnt
             } else if (field.getKey().endsWith(ODataConstants.JSON_MEDIAEDIT_LINK_SUFFIX)) {
                 final JSONLink link = new JSONLink();
                 link.setTitle(getTitle(field));
-                link.setRel(ODataConstants.MEDIA_EDIT_LINK_REL + getTitle(field));
+                link.setRel(client.getWorkingVersion().getNamespaceMap().get(ODataVersion.MEDIA_EDIT_LINK_REL)
+                        + getTitle(field));
                 link.setHref(field.getValue().textValue());
                 link.setType(ODataLinkType.MEDIA_EDIT.toString());
                 entry.addMediaEditLink(link);
@@ -216,13 +221,14 @@ public class JSONEntryDeserializer extends ODataJsonDeserializer<AbstractJSONEnt
         tree.remove(toRemove);
 
         try {
-            final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+            final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
             final Document document = builder.newDocument();
 
             final Element properties = document.createElementNS(
-                    ODataConstants.NS_METADATA, ODataConstants.ELEM_PROPERTIES);
+                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                    ODataConstants.ELEM_PROPERTIES);
 
-            DOMTreeUtils.buildSubtree(properties, tree);
+            DOMTreeUtils.buildSubtree(client, properties, tree);
 
             if (isMediaEntry) {
                 entry.setMediaEntryProperties(properties);

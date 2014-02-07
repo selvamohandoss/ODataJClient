@@ -20,17 +20,11 @@
 package com.msopentech.odatajclient.engine.utils;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Constant values related to the OData protocol.
  */
 public class ODataConstants {
-
-    /**
-     * DOM factory.
-     */
-    public static final DocumentBuilderFactory DOC_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
 
     // Other stuff
     public final static String UTF8 = "UTF-8";
@@ -41,12 +35,6 @@ public class ODataConstants {
 
     // XML namespaces and prefixes
     public final static String NS_ATOM = "http://www.w3.org/2005/Atom";
-
-    public static final String NS_DATASERVICES = "http://schemas.microsoft.com/ado/2007/08/dataservices";
-
-    public static final String NS_METADATA = NS_DATASERVICES + "/metadata";
-
-    public static final String NS_SCHEME = NS_DATASERVICES + "/scheme";
 
     public static final String NS_GEORSS = "http://www.georss.org/georss";
 
@@ -67,15 +55,6 @@ public class ODataConstants {
     public static final String XMLNS_GML = XMLConstants.XMLNS_ATTRIBUTE + ":gml";
 
     public static final String PREFIX_GML = "gml:";
-
-    public static final String NAVIGATION_LINK_REL = NS_DATASERVICES + "/related/";
-
-    public static final String ASSOCIATION_LINK_REL = NS_DATASERVICES + "/relatedlinks/";
-
-    /**
-     * Media edit link rel value.
-     */
-    public static final String MEDIA_EDIT_LINK_REL = NS_DATASERVICES + "/edit-media/";
 
     /**
      * Edit link rel value.
@@ -233,8 +212,6 @@ public class ODataConstants {
     public static final String ATOM_ATTR_SRC = "src";
 
     public static final String ATOM_ATTR_ETAG = PREFIX_METADATA + "etag";
-
-    public static final String ATOM_CATEGORY_SCHEME = NS_DATASERVICES + "/" + ATOM_ATTR_SCHEME;
 
     public static final String ATOM_ATTR_COUNT = PREFIX_METADATA + "count";
 

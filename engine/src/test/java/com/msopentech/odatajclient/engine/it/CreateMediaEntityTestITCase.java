@@ -209,7 +209,7 @@ public class CreateMediaEntityTestITCase extends AbstractTestITCase {
                 String etag = retrieveRes.getEtag();
                 // get the entity created 
                 final ODataEntity entity =
-                        ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Car");
+                        client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Car");
 
                 final ODataEntityRequest req = client.getRetrieveRequestFactory().getEntityRequest(client.getURIBuilder(
                         testDefaultServiceRootURL).
@@ -228,7 +228,7 @@ public class CreateMediaEntityTestITCase extends AbstractTestITCase {
                     entityToBeUpdated.removeProperty(propertyValue);
                 }
                 // add new value for the property
-                entityToBeUpdated.addProperty(ODataObjectFactory.newPrimitiveProperty(propertyName,
+                entityToBeUpdated.addProperty(client.getObjectFactory().newPrimitiveProperty(propertyName,
                         client.getPrimitiveValueBuilder().setText(newValue).setType(EdmSimpleType.String).build()));
 
                 UpdateType type = UpdateType.REPLACE;

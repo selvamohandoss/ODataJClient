@@ -42,7 +42,6 @@ import com.msopentech.odatajclient.engine.data.ODataComplexValue;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -261,10 +260,10 @@ public abstract class AbstractTestITCase {
 
     protected ODataEntity getSampleCustomerInfo(final int id, final String sampleinfo) {
         final ODataEntity entity =
-                ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.CustomerInfo");
+                client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.CustomerInfo");
         entity.setMediaEntity(true);
 
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Information",
+        entity.addProperty(client.getObjectFactory().newPrimitiveProperty("Information",
                 client.getPrimitiveValueBuilder().setText(sampleinfo).setType(
                         EdmSimpleType.String).build()));
 
@@ -275,22 +274,22 @@ public abstract class AbstractTestITCase {
             final int id, final String sampleName, final boolean withInlineInfo) {
 
         final ODataEntity entity =
-                ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
+                client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
 
         // add name attribute
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Name",
+        entity.addProperty(client.getObjectFactory().newPrimitiveProperty("Name",
                 client.getPrimitiveValueBuilder().setText(sampleName).setType(
                         EdmSimpleType.String).build()));
 
         // add key attribute
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
+        entity.addProperty(client.getObjectFactory().newPrimitiveProperty("CustomerId",
                 client.getPrimitiveValueBuilder().setText(String.valueOf(id)).setType(
                         EdmSimpleType.Int32).build()));
 
         // add BackupContactInfo attribute (collection)
         final ODataCollectionValue backupContactInfoValue = new ODataCollectionValue(
                 "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.ContactDetails)");
-        entity.addProperty(ODataObjectFactory.newCollectionProperty("BackupContactInfo",
+        entity.addProperty(client.getObjectFactory().newCollectionProperty("BackupContactInfo",
                 backupContactInfoValue));
 
         // add BackupContactInfo.ContactDetails attribute (complex)
@@ -302,27 +301,27 @@ public abstract class AbstractTestITCase {
         final ODataCollectionValue altNamesValue = new ODataCollectionValue("Collection(Edm.String)");
         altNamesValue.add(client.getPrimitiveValueBuilder().
                 setText("myname").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", altNamesValue));
+        contactDetails.add(client.getObjectFactory().newCollectionProperty("AlternativeNames", altNamesValue));
 
         // add BackupContactInfo.ContactDetails.EmailBag attribute (collection)
         final ODataCollectionValue emailBagValue = new ODataCollectionValue("Collection(Edm.String)");
         emailBagValue.add(client.getPrimitiveValueBuilder().
                 setText("myname@mydomain.com").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("EmailBag", emailBagValue));
+        contactDetails.add(client.getObjectFactory().newCollectionProperty("EmailBag", emailBagValue));
 
         // add BackupContactInfo.ContactDetails.ContactAlias attribute (complex)
         final ODataComplexValue contactAliasValue = new ODataComplexValue(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Aliases");
-        contactDetails.add(ODataObjectFactory.newComplexProperty("ContactAlias", contactAliasValue));
+        contactDetails.add(client.getObjectFactory().newComplexProperty("ContactAlias", contactAliasValue));
 
         // add BackupContactInfo.ContactDetails.ContactAlias.AlternativeNames attribute (collection)
         final ODataCollectionValue aliasAltNamesValue = new ODataCollectionValue("Collection(Edm.String)");
         aliasAltNamesValue.add(client.getPrimitiveValueBuilder().
                 setText("myAlternativeName").setType(EdmSimpleType.String).build());
-        contactAliasValue.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", aliasAltNamesValue));
+        contactAliasValue.add(client.getObjectFactory().newCollectionProperty("AlternativeNames", aliasAltNamesValue));
 
         if (withInlineInfo) {
-            final ODataInlineEntity inlineInfo = ODataObjectFactory.newInlineEntity(
+            final ODataInlineEntity inlineInfo = client.getObjectFactory().newInlineEntity(
                     "Info",
                     URI.create("Customer(" + id + ")/Info"),
                     getSampleCustomerInfo(id, sampleName + "_Info"));
@@ -562,7 +561,7 @@ public abstract class AbstractTestITCase {
 
         assertNotEquals(newm, oldm);
 
-        changes.addProperty(ODataObjectFactory.newPrimitiveProperty(propertyName,
+        changes.addProperty(client.getObjectFactory().newPrimitiveProperty(propertyName,
                 client.getPrimitiveValueBuilder().setText(newm).build()));
 
         update(type, changes, format, etag);

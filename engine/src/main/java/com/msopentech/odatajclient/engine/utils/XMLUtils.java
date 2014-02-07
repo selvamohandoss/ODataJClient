@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,6 +35,11 @@ import org.w3c.dom.NodeList;
  * XML utilities.
  */
 public final class XMLUtils {
+
+    /**
+     * DOM factory.
+     */
+    public static final DocumentBuilderFactory DOC_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
 
     public static final AbstractDOMParser PARSER;
 
@@ -84,7 +90,7 @@ public final class XMLUtils {
      * Gets the given node's children with the given name.
      *
      * @param node parent.
-     * @param nodetype searched child name.
+     * @param name searched child name.
      * @return children.
      */
     public static List<Element> getChildElements(final Element node, final String name) {

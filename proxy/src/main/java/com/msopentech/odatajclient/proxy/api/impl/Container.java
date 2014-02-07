@@ -37,7 +37,6 @@ import com.msopentech.odatajclient.engine.communication.response.ODataResponse;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataLink;
 import com.msopentech.odatajclient.engine.data.ODataLinkType;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.format.ODataMediaFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
@@ -409,10 +408,10 @@ class Container implements AbstractContainer {
     private ODataLink buildNavigationLink(final String name, final URI uri, final ODataLinkType type) {
         switch (type) {
             case ENTITY_NAVIGATION:
-                return ODataObjectFactory.newEntityNavigationLink(name, uri);
+                return client.getObjectFactory().newEntityNavigationLink(name, uri);
 
             case ENTITY_SET_NAVIGATION:
-                return ODataObjectFactory.newFeedNavigationLink(name, uri);
+                return client.getObjectFactory().newFeedNavigationLink(name, uri);
 
             default:
                 throw new IllegalArgumentException("Invalid link type " + type.name());
@@ -429,7 +428,8 @@ class Container implements AbstractContainer {
             pos++;
             items.put(delayedUpdate.getSource(), pos);
 
-            final ODataEntity changes = ODataObjectFactory.newEntity(delayedUpdate.getSource().getEntity().getName());
+            final ODataEntity changes = client.getObjectFactory().newEntity(delayedUpdate.getSource().getEntity().
+                    getName());
 
             AttachedEntityStatus status =
                     EntityContainerFactory.getContext().entityContext().getStatus(delayedUpdate.getSource());
@@ -457,8 +457,8 @@ class Container implements AbstractContainer {
                 }
 
                 changes.addLink(delayedUpdate.getType() == ODataLinkType.ENTITY_NAVIGATION
-                        ? ODataObjectFactory.newEntityNavigationLink(delayedUpdate.getSourceName(), targetURI)
-                        : ODataObjectFactory.newFeedNavigationLink(delayedUpdate.getSourceName(), targetURI));
+                        ? client.getObjectFactory().newEntityNavigationLink(delayedUpdate.getSourceName(), targetURI)
+                        : client.getObjectFactory().newFeedNavigationLink(delayedUpdate.getSourceName(), targetURI));
 
                 LOG.debug("'{}' from {} to {}", new Object[] {
                     delayedUpdate.getType().name(), sourceURI, targetURI });

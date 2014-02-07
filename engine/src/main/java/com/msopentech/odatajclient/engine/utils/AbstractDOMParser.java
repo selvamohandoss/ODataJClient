@@ -35,7 +35,7 @@ public abstract class AbstractDOMParser {
      * @param input stream to be parsed and de-serialized.
      * @return DOM tree
      */
-    public abstract Element parse(InputStream input);
+    public abstract Element deserialize(InputStream input);
 
     /**
      * Writes DOM object by the given writer.

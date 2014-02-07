@@ -37,7 +37,6 @@ import com.msopentech.odatajclient.engine.communication.response.ODataPropertyUp
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
 import com.msopentech.odatajclient.engine.communication.response.ODataValueUpdateResponse;
 import com.msopentech.odatajclient.engine.data.ODataCollectionValue;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataObjectWrapper;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
@@ -212,8 +211,8 @@ public class PropertyTestITCase extends AbstractTestITCase {
         ODataRetrieveResponse<ODataProperty> retrieveRes = retrieveReq.execute();
         assertEquals(200, retrieveRes.getStatusCode());
 
-        ODataProperty primaryContactInfo = ODataObjectFactory.newComplexProperty("PrimaryContactInfo",
-                retrieveRes.getBody().getComplexValue());
+        ODataProperty primaryContactInfo = client.getObjectFactory().
+                newComplexProperty("PrimaryContactInfo", retrieveRes.getBody().getComplexValue());
 
         final String newItem = "new item " + System.currentTimeMillis();
 
@@ -225,8 +224,8 @@ public class PropertyTestITCase extends AbstractTestITCase {
         originalValue.add(client.getPrimitiveValueBuilder().setText(newItem).build());
         assertEquals(origSize + 1, originalValue.size());
 
-        final ODataPropertyUpdateRequest updateReq = client.getCUDRequestFactory().getPropertyComplexValueUpdateRequest(
-                uriBuilder.build(), type, primaryContactInfo);
+        final ODataPropertyUpdateRequest updateReq = client.getCUDRequestFactory().
+                getPropertyComplexValueUpdateRequest(uriBuilder.build(), type, primaryContactInfo);
         if (client.getConfiguration().isUseXHTTPMethod()) {
             assertEquals(HttpMethod.POST, updateReq.getMethod());
         } else {
@@ -259,7 +258,7 @@ public class PropertyTestITCase extends AbstractTestITCase {
         ODataRetrieveResponse<ODataProperty> retrieveRes = retrieveReq.execute();
         assertEquals(200, retrieveRes.getStatusCode());
 
-        ODataProperty alternativeNames = ODataObjectFactory.newCollectionProperty("AlternativeNames",
+        ODataProperty alternativeNames = client.getObjectFactory().newCollectionProperty("AlternativeNames",
                 retrieveRes.getBody().getCollectionValue());
 
         final String newItem = "new item " + System.currentTimeMillis();
@@ -314,7 +313,7 @@ public class PropertyTestITCase extends AbstractTestITCase {
 
         assertNotEquals(newMsg, oldMsg);
 
-        phoneNumber = ODataObjectFactory.newPrimitiveProperty("PhoneNumber",
+        phoneNumber = client.getObjectFactory().newPrimitiveProperty("PhoneNumber",
                 client.getPrimitiveValueBuilder().setText(newMsg).build());
 
         final ODataPropertyUpdateRequest updateReq =

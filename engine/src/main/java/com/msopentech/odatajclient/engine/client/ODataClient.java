@@ -28,6 +28,7 @@ import com.msopentech.odatajclient.engine.communication.request.streamed.Streame
 import com.msopentech.odatajclient.engine.data.ODataDeserializer;
 import com.msopentech.odatajclient.engine.data.ODataBinder;
 import com.msopentech.odatajclient.engine.data.ODataGeospatialValue;
+import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataReader;
 import com.msopentech.odatajclient.engine.data.ODataWriter;
@@ -62,6 +63,8 @@ public interface ODataClient extends Serializable {
     ODataWriter getWriter();
 
     ODataBinder getBinder();
+
+    ODataObjectFactory getObjectFactory();
 
     RetrieveRequestFactory getRetrieveRequestFactory();
 

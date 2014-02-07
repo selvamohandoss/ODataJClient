@@ -39,7 +39,6 @@ import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveRe
 import com.msopentech.odatajclient.engine.communication.response.ODataValueUpdateResponse;
 import com.msopentech.odatajclient.engine.data.ODataCollectionValue;
 import com.msopentech.odatajclient.engine.data.ODataComplexValue;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.data.ODataValue;
@@ -72,14 +71,14 @@ public class PropertyUpdateTestITCase extends AbstractTestITCase {
         String etag = retrieveRes.getEtag();
         final ODataComplexValue dimensions = new ODataComplexValue(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Dimensions");
-        dimensions.add(ODataObjectFactory.newPrimitiveProperty("Width",
+        dimensions.add(client.getObjectFactory().newPrimitiveProperty("Width",
                 client.getPrimitiveValueBuilder().setText("-1.12").setType(EdmSimpleType.Decimal).build()));
-        dimensions.add(ODataObjectFactory.newPrimitiveProperty("Height",
+        dimensions.add(client.getObjectFactory().newPrimitiveProperty("Height",
                 client.getPrimitiveValueBuilder().setText("-1.12").setType(EdmSimpleType.Decimal).build()));
-        dimensions.add(ODataObjectFactory.newPrimitiveProperty("Depth",
+        dimensions.add(client.getObjectFactory().newPrimitiveProperty("Depth",
                 client.getPrimitiveValueBuilder().setText("-1.12").setType(EdmSimpleType.Decimal).build()));
 
-        ODataProperty dimensionToBeUpdated = ODataObjectFactory.newComplexProperty("Dimensions",
+        ODataProperty dimensionToBeUpdated = client.getObjectFactory().newComplexProperty("Dimensions",
                 dimensions);
 
         final ODataPropertyUpdateRequest req = client.getCUDRequestFactory().
@@ -340,7 +339,7 @@ public class PropertyUpdateTestITCase extends AbstractTestITCase {
         assertEquals(200, retrieveRes.getStatusCode());
         String etag = retrieveRes.getEtag();
 
-        ODataProperty updateProperty = ODataObjectFactory.newCollectionProperty(propertyType,
+        ODataProperty updateProperty = client.getObjectFactory().newCollectionProperty(propertyType,
                 retrieveRes.getBody().getCollectionValue());
 
         final String newItem = "new update " + System.currentTimeMillis();
@@ -401,7 +400,7 @@ public class PropertyUpdateTestITCase extends AbstractTestITCase {
         final String newItem = "new update " + System.currentTimeMillis();
         assertNotEquals(oldItem, newItem);
 
-        updateProperty = ODataObjectFactory.newPrimitiveProperty(propertyType,
+        updateProperty = client.getObjectFactory().newPrimitiveProperty(propertyType,
                 client.getPrimitiveValueBuilder().setText(newItem).build());
 
         final ODataPropertyUpdateRequest updateReq =

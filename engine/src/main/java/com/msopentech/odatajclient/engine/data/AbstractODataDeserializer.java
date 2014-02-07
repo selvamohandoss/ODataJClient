@@ -63,8 +63,11 @@ public abstract class AbstractODataDeserializer extends AbstractJacksonMarshalle
 
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractODataDeserializer.class);
 
+    private final AtomDeserializer atomDeserializer;
+
     public AbstractODataDeserializer(final ODataClient client) {
         super(client);
+        this.atomDeserializer = new AtomDeserializer(client);
     }
 
     @Override
@@ -74,7 +77,6 @@ public abstract class AbstractODataDeserializer extends AbstractJacksonMarshalle
 
         if (AtomFeed.class.equals(reference)) {
             entry = (T) toAtomFeed(input);
-
         } else {
             entry = (T) toJSONFeed(input);
         }
@@ -127,7 +129,7 @@ public abstract class AbstractODataDeserializer extends AbstractJacksonMarshalle
 
     @Override
     public Element toDOM(final InputStream input) {
-        return XMLUtils.PARSER.parse(input);
+        return XMLUtils.PARSER.deserialize(input);
     }
 
     /*
@@ -153,19 +155,17 @@ public abstract class AbstractODataDeserializer extends AbstractJacksonMarshalle
         return xmlMapper;
     }
 
-    @SuppressWarnings("unchecked")
     protected AtomFeed toAtomFeed(final InputStream input) {
         try {
-            return AtomDeserializer.feed(toDOM(input));
+            return atomDeserializer.feed(toDOM(input));
         } catch (Exception e) {
             throw new IllegalArgumentException("While deserializing Atom feed", e);
         }
     }
 
-    @SuppressWarnings("unchecked")
     protected AtomEntry toAtomEntry(final InputStream input) {
         try {
-            return AtomDeserializer.entry(toDOM(input));
+            return atomDeserializer.entry(toDOM(input));
         } catch (Exception e) {
             throw new IllegalArgumentException("While deserializing Atom entry", e);
         }

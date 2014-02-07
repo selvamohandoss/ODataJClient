@@ -36,12 +36,10 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.msopentech.odatajclient.engine.client.http.HttpClientException;
-import com.msopentech.odatajclient.engine.communication.request.cud.CUDRequestFactory;
 import com.msopentech.odatajclient.engine.communication.request.cud.ODataDeleteRequest;
 import com.msopentech.odatajclient.engine.communication.request.cud.ODataEntityCreateRequest;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataEntityRequest;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataEntitySetRequest;
-import com.msopentech.odatajclient.engine.communication.request.retrieve.RetrieveRequestFactory;
 import com.msopentech.odatajclient.engine.communication.response.ODataDeleteResponse;
 import com.msopentech.odatajclient.engine.communication.response.ODataEntityCreateResponse;
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
@@ -53,7 +51,6 @@ import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataInlineEntity;
 import com.msopentech.odatajclient.engine.data.ODataInlineEntitySet;
 import com.msopentech.odatajclient.engine.data.ODataLink;
-import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
@@ -149,7 +146,7 @@ public class CreateNavigationLinkTestITCase extends AbstractTestITCase {
         final String name = "Customer Navigation test";
 
         final ODataEntity original = getNewCustomer(id, name, false);
-        original.addLink(ODataObjectFactory.newEntityNavigationLink(
+        original.addLink(client.getObjectFactory().newEntityNavigationLink(
                 "Info", URI.create(testDefaultServiceRootURL + "/CustomerInfo(11)")));
         final ODataEntity created = createNav(testDefaultServiceRootURL, format, original, "Customer", contenttype,
                 prefer);
@@ -209,11 +206,11 @@ public class CreateNavigationLinkTestITCase extends AbstractTestITCase {
 
             for (Integer key : navigationKeys) {
                 final ODataEntity orderEntity =
-                        ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Order");
+                        client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Order");
 
-                orderEntity.addProperty(ODataObjectFactory.newPrimitiveProperty("OrderId",
+                orderEntity.addProperty(client.getObjectFactory().newPrimitiveProperty("OrderId",
                         client.getPrimitiveValueBuilder().setValue(key).setType(EdmSimpleType.Int32).build()));
-                orderEntity.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
+                orderEntity.addProperty(client.getObjectFactory().newPrimitiveProperty("CustomerId",
                         client.getPrimitiveValueBuilder().setValue(id).setType(EdmSimpleType.Int32).build()));
 
                 final ODataEntityCreateRequest createReq = client.getCUDRequestFactory().getEntityCreateRequest(
@@ -221,7 +218,7 @@ public class CreateNavigationLinkTestITCase extends AbstractTestITCase {
                         orderEntity);
                 createReq.setFormat(format);
                 createReq.setContentType(contentType);
-                original.addLink(ODataObjectFactory.newFeedNavigationLink(
+                original.addLink(client.getObjectFactory().newFeedNavigationLink(
                         "Orders",
                         createReq.execute().getBody().getEditLink()));
             }
@@ -266,15 +263,15 @@ public class CreateNavigationLinkTestITCase extends AbstractTestITCase {
             final int id, final String name, final boolean withInlineInfo) {
 
         final ODataEntity entity =
-                ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
+                client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
 
         // add name attribute
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Name",
+        entity.addProperty(client.getObjectFactory().newPrimitiveProperty("Name",
                 client.getPrimitiveValueBuilder().setText(name).setType(EdmSimpleType.String).build()));
 
         // add key attribute
         if (id != 0) {
-            entity.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
+            entity.addProperty(client.getObjectFactory().newPrimitiveProperty("CustomerId",
                     client.getPrimitiveValueBuilder().setText(String.valueOf(id)).setType(EdmSimpleType.Int32).build()));
         }
         final ODataCollectionValue backupContactInfoValue = new ODataCollectionValue(
@@ -288,36 +285,36 @@ public class CreateNavigationLinkTestITCase extends AbstractTestITCase {
         final ODataCollectionValue altNamesValue = new ODataCollectionValue("Collection(Edm.String)");
         altNamesValue.add(client.getPrimitiveValueBuilder().
                 setText("My Alternative name").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", altNamesValue));
+        contactDetails.add(client.getObjectFactory().newCollectionProperty("AlternativeNames", altNamesValue));
 
         final ODataCollectionValue emailBagValue = new ODataCollectionValue("Collection(Edm.String)");
         emailBagValue.add(client.getPrimitiveValueBuilder().
                 setText("altname@mydomain.com").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("EmailBag", emailBagValue));
+        contactDetails.add(client.getObjectFactory().newCollectionProperty("EmailBag", emailBagValue));
 
         final ODataComplexValue contactAliasValue = new ODataComplexValue(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Aliases");
-        contactDetails.add(ODataObjectFactory.newComplexProperty("ContactAlias", contactAliasValue));
+        contactDetails.add(client.getObjectFactory().newComplexProperty("ContactAlias", contactAliasValue));
 
         final ODataCollectionValue aliasAltNamesValue = new ODataCollectionValue("Collection(Edm.String)");
         aliasAltNamesValue.add(client.getPrimitiveValueBuilder().
                 setText("myAlternativeName").setType(EdmSimpleType.String).build());
-        contactAliasValue.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", aliasAltNamesValue));
+        contactAliasValue.add(client.getObjectFactory().newCollectionProperty("AlternativeNames", aliasAltNamesValue));
 
         final ODataComplexValue homePhone = new ODataComplexValue(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Phone");
-        homePhone.add(ODataObjectFactory.newPrimitiveProperty("PhoneNumber",
+        homePhone.add(client.getObjectFactory().newPrimitiveProperty("PhoneNumber",
                 client.getPrimitiveValueBuilder().setText("8437568356834568").setType(EdmSimpleType.String).build()));
-        homePhone.add(ODataObjectFactory.newPrimitiveProperty("Extension",
+        homePhone.add(client.getObjectFactory().newPrimitiveProperty("Extension",
                 client.getPrimitiveValueBuilder().setText("124365426534621534423ttrf").setType(EdmSimpleType.String).
                 build()));
-        contactDetails.add(ODataObjectFactory.newComplexProperty("HomePhone", homePhone));
+        contactDetails.add(client.getObjectFactory().newComplexProperty("HomePhone", homePhone));
 
         backupContactInfoValue.add(contactDetails);
-        entity.addProperty(ODataObjectFactory.newCollectionProperty("BackupContactInfo",
+        entity.addProperty(client.getObjectFactory().newCollectionProperty("BackupContactInfo",
                 backupContactInfoValue));
         if (withInlineInfo) {
-            final ODataInlineEntity inlineInfo = ODataObjectFactory.newInlineEntity("Info", URI.create("Customer(" + id
+            final ODataInlineEntity inlineInfo = client.getObjectFactory().newInlineEntity("Info", URI.create("Customer(" + id
                     + ")/Info"), getInfo(id, name + "_Info"));
             inlineInfo.getEntity().setMediaEntity(true);
             entity.addLink(inlineInfo);
@@ -367,10 +364,10 @@ public class CreateNavigationLinkTestITCase extends AbstractTestITCase {
 
     public ODataEntity getInfo(final int id, final String info) {
         final ODataEntity entity =
-                ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.CustomerInfo");
+                client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.CustomerInfo");
         entity.setMediaEntity(true);
 
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Information",
+        entity.addProperty(client.getObjectFactory().newPrimitiveProperty("Information",
                 client.getPrimitiveValueBuilder().setText(info).setType(EdmSimpleType.String).build()));
         return entity;
     }

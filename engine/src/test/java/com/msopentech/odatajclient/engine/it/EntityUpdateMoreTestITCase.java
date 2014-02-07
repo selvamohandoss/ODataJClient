@@ -38,9 +38,7 @@ import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveRe
 import com.msopentech.odatajclient.engine.data.ODataCollectionValue;
 import com.msopentech.odatajclient.engine.data.ODataComplexValue;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataInlineEntity;
-import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
@@ -57,12 +55,12 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final boolean inlineInfo) {
         // create an entity to be updated
         final ODataEntity entity =
-                ODataObjectFactory.newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
+                client.getObjectFactory().newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
         // add name attribute
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Name",
+        entity.addProperty(client.getObjectFactory().newPrimitiveProperty("Name",
                 client.getPrimitiveValueBuilder().setText("Updated Customer name").setType(EdmSimpleType.String).build()));
         // add key attribute
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
+        entity.addProperty(client.getObjectFactory().newPrimitiveProperty("CustomerId",
                 client.getPrimitiveValueBuilder().setText(String.valueOf(-10)).setType(EdmSimpleType.Int32).build()));
 
         final ODataCollectionValue backupContactInfoValue = new ODataCollectionValue(
@@ -72,37 +70,37 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
         final ODataCollectionValue altNamesValue = new ODataCollectionValue("Collection(Edm.String)");
         altNamesValue.add(client.getPrimitiveValueBuilder().
                 setText("My Alternative name").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", altNamesValue));
+        contactDetails.add(client.getObjectFactory().newCollectionProperty("AlternativeNames", altNamesValue));
 
         final ODataCollectionValue emailBagValue = new ODataCollectionValue("Collection(Edm.String)");
         emailBagValue.add(client.getPrimitiveValueBuilder().
                 setText("altname@mydomain.com").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("EmailBag", emailBagValue));
+        contactDetails.add(client.getObjectFactory().newCollectionProperty("EmailBag", emailBagValue));
 
         final ODataComplexValue contactAliasValue = new ODataComplexValue(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Aliases");
-        contactDetails.add(ODataObjectFactory.newComplexProperty("ContactAlias", contactAliasValue));
+        contactDetails.add(client.getObjectFactory().newComplexProperty("ContactAlias", contactAliasValue));
 
         final ODataCollectionValue aliasAltNamesValue = new ODataCollectionValue("Collection(Edm.String)");
         aliasAltNamesValue.add(client.getPrimitiveValueBuilder().
                 setText("myAlternativeName").setType(EdmSimpleType.String).build());
-        contactAliasValue.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", aliasAltNamesValue));
+        contactAliasValue.add(client.getObjectFactory().newCollectionProperty("AlternativeNames", aliasAltNamesValue));
 
         final ODataComplexValue homePhone = new ODataComplexValue(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Phone");
-        homePhone.add(ODataObjectFactory.newPrimitiveProperty("PhoneNumber",
+        homePhone.add(client.getObjectFactory().newPrimitiveProperty("PhoneNumber",
                 client.getPrimitiveValueBuilder().setText("8437568356834568").setType(EdmSimpleType.String).build()));
-        homePhone.add(ODataObjectFactory.newPrimitiveProperty("Extension",
+        homePhone.add(client.getObjectFactory().newPrimitiveProperty("Extension",
                 client.getPrimitiveValueBuilder().setText("1243654265346267651534423ttrf").setType(EdmSimpleType.String).
                 build()));
-        contactDetails.add(ODataObjectFactory.newComplexProperty("HomePhone", homePhone));
+        contactDetails.add(client.getObjectFactory().newComplexProperty("HomePhone", homePhone));
 
         backupContactInfoValue.add(contactDetails);
-        entity.addProperty(ODataObjectFactory.newCollectionProperty("BackupContactInfo",
+        entity.addProperty(client.getObjectFactory().newCollectionProperty("BackupContactInfo",
                 backupContactInfoValue));
 
         if (inlineInfo) {
-            final ODataInlineEntity info = ODataObjectFactory.newInlineEntity(
+            final ODataInlineEntity info = client.getObjectFactory().newInlineEntity(
                     "Info",
                     URI.create("Customer(-10)/Info"),
                     getSampleCustomerInfo(-10, "Updated customer information" + "_Info"));
@@ -165,7 +163,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             entitySetName.removeProperty(propertyValue);
         }
         assertNotEquals(newValue, oldValue);
-        entitySetName.addProperty(ODataObjectFactory.newPrimitiveProperty(propertyName,
+        entitySetName.addProperty(client.getObjectFactory().newPrimitiveProperty(propertyName,
                 client.getPrimitiveValueBuilder().setText(newValue).build()));
 
         update(type, entitySetName, format, etag);
@@ -200,7 +198,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             entitySetName.removeProperty(propertyValue);
         }
         assertNotEquals(newValue, oldValue);
-        entitySetName.addProperty(ODataObjectFactory.newPrimitiveProperty(propertyName,
+        entitySetName.addProperty(client.getObjectFactory().newPrimitiveProperty(propertyName,
                 client.getPrimitiveValueBuilder().setText(newValue).setType(EdmSimpleType.DateTime).build()));
         update(type, entitySetName, format, etag);
         propertyValue = null;
@@ -233,7 +231,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
         }
         assertNotEquals(newValue, oldValue);
 
-        entitySetName.addProperty(ODataObjectFactory.newPrimitiveProperty(propertyName,
+        entitySetName.addProperty(client.getObjectFactory().newPrimitiveProperty(propertyName,
                 client.getPrimitiveValueBuilder().setValue(newValue).setType(EdmSimpleType.Int32).build()));
         update(type, entitySetName, format, etag);
         propertyValue = null;
@@ -249,7 +247,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
         ODataProperty replaceProperty = entitySetName.getProperty(propertyName);
         entitySetName.removeProperty(replaceProperty);
 
-        entitySetName.addProperty(ODataObjectFactory.newPrimitiveProperty(propertyName,
+        entitySetName.addProperty(client.getObjectFactory().newPrimitiveProperty(propertyName,
                 client.getPrimitiveValueBuilder().setValue(oldValue).setType(EdmSimpleType.Int32).build()));
 
         update(type, entitySetName, format, etag);
@@ -369,7 +367,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final URI uri = client.getURIBuilder(testDefaultServiceRootURL).
                     appendEntityTypeSegment(entitySet).appendKeySegment(-10).build();
             final String etag = getETag(uri);
-            final ODataEntity entity = ODataObjectFactory.newEntity(
+            final ODataEntity entity = client.getObjectFactory().newEntity(
                     "Microsoft.Test.OData.Services.AstoriaDefaultService.ComputerDetail");
             entity.setEditLink(uri);
             updateEntityDateProperty(format, contentType, prefer, propertyType, entity, replace, etag);
@@ -395,7 +393,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final URI uri = client.getURIBuilder(testDefaultServiceRootURL).
                     appendEntityTypeSegment(entitySet).appendKeySegment(-10).build();
             final String etag = getETag(uri);
-            final ODataEntity entity = ODataObjectFactory.newEntity(TEST_PRODUCT_TYPE);
+            final ODataEntity entity = client.getObjectFactory().newEntity(TEST_PRODUCT_TYPE);
             entity.setEditLink(uri);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, replace, etag);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, merge, etag);
@@ -421,7 +419,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final URI uri = client.getURIBuilder(testDefaultServiceRootURL).
                     appendEntityTypeSegment(entitySet).appendKeySegment(-10).build();
             final String etag = getETag(uri);
-            final ODataEntity entity = ODataObjectFactory.newEntity(TEST_PRODUCT_TYPE);
+            final ODataEntity entity = client.getObjectFactory().newEntity(TEST_PRODUCT_TYPE);
             entity.setEditLink(uri);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, replace, etag);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, merge, etag);
@@ -448,7 +446,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final URI uri = client.getURIBuilder(testDefaultServiceRootURL).
                     appendEntityTypeSegment(entitySet).appendKeySegment(-10).build();
             final String etag = getETag(uri);
-            final ODataEntity entity = ODataObjectFactory.newEntity(TEST_PRODUCT_TYPE);
+            final ODataEntity entity = client.getObjectFactory().newEntity(TEST_PRODUCT_TYPE);
             entity.setEditLink(uri);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, replace, etag);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, merge, etag);
@@ -475,7 +473,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final URI uri = client.getURIBuilder(testDefaultServiceRootURL).
                     appendEntityTypeSegment(entitySet).appendKeySegment(-10).build();
             final String etag = getETag(uri);
-            final ODataEntity entity = ODataObjectFactory.newEntity(TEST_PRODUCT_TYPE);
+            final ODataEntity entity = client.getObjectFactory().newEntity(TEST_PRODUCT_TYPE);
             entity.setEditLink(uri);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, replace, etag);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, merge, etag);
@@ -500,7 +498,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final URI uri = client.getURIBuilder(testDefaultServiceRootURL).
                     appendEntityTypeSegment(entitySet).appendKeySegment(-10).build();
             final String etag = getETag(uri);
-            final ODataEntity entity = ODataObjectFactory.newEntity(TEST_PRODUCT_TYPE);
+            final ODataEntity entity = client.getObjectFactory().newEntity(TEST_PRODUCT_TYPE);
             entity.setEditLink(uri);
             updateEntityStringProperty(format, contentType, prefer, propertyType, entity, replace, etag);
         } catch (Exception e) {
@@ -526,7 +524,7 @@ public class EntityUpdateMoreTestITCase extends AbstractTestITCase {
             final URI uri = client.getURIBuilder(testDefaultServiceRootURL).
                     appendEntityTypeSegment(propertyType).appendKeySegment(-10).build();
             final String etag = getETag(uri);
-            final ODataEntity entity = ODataObjectFactory.newEntity(TEST_PRODUCT_TYPE);
+            final ODataEntity entity = client.getObjectFactory().newEntity(TEST_PRODUCT_TYPE);
             entity.setEditLink(uri);
             updateEntityStringProperty(format, contentType, prefer, "Description", entity, replace, etag);
         } catch (Exception e) {

@@ -21,9 +21,11 @@ package com.msopentech.odatajclient.engine.data.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.io.IOException;
 import java.util.Collections;
@@ -267,7 +269,9 @@ final class GeospatialJSONHandler {
         }
     }
 
-    public static void serialize(final JsonGenerator jgen, final Element node, final String type) throws IOException {
+    public static void serialize(final ODataClient client,
+            final JsonGenerator jgen, final Element node, final String type) throws IOException {
+
         final EdmSimpleType edmSimpleType = EdmSimpleType.fromValue(type);
 
         if (edmSimpleType.equals(EdmSimpleType.GeographyCollection)
@@ -373,11 +377,12 @@ final class GeospatialJSONHandler {
 
                     for (Node geom : XMLUtils.getChildNodes(cMembs.get(0), Node.ELEMENT_NODE)) {
                         try {
-                            final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+                            final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
                             final Document doc = builder.newDocument();
 
                             final Element fakeParent = doc.createElementNS(
-                                    ODataConstants.NS_DATASERVICES, ODataConstants.PREFIX_DATASERVICES + "fake");
+                                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES),
+                                    ODataConstants.PREFIX_DATASERVICES + "fake");
                             fakeParent.appendChild(doc.importNode(geom, true));
 
                             final EdmSimpleType callAsType = XMLUtils.simpleTypeForNode(
@@ -386,7 +391,7 @@ final class GeospatialJSONHandler {
                                     geom);
 
                             jgen.writeStartObject();
-                            serialize(jgen, fakeParent, callAsType.toString());
+                            serialize(client, jgen, fakeParent, callAsType.toString());
                             jgen.writeEndObject();
                         } catch (Exception e) {
                             LOG.warn("While serializing {}", XMLUtils.getSimpleName(geom), e);

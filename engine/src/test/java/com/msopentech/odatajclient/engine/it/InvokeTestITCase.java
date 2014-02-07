@@ -33,7 +33,6 @@ import com.msopentech.odatajclient.engine.communication.response.ODataEntityCrea
 import com.msopentech.odatajclient.engine.communication.response.ODataInvokeResponse;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataNoContent;
 import com.msopentech.odatajclient.engine.data.ODataOperation;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
@@ -188,19 +187,20 @@ public class InvokeTestITCase extends AbstractTestITCase {
     }
 
     private ODataEntity createEmployee(final ODataPubFormat format) {
-        final ODataEntity employee = ODataObjectFactory.newEntity(
+        final ODataEntity employee = client.getObjectFactory().newEntity(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Employee");
 
-        employee.addProperty(ODataObjectFactory.newPrimitiveProperty("PersonId", client.getPrimitiveValueBuilder().
+        employee.addProperty(client.getObjectFactory().newPrimitiveProperty("PersonId", client.
+                getPrimitiveValueBuilder().
                 setText("1244").setType(EdmSimpleType.Int32).build()));
-        employee.addProperty(ODataObjectFactory.newPrimitiveProperty("Name", client.getPrimitiveValueBuilder().
+        employee.addProperty(client.getObjectFactory().newPrimitiveProperty("Name", client.getPrimitiveValueBuilder().
                 setText("Test employee").build()));
-        employee.addProperty(ODataObjectFactory.newPrimitiveProperty("ManagersPersonId", client.
+        employee.addProperty(client.getObjectFactory().newPrimitiveProperty("ManagersPersonId", client.
                 getPrimitiveValueBuilder().
                 setText("3777").setType(EdmSimpleType.Int32).build()));
-        employee.addProperty(ODataObjectFactory.newPrimitiveProperty("Salary", client.getPrimitiveValueBuilder().
+        employee.addProperty(client.getObjectFactory().newPrimitiveProperty("Salary", client.getPrimitiveValueBuilder().
                 setText("1000").setType(EdmSimpleType.Int32).build()));
-        employee.addProperty(ODataObjectFactory.newPrimitiveProperty("Title", client.getPrimitiveValueBuilder().
+        employee.addProperty(client.getObjectFactory().newPrimitiveProperty("Title", client.getPrimitiveValueBuilder().
                 setText("CEO").build()));
 
         final URIBuilder uriBuilder = client.getURIBuilder(testDefaultServiceRootURL).

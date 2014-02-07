@@ -25,6 +25,7 @@ import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.io.IOException;
 import java.util.Iterator;
@@ -44,11 +45,12 @@ final class DOMTreeUtils {
     /**
      * Recursively builds DOM content out of JSON subtree rooted at given node.
      *
+     * @param client OData client.
      * @param document root of the DOM document being built
      * @param parent parent of the nodes being generated during this step
      * @param node JSON node to be used as source for DOM elements
      */
-    public static void buildSubtree(final Element parent, final JsonNode node) {
+    public static void buildSubtree(final ODataClient client, final Element parent, final JsonNode node) {
         final Iterator<String> fieldNameItor = node.fieldNames();
         final Iterator<JsonNode> nodeItor = node.elements();
         while (nodeItor.hasNext()) {
@@ -57,70 +59,83 @@ final class DOMTreeUtils {
 
             // no name? array item
             if (name.isEmpty()) {
-                final Element element = parent.getOwnerDocument().createElementNS(ODataConstants.NS_DATASERVICES,
+                final Element element = parent.getOwnerDocument().createElementNS(
+                        client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES),
                         ODataConstants.PREFIX_DATASERVICES + ODataConstants.ELEM_ELEMENT);
                 parent.appendChild(element);
 
                 if (child.isValueNode()) {
                     if (child.isNull()) {
-                        element.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_NULL,
-                                Boolean.toString(true));
+                        element.setAttributeNS(
+                                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                ODataConstants.ATTR_NULL, Boolean.toString(true));
                     } else {
                         element.appendChild(parent.getOwnerDocument().createTextNode(child.asText()));
                     }
                 }
 
                 if (child.isContainerNode()) {
-                    buildSubtree(element, child);
+                    buildSubtree(client, element, child);
                 }
             } else if (!name.contains("@") && !ODataConstants.JSON_TYPE.equals(name)) {
                 final Element property = parent.getOwnerDocument().createElementNS(
-                        ODataConstants.NS_DATASERVICES, ODataConstants.PREFIX_DATASERVICES + name);
+                        client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES),
+                        ODataConstants.PREFIX_DATASERVICES + name);
                 parent.appendChild(property);
 
                 boolean typeSet = false;
                 if (node.hasNonNull(name + "@" + ODataConstants.JSON_TYPE)) {
-                    property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
+                    property.setAttributeNS(
+                            client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                            ODataConstants.ATTR_M_TYPE,
                             node.get(name + "@" + ODataConstants.JSON_TYPE).textValue());
                     typeSet = true;
                 }
 
                 if (child.isNull()) {
-                    property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_NULL,
-                            Boolean.toString(true));
+                    property.setAttributeNS(client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                            ODataConstants.ATTR_NULL, Boolean.toString(true));
                 } else if (child.isValueNode()) {
                     if (!typeSet) {
                         if (child.isInt()) {
-                            property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
-                                    EdmSimpleType.Int32.toString());
+                            property.setAttributeNS(
+                                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                    ODataConstants.ATTR_M_TYPE, EdmSimpleType.Int32.toString());
                         }
                         if (child.isLong()) {
-                            property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
-                                    EdmSimpleType.Int64.toString());
+                            property.setAttributeNS(
+                                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                    ODataConstants.ATTR_M_TYPE, EdmSimpleType.Int64.toString());
                         }
                         if (child.isBigDecimal()) {
-                            property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
-                                    EdmSimpleType.Decimal.toString());
+                            property.setAttributeNS(
+                                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                    ODataConstants.ATTR_M_TYPE, EdmSimpleType.Decimal.toString());
                         }
                         if (child.isDouble()) {
-                            property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
-                                    EdmSimpleType.Double.toString());
+                            property.setAttributeNS(
+                                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                    ODataConstants.ATTR_M_TYPE, EdmSimpleType.Double.toString());
                         }
                         if (child.isBoolean()) {
-                            property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
-                                    EdmSimpleType.Boolean.toString());
+                            property.setAttributeNS(
+                                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                    ODataConstants.ATTR_M_TYPE, EdmSimpleType.Boolean.toString());
                         }
                         if (child.isTextual()) {
-                            property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
-                                    EdmSimpleType.String.toString());
+                            property.setAttributeNS(
+                                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                    ODataConstants.ATTR_M_TYPE, EdmSimpleType.String.toString());
                         }
                     }
 
                     property.appendChild(parent.getOwnerDocument().createTextNode(child.asText()));
                 } else if (child.isContainerNode()) {
                     if (!typeSet && child.hasNonNull(ODataConstants.JSON_TYPE)) {
-                        property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
-                                child.get(ODataConstants.JSON_TYPE).textValue());
+                        property.
+                                setAttributeNS(client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA),
+                                        ODataConstants.ATTR_M_TYPE,
+                                        child.get(ODataConstants.JSON_TYPE).textValue());
                     }
 
                     final String type = property.getAttribute(ODataConstants.ATTR_M_TYPE);
@@ -129,7 +144,8 @@ final class DOMTreeUtils {
                                 || EdmSimpleType.Geometry.toString().equals(type)) {
 
                             final String geoType = child.get(ODataConstants.ATTR_TYPE).textValue();
-                            property.setAttributeNS(ODataConstants.NS_METADATA, ODataConstants.ATTR_M_TYPE,
+                            property.setAttributeNS(client.getWorkingVersion().getNamespaceMap().get(
+                                    ODataVersion.NS_METADATA), ODataConstants.ATTR_M_TYPE,
                                     geoType.startsWith("Geo")
                                     ? EdmSimpleType.namespace() + "." + geoType
                                     : type + geoType);
@@ -140,7 +156,7 @@ final class DOMTreeUtils {
                                     child, property, property.getAttribute(ODataConstants.ATTR_M_TYPE));
                         }
                     } else {
-                        buildSubtree(property, child);
+                        buildSubtree(client, property, child);
                     }
                 }
             }
@@ -183,7 +199,7 @@ final class DOMTreeUtils {
                         typeAttr.getTextContent());
 
                 jgen.writeObjectFieldStart(childName);
-                GeospatialJSONHandler.serialize(jgen, (Element) child, typeAttr.getTextContent());
+                GeospatialJSONHandler.serialize(client, jgen, (Element) child, typeAttr.getTextContent());
                 jgen.writeEndObject();
             } else if (XMLUtils.hasOnlyTextChildNodes(child)) {
                 if (child.hasChildNodes()) {

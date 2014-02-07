@@ -59,7 +59,7 @@ public class JSONPropertyDeserializer extends ODataJsonDeserializer<JSONProperty
         }
 
         try {
-            final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+            final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
             final Document document = builder.newDocument();
 
             Element content = document.createElement(ODataConstants.ELEM_PROPERTY);
@@ -99,7 +99,7 @@ public class JSONPropertyDeserializer extends ODataJsonDeserializer<JSONProperty
             }
 
             if (subtree != null) {
-                DOMTreeUtils.buildSubtree(content, subtree);
+                DOMTreeUtils.buildSubtree(client, content, subtree);
             }
 
             final List<Node> children = XMLUtils.getChildNodes(content, Node.ELEMENT_NODE);

@@ -81,7 +81,7 @@ public class JSONEntrySerializer extends ODataJsonSerializer<AbstractJSONEntry> 
             } else {
                 ODataLinkType type = null;
                 try {
-                    type = ODataLinkType.fromString(link.getRel(), link.getType());
+                    type = ODataLinkType.fromString(client, link.getRel(), link.getType());
                 } catch (IllegalArgumentException e) {
                     // ignore   
                 }

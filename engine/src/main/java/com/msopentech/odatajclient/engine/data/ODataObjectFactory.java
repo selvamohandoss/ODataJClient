@@ -19,6 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.data;
 
+import com.msopentech.odatajclient.engine.client.ODataClient;
 import java.net.URI;
 
 /**
@@ -29,10 +30,12 @@ import java.net.URI;
  * @see ODataProperty
  * @see ODataLink
  */
-public final class ODataObjectFactory {
+public class ODataObjectFactory {
 
-    private ODataObjectFactory() {
-        // Empty private constructor for static utility classes
+    private final ODataClient client;
+
+    public ODataObjectFactory(final ODataClient client) {
+        this.client = client;
     }
 
     /**
@@ -40,7 +43,7 @@ public final class ODataObjectFactory {
      *
      * @return entity set.
      */
-    public static ODataEntitySet newEntitySet() {
+    public ODataEntitySet newEntitySet() {
         return new ODataEntitySet();
     }
 
@@ -50,7 +53,7 @@ public final class ODataObjectFactory {
      * @param next next link.
      * @return entity set.
      */
-    public static ODataEntitySet newEntitySet(final URI next) {
+    public ODataEntitySet newEntitySet(final URI next) {
         return new ODataEntitySet(next);
     }
 
@@ -60,7 +63,7 @@ public final class ODataObjectFactory {
      * @param name OData entity name.
      * @return entity.
      */
-    public static ODataEntity newEntity(final String name) {
+    public ODataEntity newEntity(final String name) {
         return new ODataEntity(name);
     }
 
@@ -71,7 +74,7 @@ public final class ODataObjectFactory {
      * @param link self link.
      * @return entity.
      */
-    public static ODataEntity newEntity(final String name, final URI link) {
+    public ODataEntity newEntity(final String name, final URI link) {
         final ODataEntity result = new ODataEntity(name);
         result.setLink(link);
         return result;
@@ -85,10 +88,10 @@ public final class ODataObjectFactory {
      * @param entitySet entity set.
      * @return in-line entity set.
      */
-    public static ODataInlineEntitySet newInlineEntitySet(final String name, final URI link,
+    public ODataInlineEntitySet newInlineEntitySet(final String name, final URI link,
             final ODataEntitySet entitySet) {
 
-        return new ODataInlineEntitySet(link, ODataLinkType.ENTITY_SET_NAVIGATION, name, entitySet);
+        return new ODataInlineEntitySet(client, link, ODataLinkType.ENTITY_SET_NAVIGATION, name, entitySet);
     }
 
     /**
@@ -100,10 +103,10 @@ public final class ODataObjectFactory {
      * @param entitySet entity set.
      * @return in-line entity set.
      */
-    public static ODataInlineEntitySet newInlineEntitySet(final String name, final URI baseURI, final String href,
+    public ODataInlineEntitySet newInlineEntitySet(final String name, final URI baseURI, final String href,
             final ODataEntitySet entitySet) {
 
-        return new ODataInlineEntitySet(baseURI, href, ODataLinkType.ENTITY_SET_NAVIGATION, name, entitySet);
+        return new ODataInlineEntitySet(client, baseURI, href, ODataLinkType.ENTITY_SET_NAVIGATION, name, entitySet);
     }
 
     /**
@@ -114,8 +117,8 @@ public final class ODataObjectFactory {
      * @param entity entity.
      * @return in-line entity.
      */
-    public static ODataInlineEntity newInlineEntity(final String name, final URI link, final ODataEntity entity) {
-        return new ODataInlineEntity(link, ODataLinkType.ENTITY_NAVIGATION, name, entity);
+    public ODataInlineEntity newInlineEntity(final String name, final URI link, final ODataEntity entity) {
+        return new ODataInlineEntity(client, link, ODataLinkType.ENTITY_NAVIGATION, name, entity);
     }
 
     /**
@@ -127,10 +130,10 @@ public final class ODataObjectFactory {
      * @param entity entity.
      * @return in-line entity.
      */
-    public static ODataInlineEntity newInlineEntity(final String name, final URI baseURI, final String href,
+    public ODataInlineEntity newInlineEntity(final String name, final URI baseURI, final String href,
             final ODataEntity entity) {
 
-        return new ODataInlineEntity(baseURI, href, ODataLinkType.ENTITY_NAVIGATION, name, entity);
+        return new ODataInlineEntity(client, baseURI, href, ODataLinkType.ENTITY_NAVIGATION, name, entity);
     }
 
     /**
@@ -140,8 +143,8 @@ public final class ODataObjectFactory {
      * @param link link.
      * @return entity navigation link.
      */
-    public static ODataLink newEntityNavigationLink(final String name, final URI link) {
-        return new ODataLink(link, ODataLinkType.ENTITY_NAVIGATION, name);
+    public ODataLink newEntityNavigationLink(final String name, final URI link) {
+        return new ODataLink(client, link, ODataLinkType.ENTITY_NAVIGATION, name);
     }
 
     /**
@@ -152,8 +155,8 @@ public final class ODataObjectFactory {
      * @param href href.
      * @return entity navigation link.
      */
-    public static ODataLink newEntityNavigationLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(baseURI, href, ODataLinkType.ENTITY_NAVIGATION, name);
+    public ODataLink newEntityNavigationLink(final String name, final URI baseURI, final String href) {
+        return new ODataLink(client, baseURI, href, ODataLinkType.ENTITY_NAVIGATION, name);
     }
 
     /**
@@ -163,8 +166,8 @@ public final class ODataObjectFactory {
      * @param link link.
      * @return entity set navigation link.
      */
-    public static ODataLink newFeedNavigationLink(final String name, final URI link) {
-        return new ODataLink(link, ODataLinkType.ENTITY_SET_NAVIGATION, name);
+    public ODataLink newFeedNavigationLink(final String name, final URI link) {
+        return new ODataLink(client, link, ODataLinkType.ENTITY_SET_NAVIGATION, name);
     }
 
     /**
@@ -175,8 +178,8 @@ public final class ODataObjectFactory {
      * @param href href.
      * @return entity set navigation link.
      */
-    public static ODataLink newFeedNavigationLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(baseURI, href, ODataLinkType.ENTITY_SET_NAVIGATION, name);
+    public ODataLink newFeedNavigationLink(final String name, final URI baseURI, final String href) {
+        return new ODataLink(client, baseURI, href, ODataLinkType.ENTITY_SET_NAVIGATION, name);
     }
 
     /**
@@ -186,8 +189,8 @@ public final class ODataObjectFactory {
      * @param link link.
      * @return association link.
      */
-    public static ODataLink newAssociationLink(final String name, final URI link) {
-        return new ODataLink(link, ODataLinkType.ASSOCIATION, name);
+    public ODataLink newAssociationLink(final String name, final URI link) {
+        return new ODataLink(client, link, ODataLinkType.ASSOCIATION, name);
     }
 
     /**
@@ -198,8 +201,8 @@ public final class ODataObjectFactory {
      * @param href href.
      * @return association link.
      */
-    public static ODataLink newAssociationLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(baseURI, href, ODataLinkType.ASSOCIATION, name);
+    public ODataLink newAssociationLink(final String name, final URI baseURI, final String href) {
+        return new ODataLink(client, baseURI, href, ODataLinkType.ASSOCIATION, name);
     }
 
     /**
@@ -209,8 +212,8 @@ public final class ODataObjectFactory {
      * @param link link.
      * @return media-edit link.
      */
-    public static ODataLink newMediaEditLink(final String name, final URI link) {
-        return new ODataLink(link, ODataLinkType.MEDIA_EDIT, name);
+    public ODataLink newMediaEditLink(final String name, final URI link) {
+        return new ODataLink(client, link, ODataLinkType.MEDIA_EDIT, name);
     }
 
     /**
@@ -221,8 +224,8 @@ public final class ODataObjectFactory {
      * @param href href.
      * @return media-edit link.
      */
-    public static ODataLink newMediaEditLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(baseURI, href, ODataLinkType.MEDIA_EDIT, name);
+    public ODataLink newMediaEditLink(final String name, final URI baseURI, final String href) {
+        return new ODataLink(client, baseURI, href, ODataLinkType.MEDIA_EDIT, name);
     }
 
     /**
@@ -232,7 +235,7 @@ public final class ODataObjectFactory {
      * @param value value.
      * @return primitive property.
      */
-    public static ODataProperty newPrimitiveProperty(final String name, final ODataPrimitiveValue value) {
+    public ODataProperty newPrimitiveProperty(final String name, final ODataPrimitiveValue value) {
         return new ODataProperty(name, value);
     }
 
@@ -243,7 +246,7 @@ public final class ODataObjectFactory {
      * @param value value.
      * @return complex property.
      */
-    public static ODataProperty newComplexProperty(final String name, final ODataComplexValue value) {
+    public ODataProperty newComplexProperty(final String name, final ODataComplexValue value) {
         return new ODataProperty(name, value);
     }
 
@@ -254,7 +257,7 @@ public final class ODataObjectFactory {
      * @param value value.
      * @return collection property.
      */
-    public static ODataProperty newCollectionProperty(final String name, final ODataCollectionValue value) {
+    public ODataProperty newCollectionProperty(final String name, final ODataCollectionValue value) {
         return new ODataProperty(name, value);
     }
 }

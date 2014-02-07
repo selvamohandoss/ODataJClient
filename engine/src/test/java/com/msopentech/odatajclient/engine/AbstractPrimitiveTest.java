@@ -82,7 +82,7 @@ public abstract class AbstractPrimitiveTest extends AbstractTest {
         }
 
         final InputStream written = getClient().getWriter().writeProperty(
-                ODataObjectFactory.newPrimitiveProperty(ODataConstants.ELEM_PROPERTY, newValue),
+                getClient().getObjectFactory().newPrimitiveProperty(ODataConstants.ELEM_PROPERTY, newValue),
                 getFormat());
         return readPrimitiveValue(written);
     }

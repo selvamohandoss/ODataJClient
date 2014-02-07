@@ -381,7 +381,7 @@ public class ODataGeospatialValue extends ODataPrimitiveValue {
     private Element parseGeospatial(final Geospatial value) {
         final DocumentBuilder builder;
         try {
-            builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+            builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             throw new IllegalStateException("Failure initializing Geospatial DOM tree", e);
         }

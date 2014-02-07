@@ -33,7 +33,6 @@ import com.msopentech.odatajclient.engine.client.ODataV3Client;
 import com.msopentech.odatajclient.engine.data.ODataCollectionValue;
 import com.msopentech.odatajclient.engine.data.ODataComplexValue;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ResourceFactory;
 import com.msopentech.odatajclient.engine.data.atom.AtomEntry;
 import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
@@ -256,23 +255,23 @@ public class BasicPerfTest extends AbstractTest {
     }
 
     private ODataEntity sampleODataEntity() throws IOException {
-        final ODataEntity entity = ODataObjectFactory.
+        final ODataEntity entity = getClient().getObjectFactory().
                 newEntity("Microsoft.Test.OData.Services.AstoriaDefaultService.Customer");
 
         // add name attribute
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("Name",
+        entity.addProperty(getClient().getObjectFactory().newPrimitiveProperty("Name",
                 getClient().getPrimitiveValueBuilder().setText("A name").setType(
                         EdmSimpleType.String).build()));
 
         // add key attribute
-        entity.addProperty(ODataObjectFactory.newPrimitiveProperty("CustomerId",
+        entity.addProperty(getClient().getObjectFactory().newPrimitiveProperty("CustomerId",
                 getClient().getPrimitiveValueBuilder().setText("0").setType(EdmSimpleType.Int32).
                 build()));
 
         // add BackupContactInfo attribute (collection)
         final ODataCollectionValue bciv = new ODataCollectionValue(
                 "Collection(Microsoft.Test.OData.Services.AstoriaDefaultService.ContactDetails)");
-        entity.addProperty(ODataObjectFactory.newCollectionProperty("BackupContactInfo", bciv));
+        entity.addProperty(getClient().getObjectFactory().newCollectionProperty("BackupContactInfo", bciv));
 
         // add BackupContactInfo.ContactDetails attribute (complex)
         final ODataComplexValue contactDetails = new ODataComplexValue(
@@ -283,24 +282,24 @@ public class BasicPerfTest extends AbstractTest {
         final ODataCollectionValue altNamesValue = new ODataCollectionValue("Collection(Edm.String)");
         altNamesValue.add(getClient().getPrimitiveValueBuilder().
                 setText("myname").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", altNamesValue));
+        contactDetails.add(getClient().getObjectFactory().newCollectionProperty("AlternativeNames", altNamesValue));
 
         // add BackupContactInfo.ContactDetails.EmailBag attribute (collection)
         final ODataCollectionValue emailBagValue = new ODataCollectionValue("Collection(Edm.String)");
         emailBagValue.add(getClient().getPrimitiveValueBuilder().
                 setText("myname@mydomain.com").setType(EdmSimpleType.String).build());
-        contactDetails.add(ODataObjectFactory.newCollectionProperty("EmailBag", emailBagValue));
+        contactDetails.add(getClient().getObjectFactory().newCollectionProperty("EmailBag", emailBagValue));
 
         // add BackupContactInfo.ContactDetails.ContactAlias attribute (complex)
         final ODataComplexValue contactAliasValue = new ODataComplexValue(
                 "Microsoft.Test.OData.Services.AstoriaDefaultService.Aliases");
-        contactDetails.add(ODataObjectFactory.newComplexProperty("ContactAlias", contactAliasValue));
+        contactDetails.add(getClient().getObjectFactory().newComplexProperty("ContactAlias", contactAliasValue));
 
         // add BackupContactInfo.ContactDetails.ContactAlias.AlternativeNames attribute (collection)
         final ODataCollectionValue aanv = new ODataCollectionValue("Collection(Edm.String)");
         aanv.add(getClient().getPrimitiveValueBuilder().
                 setText("myAlternativeName").setType(EdmSimpleType.String).build());
-        contactAliasValue.add(ODataObjectFactory.newCollectionProperty("AlternativeNames", aanv));
+        contactAliasValue.add(getClient().getObjectFactory().newCollectionProperty("AlternativeNames", aanv));
 
         return entity;
     }

@@ -170,8 +170,8 @@ public class BatchTestITCase extends AbstractTestITCase {
         int createRequestRef = changeset.getLastContentId();
 
         // add update request: link CustomerInfo(17) to the new customer
-        final ODataEntity customerChanges = ODataObjectFactory.newEntity(customer.getName());
-        customerChanges.addLink(ODataObjectFactory.newEntityNavigationLink(
+        final ODataEntity customerChanges = client.getObjectFactory().newEntity(customer.getName());
+        customerChanges.addLink(client.getObjectFactory().newEntityNavigationLink(
                 "Info",
                 client.getURIBuilder(testAuthServiceRootURL).appendEntitySetSegment("CustomerInfo").
                 appendKeySegment(17).build()));
@@ -258,10 +258,10 @@ public class BatchTestITCase extends AbstractTestITCase {
                 appendEntityTypeSegment("Product").appendKeySegment(-10);
         final URI editLink = targetURI.build();
 
-        final ODataEntity merge = ODataObjectFactory.newEntity(TEST_PRODUCT_TYPE);
+        final ODataEntity merge = client.getObjectFactory().newEntity(TEST_PRODUCT_TYPE);
         merge.setEditLink(editLink);
 
-        merge.addProperty(ODataObjectFactory.newPrimitiveProperty(
+        merge.addProperty(client.getObjectFactory().newPrimitiveProperty(
                 "Description", client.getPrimitiveValueBuilder().setText("new description from batch").build()));
 
         final ODataEntityUpdateRequest changes =

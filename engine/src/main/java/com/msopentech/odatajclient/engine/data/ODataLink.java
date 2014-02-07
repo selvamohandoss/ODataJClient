@@ -19,7 +19,8 @@
  */
 package com.msopentech.odatajclient.engine.data;
 
-import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.client.ODataClient;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 import java.net.URI;
 
@@ -29,6 +30,8 @@ import java.net.URI;
 public class ODataLink extends ODataItem {
 
     private static final long serialVersionUID = 7274966414277952124L;
+
+    protected final ODataClient client;
 
     /**
      * Link type.
@@ -43,29 +46,31 @@ public class ODataLink extends ODataItem {
     /**
      * Constructor.
      *
+     * @param client OData client.
      * @param uri URI.
      * @param type type.
      * @param title title.
      */
-    ODataLink(final URI uri, final ODataLinkType type, final String title) {
+    ODataLink(final ODataClient client, final URI uri, final ODataLinkType type, final String title) {
         super(title);
+        this.client = client;
         this.link = uri;
 
         this.type = type;
 
         switch (this.type) {
             case ASSOCIATION:
-                this.rel = ODataConstants.ASSOCIATION_LINK_REL + title;
+                this.rel = client.getWorkingVersion().getNamespaceMap().get(ODataVersion.ASSOCIATION_LINK_REL) + title;
                 break;
 
             case ENTITY_NAVIGATION:
             case ENTITY_SET_NAVIGATION:
-                this.rel = ODataConstants.NAVIGATION_LINK_REL + title;
+                this.rel = client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NAVIGATION_LINK_REL) + title;
                 break;
 
             case MEDIA_EDIT:
             default:
-                this.rel = ODataConstants.MEDIA_EDIT_LINK_REL + title;
+                this.rel = client.getWorkingVersion().getNamespaceMap().get(ODataVersion.MEDIA_EDIT_LINK_REL) + title;
                 break;
         }
     }
@@ -73,13 +78,16 @@ public class ODataLink extends ODataItem {
     /**
      * Constructor.
      *
+     * @param client OData client.
      * @param baseURI base URI.
      * @param href href.
      * @param type type.
      * @param title title.
      */
-    ODataLink(final URI baseURI, final String href, final ODataLinkType type, final String title) {
-        this(URIUtils.getURI(baseURI, href), type, title);
+    ODataLink(
+            final ODataClient client, final URI baseURI, final String href, final ODataLinkType type, final String title) {
+
+        this(client, URIUtils.getURI(baseURI, href), type, title);
     }
 
     /**

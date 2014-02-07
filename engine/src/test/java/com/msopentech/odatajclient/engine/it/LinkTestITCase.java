@@ -25,14 +25,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 import com.msopentech.odatajclient.engine.communication.request.UpdateType;
-import com.msopentech.odatajclient.engine.communication.request.cud.CUDRequestFactory;
 import com.msopentech.odatajclient.engine.communication.request.cud.ODataLinkCreateRequest;
 import com.msopentech.odatajclient.engine.communication.request.cud.ODataLinkUpdateRequest;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataLinkCollectionRequest;
-import com.msopentech.odatajclient.engine.communication.request.retrieve.RetrieveRequestFactory;
 import com.msopentech.odatajclient.engine.communication.response.ODataLinkOperationResponse;
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataLink;
 import com.msopentech.odatajclient.engine.data.ODataLinkCollection;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
@@ -96,13 +93,14 @@ public class LinkTestITCase extends AbstractTestITCase {
         assertEquals(2, before.size());
 
         // 2. create new link
-        final ODataLink newLink = ODataObjectFactory.
+        final ODataLink newLink = client.getObjectFactory().
                 newAssociationLink(null, URI.create(getServiceRoot() + "/Login('3')"));
 
         final URIBuilder uriBuilder = client.getURIBuilder(getServiceRoot()).
                 appendEntityTypeSegment("Customer").appendKeySegment(-10).appendLinksSegment("Logins");
 
-        final ODataLinkCreateRequest req = client.getCUDRequestFactory().getLinkCreateRequest(uriBuilder.build(), newLink);
+        final ODataLinkCreateRequest req =
+                client.getCUDRequestFactory().getLinkCreateRequest(uriBuilder.build(), newLink);
         req.setFormat(format);
 
         final ODataLinkOperationResponse res = req.execute();
@@ -136,7 +134,7 @@ public class LinkTestITCase extends AbstractTestITCase {
 
         // 2. update the link
         ODataLink newLink =
-                ODataObjectFactory.newAssociationLink(null, URI.create(getServiceRoot() + "/CustomerInfo(12)"));
+                client.getObjectFactory().newAssociationLink(null, URI.create(getServiceRoot() + "/CustomerInfo(12)"));
 
         final URIBuilder uriBuilder = client.getURIBuilder(getServiceRoot());
         uriBuilder.appendEntityTypeSegment("Customer").appendKeySegment(-10).appendLinksSegment("Info");
@@ -153,7 +151,7 @@ public class LinkTestITCase extends AbstractTestITCase {
         assertEquals(newLink.getLink(), after);
 
         // 3. reset back the link value
-        newLink = ODataObjectFactory.newAssociationLink(null, before);
+        newLink = client.getObjectFactory().newAssociationLink(null, before);
         req = client.getCUDRequestFactory().getLinkUpdateRequest(uriBuilder.build(), updateType, newLink);
         req.setFormat(format);
 

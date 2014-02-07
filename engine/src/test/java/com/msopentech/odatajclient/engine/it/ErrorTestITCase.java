@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.client.http.HttpMethod;
 import com.msopentech.odatajclient.engine.communication.ODataClientErrorException;
 import com.msopentech.odatajclient.engine.communication.response.ODataResponseImpl;
@@ -33,7 +34,6 @@ import com.msopentech.odatajclient.engine.communication.response.ODataEntityCrea
 import com.msopentech.odatajclient.engine.communication.response.ODataInvokeResponse;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
 import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
@@ -67,18 +67,23 @@ public class ErrorTestITCase extends AbstractTestITCase {
         @Override
         public ODataEntityCreateResponse execute() {
             final HttpResponse res = doExecute();
-            return new ODataEntityCreateResponseImpl(httpClient, res);
+            return new ODataEntityCreateResponseImpl(client, httpClient, res);
         }
 
         private class ODataEntityCreateResponseImpl extends ODataResponseImpl implements ODataEntityCreateResponse {
 
-            public ODataEntityCreateResponseImpl(final HttpClient client, final HttpResponse res) {
+            private final ODataClient odataClient;
+
+            public ODataEntityCreateResponseImpl(
+                    final ODataClient odataClient, final HttpClient client, final HttpResponse res) {
+
                 super(client, res);
+                this.odataClient = odataClient;
             }
 
             @Override
             public ODataEntity getBody() {
-                return ODataObjectFactory.newEntity("Invalid");
+                return odataClient.getObjectFactory().newEntity("Invalid");
             }
         }
     }

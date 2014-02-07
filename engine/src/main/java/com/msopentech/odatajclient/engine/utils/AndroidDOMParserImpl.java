@@ -21,7 +21,6 @@ package com.msopentech.odatajclient.engine.utils;
 
 import java.io.InputStream;
 import java.io.Writer;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -31,9 +30,9 @@ import org.w3c.dom.Node;
 public class AndroidDOMParserImpl extends AbstractDOMParser {
 
     @Override
-    public Element parse(final InputStream input) {
+    public Element deserialize(final InputStream input) {
         try {
-            return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input).getDocumentElement();
+            return XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder().parse(input).getDocumentElement();
         } catch (Exception e) {
             throw new IllegalArgumentException("Could not parse DOM", e);
         }

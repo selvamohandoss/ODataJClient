@@ -54,7 +54,7 @@ public class JSONPropertySerializer extends ODataJsonSerializer<JSONProperty> {
             jgen.writeStringField(ODataConstants.JSON_VALUE, content.getTextContent());
         } else {
             try {
-                final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+                final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
                 final Document document = builder.newDocument();
                 final Element wrapper = document.createElement(ODataConstants.ELEM_PROPERTY);
 

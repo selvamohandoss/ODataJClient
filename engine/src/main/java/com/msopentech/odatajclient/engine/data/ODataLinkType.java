@@ -19,8 +19,9 @@
  */
 package com.msopentech.odatajclient.engine.data;
 
+import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
-import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 
@@ -61,12 +62,15 @@ public enum ODataLinkType {
      * Gets
      * <code>ODataLinkType</code> instance from the given rel and type.
      *
+     * @param client OData client.
      * @param rel rel.
      * @param type type.
      * @return <code>ODataLinkType</code> object.
      */
-    public static ODataLinkType fromString(final String rel, final String type) {
-        if (StringUtils.isNotBlank(rel) && rel.startsWith(ODataConstants.MEDIA_EDIT_LINK_REL)) {
+    public static ODataLinkType fromString(final ODataClient client, final String rel, final String type) {
+        if (StringUtils.isNotBlank(rel)
+                && rel.startsWith(client.getWorkingVersion().getNamespaceMap().get(ODataVersion.MEDIA_EDIT_LINK_REL))) {
+
             return MEDIA_EDIT.setType(StringUtils.isBlank(type) ? "*/*" : type);
         }
 

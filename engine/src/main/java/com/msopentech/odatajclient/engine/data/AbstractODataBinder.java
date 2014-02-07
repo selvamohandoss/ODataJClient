@@ -23,6 +23,7 @@ import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.ODataProperty.PropertyType;
 import com.msopentech.odatajclient.engine.data.metadata.EdmType;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.io.StringWriter;
@@ -56,11 +57,13 @@ public abstract class AbstractODataBinder implements ODataBinder {
     protected Element newEntryContent() {
         Element properties = null;
         try {
-            final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+            final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
             final Document doc = builder.newDocument();
             properties = doc.createElement(ODataConstants.ELEM_PROPERTIES);
-            properties.setAttribute(ODataConstants.XMLNS_METADATA, ODataConstants.NS_METADATA);
-            properties.setAttribute(ODataConstants.XMLNS_DATASERVICES, ODataConstants.NS_DATASERVICES);
+            properties.setAttribute(ODataConstants.XMLNS_METADATA,
+                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA));
+            properties.setAttribute(ODataConstants.XMLNS_DATASERVICES,
+                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES));
             properties.setAttribute(ODataConstants.XMLNS_GML, ODataConstants.NS_GML);
             properties.setAttribute(ODataConstants.XMLNS_GEORSS, ODataConstants.NS_GEORSS);
         } catch (ParserConfigurationException e) {
@@ -173,7 +176,7 @@ public abstract class AbstractODataBinder implements ODataBinder {
     @Override
     public Element toDOMElement(final ODataProperty prop) {
         try {
-            return toDOMElement(prop, ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder().newDocument(), true);
+            return toDOMElement(prop, XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder().newDocument(), true);
         } catch (ParserConfigurationException e) {
             LOG.error("Error retrieving property DOM", e);
             throw new IllegalArgumentException(e);
@@ -218,8 +221,8 @@ public abstract class AbstractODataBinder implements ODataBinder {
         final URI next = resource.getNext();
 
         final ODataEntitySet entitySet = next == null
-                ? ODataObjectFactory.newEntitySet()
-                : ODataObjectFactory.newEntitySet(URIUtils.getURI(base, next.toASCIIString()));
+                ? client.getObjectFactory().newEntitySet()
+                : client.getObjectFactory().newEntitySet(URIUtils.getURI(base, next.toASCIIString()));
 
         if (resource.getCount() != null) {
             entitySet.setCount(resource.getCount());
@@ -249,8 +252,8 @@ public abstract class AbstractODataBinder implements ODataBinder {
         final URI base = defaultBaseURI == null ? resource.getBaseURI() : defaultBaseURI;
 
         final ODataEntity entity = resource.getSelfLink() == null
-                ? ODataObjectFactory.newEntity(resource.getType())
-                : ODataObjectFactory.newEntity(resource.getType(),
+                ? client.getObjectFactory().newEntity(resource.getType())
+                : client.getObjectFactory().newEntity(resource.getType(),
                         URIUtils.getURI(base, resource.getSelfLink().getHref()));
 
         if (StringUtils.isNotBlank(resource.getETag())) {
@@ -262,7 +265,7 @@ public abstract class AbstractODataBinder implements ODataBinder {
         }
 
         for (LinkResource link : resource.getAssociationLinks()) {
-            entity.addLink(ODataObjectFactory.newAssociationLink(link.getTitle(), base, link.getHref()));
+            entity.addLink(client.getObjectFactory().newAssociationLink(link.getTitle(), base, link.getHref()));
         }
 
         for (LinkResource link : resource.getNavigationLinks()) {
@@ -270,14 +273,15 @@ public abstract class AbstractODataBinder implements ODataBinder {
             final FeedResource inlineFeed = link.getInlineFeed();
 
             if (inlineEntry == null && inlineFeed == null) {
-                entity.addLink(ODataObjectFactory.newEntityNavigationLink(link.getTitle(), base, link.getHref()));
+                entity.addLink(
+                        client.getObjectFactory().newEntityNavigationLink(link.getTitle(), base, link.getHref()));
             } else if (inlineFeed == null) {
-                entity.addLink(ODataObjectFactory.newInlineEntity(
+                entity.addLink(client.getObjectFactory().newInlineEntity(
                         link.getTitle(), base, link.getHref(),
                         getODataEntity(inlineEntry,
                                 inlineEntry.getBaseURI() == null ? base : inlineEntry.getBaseURI())));
             } else {
-                entity.addLink(ODataObjectFactory.newInlineEntitySet(
+                entity.addLink(client.getObjectFactory().newInlineEntitySet(
                         link.getTitle(), base, link.getHref(),
                         getODataEntitySet(inlineFeed,
                                 inlineFeed.getBaseURI() == null ? base : inlineFeed.getBaseURI())));
@@ -285,7 +289,7 @@ public abstract class AbstractODataBinder implements ODataBinder {
         }
 
         for (LinkResource link : resource.getMediaEditLinks()) {
-            entity.addLink(ODataObjectFactory.newMediaEditLink(link.getTitle(), base, link.getHref()));
+            entity.addLink(client.getObjectFactory().newMediaEditLink(link.getTitle(), base, link.getHref()));
         }
 
         for (ODataOperation operation : resource.getOperations()) {
@@ -374,10 +378,10 @@ public abstract class AbstractODataBinder implements ODataBinder {
 
                 case EMPTY:
                 default:
-                    res = ODataObjectFactory.newPrimitiveProperty(XMLUtils.getSimpleName(property), null);
+                    res = client.getObjectFactory().newPrimitiveProperty(XMLUtils.getSimpleName(property), null);
             }
         } else {
-            res = ODataObjectFactory.newPrimitiveProperty(XMLUtils.getSimpleName(property), null);
+            res = client.getObjectFactory().newPrimitiveProperty(XMLUtils.getSimpleName(property), null);
         }
 
         return res;
@@ -428,8 +432,10 @@ public abstract class AbstractODataBinder implements ODataBinder {
             element = toComplexPropertyElement(prop, doc, setType);
         }
 
-        element.setAttribute(ODataConstants.XMLNS_METADATA, ODataConstants.NS_METADATA);
-        element.setAttribute(ODataConstants.XMLNS_DATASERVICES, ODataConstants.NS_DATASERVICES);
+        element.setAttribute(ODataConstants.XMLNS_METADATA,
+                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA));
+        element.setAttribute(ODataConstants.XMLNS_DATASERVICES,
+                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES));
         element.setAttribute(ODataConstants.XMLNS_GML, ODataConstants.NS_GML);
         element.setAttribute(ODataConstants.XMLNS_GEORSS, ODataConstants.NS_GEORSS);
 
@@ -528,7 +534,7 @@ public abstract class AbstractODataBinder implements ODataBinder {
     }
 
     protected ODataProperty fromPrimitivePropertyElement(final Element prop, final EdmType edmType) {
-        return ODataObjectFactory.newPrimitiveProperty(
+        return client.getObjectFactory().newPrimitiveProperty(
                 XMLUtils.getSimpleName(prop), fromPrimitiveValueElement(prop, edmType));
     }
 
@@ -543,7 +549,7 @@ public abstract class AbstractODataBinder implements ODataBinder {
     }
 
     protected ODataProperty fromComplexPropertyElement(final Element prop, final EdmType edmType) {
-        return ODataObjectFactory.newComplexProperty(XMLUtils.getSimpleName(prop),
+        return client.getObjectFactory().newComplexProperty(XMLUtils.getSimpleName(prop),
                 fromComplexValueElement(prop, edmType));
     }
 
@@ -570,7 +576,7 @@ public abstract class AbstractODataBinder implements ODataBinder {
             }
         }
 
-        return ODataObjectFactory.newCollectionProperty(XMLUtils.getSimpleName(prop), value);
+        return client.getObjectFactory().newCollectionProperty(XMLUtils.getSimpleName(prop), value);
     }
 
     protected abstract EdmType newEdmType(String expression);

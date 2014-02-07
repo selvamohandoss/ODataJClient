@@ -19,8 +19,11 @@
  */
 package com.msopentech.odatajclient.engine.data.atom;
 
+import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.AbstractPayloadObject;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
+import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.util.List;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -30,13 +33,15 @@ import org.apache.http.entity.ContentType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public final class AtomSerializer {
+public class AtomSerializer {
 
-    private AtomSerializer() {
-        // Empty private constructor for static utility classes
+    private final ODataClient client;
+
+    public AtomSerializer(final ODataClient client) {
+        this.client = client;
     }
 
-    public static <T extends AbstractPayloadObject> Element serialize(final T obj) throws ParserConfigurationException {
+    public <T extends AbstractPayloadObject> Element serialize(final T obj) throws ParserConfigurationException {
         if (obj instanceof AtomEntry) {
             return entry((AtomEntry) obj);
         } else if (obj instanceof AtomFeed) {
@@ -46,7 +51,7 @@ public final class AtomSerializer {
         }
     }
 
-    private static void setLinks(final Element entry, final List<AtomLink> links) throws ParserConfigurationException {
+    private void setLinks(final Element entry, final List<AtomLink> links) throws ParserConfigurationException {
         for (AtomLink link : links) {
             final Element linkElem = entry.getOwnerDocument().createElement(ODataConstants.ATOM_ELEM_LINK);
 
@@ -76,14 +81,16 @@ public final class AtomSerializer {
         }
     }
 
-    private static Element entry(final AtomEntry entry) throws ParserConfigurationException {
-        final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+    private Element entry(final AtomEntry entry) throws ParserConfigurationException {
+        final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
         final Document doc = builder.newDocument();
 
         final Element entryElem = doc.createElement(ODataConstants.ATOM_ELEM_ENTRY);
         entryElem.setAttribute(XMLConstants.XMLNS_ATTRIBUTE, ODataConstants.NS_ATOM);
-        entryElem.setAttribute(ODataConstants.XMLNS_METADATA, ODataConstants.NS_METADATA);
-        entryElem.setAttribute(ODataConstants.XMLNS_DATASERVICES, ODataConstants.NS_DATASERVICES);
+        entryElem.setAttribute(ODataConstants.XMLNS_METADATA,
+                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA));
+        entryElem.setAttribute(ODataConstants.XMLNS_DATASERVICES,
+                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES));
         entryElem.setAttribute(ODataConstants.XMLNS_GML, ODataConstants.NS_GML);
         entryElem.setAttribute(ODataConstants.XMLNS_GEORSS, ODataConstants.NS_GEORSS);
         if (entry.getBaseURI() != null) {
@@ -93,7 +100,8 @@ public final class AtomSerializer {
 
         final Element category = doc.createElement(ODataConstants.ATOM_ELEM_CATEGORY);
         category.setAttribute(ODataConstants.ATOM_ATTR_TERM, entry.getType());
-        category.setAttribute(ODataConstants.ATOM_ATTR_SCHEME, ODataConstants.ATOM_CATEGORY_SCHEME);
+        category.setAttribute(ODataConstants.ATOM_ATTR_SCHEME,
+                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_SCHEME));
         entryElem.appendChild(category);
 
         if (StringUtils.isNotBlank(entry.getTitle())) {
@@ -138,14 +146,16 @@ public final class AtomSerializer {
         return entryElem;
     }
 
-    private static Element feed(final AtomFeed feed) throws ParserConfigurationException {
-        final DocumentBuilder builder = ODataConstants.DOC_BUILDER_FACTORY.newDocumentBuilder();
+    private Element feed(final AtomFeed feed) throws ParserConfigurationException {
+        final DocumentBuilder builder = XMLUtils.DOC_BUILDER_FACTORY.newDocumentBuilder();
         final Document doc = builder.newDocument();
 
         final Element feedElem = doc.createElement(ODataConstants.ATOM_ELEM_FEED);
         feedElem.setAttribute(XMLConstants.XMLNS_ATTRIBUTE, ODataConstants.NS_ATOM);
-        feedElem.setAttribute(ODataConstants.XMLNS_METADATA, ODataConstants.NS_METADATA);
-        feedElem.setAttribute(ODataConstants.XMLNS_DATASERVICES, ODataConstants.NS_DATASERVICES);
+        feedElem.setAttribute(ODataConstants.XMLNS_METADATA,
+                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_METADATA));
+        feedElem.setAttribute(ODataConstants.XMLNS_DATASERVICES,
+                client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NS_DATASERVICES));
         feedElem.setAttribute(ODataConstants.XMLNS_GML, ODataConstants.NS_GML);
         feedElem.setAttribute(ODataConstants.XMLNS_GEORSS, ODataConstants.NS_GEORSS);
         if (feed.getBaseURI() != null) {

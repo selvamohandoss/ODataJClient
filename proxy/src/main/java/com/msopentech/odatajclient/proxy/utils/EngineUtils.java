@@ -19,17 +19,12 @@
  */
 package com.msopentech.odatajclient.proxy.utils;
 
-import static com.msopentech.odatajclient.engine.data.ODataLinkType.ENTITY_NAVIGATION;
-import static com.msopentech.odatajclient.engine.data.ODataLinkType.ENTITY_SET_NAVIGATION;
-
 import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.ODataCollectionValue;
 import com.msopentech.odatajclient.engine.data.ODataComplexValue;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataGeospatialValue;
 import com.msopentech.odatajclient.engine.data.ODataLink;
-import com.msopentech.odatajclient.engine.data.ODataLinkType;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.data.ODataValue;
@@ -42,7 +37,6 @@ import com.msopentech.odatajclient.proxy.api.AbstractComplexType;
 import com.msopentech.odatajclient.proxy.api.annotations.ComplexType;
 import com.msopentech.odatajclient.proxy.api.annotations.CompoundKeyElement;
 import com.msopentech.odatajclient.proxy.api.annotations.Key;
-import com.msopentech.odatajclient.proxy.api.annotations.NavigationProperty;
 import com.msopentech.odatajclient.proxy.api.annotations.Property;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -70,21 +64,6 @@ public final class EngineUtils {
         // Empty private constructor for static utility classes
     }
 
-//    public static NavigationProperty getNavigationProperty(final Class<?> entityTypeRef, final String relationship) {
-//        NavigationProperty res = null;
-//        final Method[] methods = entityTypeRef.getClass().getDeclaredMethods();
-//
-//        for (int i = 0; i < methods.length && res == null; i++) {
-//            final Annotation ann = methods[i].getAnnotation(NavigationProperty.class);
-//            if ((ann instanceof NavigationProperty)
-//                    && ((NavigationProperty) ann).relationship().equalsIgnoreCase(relationship)) {
-//                res = (NavigationProperty) ann;
-//            }
-//        }
-//
-//        return res;
-//    }
-
     public static ODataLink getNavigationLink(final String name, final ODataEntity entity) {
         ODataLink res = null;
         final List<ODataLink> links = entity.getNavigationLinks();
@@ -95,19 +74,6 @@ public final class EngineUtils {
             }
         }
         return res;
-    }
-
-    public static ODataLink getNavigationLink(final String name, final URI uri, final ODataLinkType type) {
-        switch (type) {
-            case ENTITY_NAVIGATION:
-                return ODataObjectFactory.newEntityNavigationLink(name, uri);
-
-            case ENTITY_SET_NAVIGATION:
-                return ODataObjectFactory.newFeedNavigationLink(name, uri);
-
-            default:
-                throw new IllegalArgumentException("Invalid link type " + type.name());
-        }
     }
 
     public static ODataValue getODataValue(
@@ -174,18 +140,18 @@ public final class EngineUtils {
         final EdmType type = getEdmType(client, metadata, obj);
         try {
             if (type == null || obj == null) {
-                oprop = ODataObjectFactory.newPrimitiveProperty(name, null);
+                oprop = client.getObjectFactory().newPrimitiveProperty(name, null);
             } else if (type.isCollection()) {
                 // create collection property
-                oprop = ODataObjectFactory.newCollectionProperty(
+                oprop = client.getObjectFactory().newCollectionProperty(
                         name, getODataValue(client, metadata, type, obj).asCollection());
             } else if (type.isSimpleType()) {
                 // create a primitive property
-                oprop = ODataObjectFactory.newPrimitiveProperty(
+                oprop = client.getObjectFactory().newPrimitiveProperty(
                         name, getODataValue(client, metadata, type, obj).asPrimitive());
             } else if (type.isComplexType()) {
                 // create a complex property
-                oprop = ODataObjectFactory.newComplexProperty(
+                oprop = client.getObjectFactory().newComplexProperty(
                         name, getODataValue(client, metadata, type, obj).asComplex());
             } else if (type.isEnumType()) {
                 // TODO: manage enum types

@@ -84,7 +84,7 @@ public abstract class AbstractPropertyTest extends AbstractTest {
                     setType(EdmSimpleType.fromValue(property.getPrimitiveValue().getTypeName())).
                     setText(written.getPrimitiveValue().toString()).
                     build();
-            comparable = ODataObjectFactory.newPrimitiveProperty(written.getName(), typedValue);
+            comparable = getClient().getObjectFactory().newPrimitiveProperty(written.getName(), typedValue);
         }
 
         assertEquals(property, comparable);
@@ -118,7 +118,7 @@ public abstract class AbstractPropertyTest extends AbstractTest {
                 final ODataProperty prop = itor.next();
                 typedValue.add(prop);
             }
-            comparable = ODataObjectFactory.newComplexProperty(written.getName(), typedValue);
+            comparable = getClient().getObjectFactory().newComplexProperty(written.getName(), typedValue);
         }
 
         assertEquals(property, comparable);
@@ -164,7 +164,7 @@ public abstract class AbstractPropertyTest extends AbstractTest {
                     typedValue.add(typedComplexValue);
                 }
             }
-            comparable = ODataObjectFactory.newCollectionProperty(written.getName(), typedValue);
+            comparable = getClient().getObjectFactory().newCollectionProperty(written.getName(), typedValue);
         }
 
         assertEquals(property, comparable);

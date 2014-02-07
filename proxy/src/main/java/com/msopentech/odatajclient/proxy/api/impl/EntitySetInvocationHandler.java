@@ -23,7 +23,6 @@ import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataVa
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.format.ODataValueFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.proxy.api.AbstractEntityCollection;
@@ -151,7 +150,7 @@ class EntitySetInvocationHandler<
 
     @SuppressWarnings("unchecked")
     private <NE> NE newEntity(final Class<NE> reference) {
-        final ODataEntity entity = ODataObjectFactory.newEntity(
+        final ODataEntity entity = client.getObjectFactory().newEntity(
                 containerHandler.getSchemaName() + "." + ClassUtils.getEntityTypeName(reference));
 
         final EntityTypeInvocationHandler handler = EntityTypeInvocationHandler.getInstance(

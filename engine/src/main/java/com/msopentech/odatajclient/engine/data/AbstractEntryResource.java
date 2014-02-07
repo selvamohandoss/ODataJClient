@@ -77,7 +77,7 @@ public abstract class AbstractEntryResource<LINK extends LinkResource>
      * {@inheritDoc }
      */
     @Override
-    public void setETag(String eTag) {
+    public void setETag(final String eTag) {
         this.eTag = eTag;
     }
 
@@ -117,7 +117,7 @@ public abstract class AbstractEntryResource<LINK extends LinkResource>
      * {@inheritDoc }
      */
     @Override
-    public LinkResource getSelfLink() {
+    public LINK getSelfLink() {
         return readLink;
     }
 
@@ -134,7 +134,7 @@ public abstract class AbstractEntryResource<LINK extends LinkResource>
      * {@inheritDoc }
      */
     @Override
-    public LinkResource getEditLink() {
+    public LINK getEditLink() {
         return editLink;
     }
 

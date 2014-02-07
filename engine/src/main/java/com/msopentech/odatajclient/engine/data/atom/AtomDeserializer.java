@@ -20,8 +20,10 @@
 package com.msopentech.odatajclient.engine.data.atom;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.ODataOperation;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
+import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.net.URI;
 import java.util.List;
@@ -31,17 +33,19 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public final class AtomDeserializer {
+public class AtomDeserializer {
 
     private static final Logger LOG = LoggerFactory.getLogger(AtomDeserializer.class);
 
     private static final ISO8601DateFormat ISO_DATEFORMAT = new ISO8601DateFormat();
 
-    private AtomDeserializer() {
-        // Empty private constructor for static utility classes
+    private final ODataClient client;
+
+    public AtomDeserializer(final ODataClient client) {
+        this.client = client;
     }
 
-    private static void common(final Element input, final AtomObject object) {
+    private void common(final Element input, final AtomObject object) {
         if (StringUtils.isNotBlank(input.getAttribute(ODataConstants.ATTR_XMLBASE))) {
             object.setBaseURI(input.getAttribute(ODataConstants.ATTR_XMLBASE));
         }
@@ -71,7 +75,7 @@ public final class AtomDeserializer {
         }
     }
 
-    public static AtomEntry entry(final Element input) {
+    public AtomEntry entry(final Element input) {
         if (!ODataConstants.ATOM_ELEM_ENTRY.equals(input.getNodeName())) {
             return null;
         }
@@ -101,7 +105,9 @@ public final class AtomDeserializer {
                 entry.setSelfLink(link);
             } else if (ODataConstants.EDIT_LINK_REL.equals(link.getRel())) {
                 entry.setEditLink(link);
-            } else if (link.getRel().startsWith(ODataConstants.NAVIGATION_LINK_REL)) {
+            } else if (link.getRel().startsWith(
+                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.NAVIGATION_LINK_REL))) {
+
                 link.setType(linkElem.getAttribute(ODataConstants.ATTR_TYPE));
                 entry.addNavigationLink(link);
 
@@ -119,9 +125,13 @@ public final class AtomDeserializer {
                         link.setInlineFeed(feed(feeds.get(0)));
                     }
                 }
-            } else if (link.getRel().startsWith(ODataConstants.ASSOCIATION_LINK_REL)) {
+            } else if (link.getRel().startsWith(
+                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.ASSOCIATION_LINK_REL))) {
+
                 entry.addAssociationLink(link);
-            } else if (link.getRel().startsWith(ODataConstants.MEDIA_EDIT_LINK_REL)) {
+            } else if (link.getRel().startsWith(
+                    client.getWorkingVersion().getNamespaceMap().get(ODataVersion.MEDIA_EDIT_LINK_REL))) {
+
                 entry.addMediaEditLink(link);
             }
         }
@@ -174,7 +184,7 @@ public final class AtomDeserializer {
         return entry;
     }
 
-    public static AtomFeed feed(final Element input) {
+    public AtomFeed feed(final Element input) {
         if (!ODataConstants.ATOM_ELEM_FEED.equals(input.getNodeName())) {
             return null;
         }
