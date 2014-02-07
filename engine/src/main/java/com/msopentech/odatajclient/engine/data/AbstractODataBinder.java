@@ -251,7 +251,7 @@ public abstract class AbstractODataBinder implements ODataBinder {
         final ODataEntity entity = resource.getSelfLink() == null
                 ? ODataObjectFactory.newEntity(resource.getType())
                 : ODataObjectFactory.newEntity(resource.getType(),
-                        URIUtils.getURI(base, resource.getSelfLink().getHref()));
+                URIUtils.getURI(base, resource.getSelfLink().getHref()));
 
         if (StringUtils.isNotBlank(resource.getETag())) {
             entity.setETag(resource.getETag());
@@ -267,20 +267,20 @@ public abstract class AbstractODataBinder implements ODataBinder {
 
         for (LinkResource link : resource.getNavigationLinks()) {
             final EntryResource inlineEntry = link.getInlineEntry();
-            final FeedResource inlineFeed = link.getInlineFeed();
+            final FeedResource InlineFeed = link.getInlineFeed();
 
-            if (inlineEntry == null && inlineFeed == null) {
+            if (inlineEntry == null && InlineFeed == null) {
                 entity.addLink(ODataObjectFactory.newEntityNavigationLink(link.getTitle(), base, link.getHref()));
-            } else if (inlineFeed == null) {
+            } else if (InlineFeed == null) {
                 entity.addLink(ODataObjectFactory.newInlineEntity(
                         link.getTitle(), base, link.getHref(),
                         getODataEntity(inlineEntry,
-                                inlineEntry.getBaseURI() == null ? base : inlineEntry.getBaseURI())));
+                        inlineEntry.getBaseURI() == null ? base : inlineEntry.getBaseURI())));
             } else {
                 entity.addLink(ODataObjectFactory.newInlineEntitySet(
                         link.getTitle(), base, link.getHref(),
-                        getODataEntitySet(inlineFeed,
-                                inlineFeed.getBaseURI() == null ? base : inlineFeed.getBaseURI())));
+                        getODataEntitySet(InlineFeed,
+                        InlineFeed.getBaseURI() == null ? base : InlineFeed.getBaseURI())));
             }
         }
 
@@ -331,10 +331,10 @@ public abstract class AbstractODataBinder implements ODataBinder {
             linkResource.setInlineEntry(getEntry(inlineEntity, ResourceFactory.entryClassForLink(reference)));
         } else if (link instanceof ODataInlineEntitySet) {
             // append inline feed
-            final ODataEntitySet inlineFeed = ((ODataInlineEntitySet) link).getEntitySet();
-            LOG.debug("Append in-line feed\n{}", inlineFeed);
+            final ODataEntitySet InlineFeed = ((ODataInlineEntitySet) link).getEntitySet();
+            LOG.debug("Append in-line feed\n{}", InlineFeed);
 
-            linkResource.setInlineFeed(getFeed(inlineFeed, ResourceFactory.feedClassForLink(reference)));
+            linkResource.setInlineFeed(getFeed(InlineFeed, ResourceFactory.feedClassForLink(reference)));
         }
 
         return linkResource;
@@ -555,8 +555,9 @@ public abstract class AbstractODataBinder implements ODataBinder {
         final NodeList elements = prop.getChildNodes();
 
         for (int i = 0; i < elements.getLength(); i++) {
-            final Element child = (Element) elements.item(i);
-            if (child.getNodeType() != Node.TEXT_NODE) {
+            if (elements.item(i).getNodeType() != Node.TEXT_NODE) {
+                final Element child = (Element) elements.item(i);
+                
                 switch (guessPropertyType(child)) {
                     case COMPLEX:
                         value.add(fromComplexValueElement(child, type));
