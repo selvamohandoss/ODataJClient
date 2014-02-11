@@ -38,7 +38,7 @@ public interface ODataSerializer extends Serializable {
      * @param obj object to be streamed.
      * @param out output stream.
      */
-    <T extends FeedResource> void feed(T obj, OutputStream out);
+    <T extends Feed> void feed(T obj, OutputStream out);
 
     /**
      * Writes <tt>FeedResource</tt> object by the given writer.
@@ -47,7 +47,7 @@ public interface ODataSerializer extends Serializable {
      * @param obj object to be streamed.
      * @param writer writer.
      */
-    <T extends FeedResource> void feed(T obj, Writer writer);
+    <T extends Feed> void feed(T obj, Writer writer);
 
     /**
      * Writes <tt>EntryResource</tt> object onto the given stream.
@@ -56,7 +56,7 @@ public interface ODataSerializer extends Serializable {
      * @param obj object to be streamed.
      * @param out output stream.
      */
-    <T extends EntryResource> void entry(T obj, OutputStream out);
+    <T extends Entry> void entry(T obj, OutputStream out);
 
     /**
      * Writes <tt>EntryResource</tt> object by the given writer.
@@ -65,7 +65,7 @@ public interface ODataSerializer extends Serializable {
      * @param obj object to be streamed.
      * @param writer writer.
      */
-    <T extends EntryResource> void entry(T obj, Writer writer);
+    <T extends Entry> void entry(T obj, Writer writer);
 
     /**
      * Writes entry content onto the given stream.

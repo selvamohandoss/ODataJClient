@@ -19,26 +19,25 @@
  */
 package com.msopentech.odatajclient.engine.data;
 
-import com.msopentech.odatajclient.engine.data.atom.AtomEntry;
-import com.msopentech.odatajclient.engine.data.atom.AtomFeed;
-import com.msopentech.odatajclient.engine.data.atom.AtomLink;
-import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
-import com.msopentech.odatajclient.engine.data.json.JSONFeed;
-import com.msopentech.odatajclient.engine.data.json.JSONLink;
+import com.msopentech.odatajclient.engine.data.impl.v3.AtomEntry;
+import com.msopentech.odatajclient.engine.data.impl.v3.AtomFeed;
+import com.msopentech.odatajclient.engine.data.impl.v3.AtomLink;
+import com.msopentech.odatajclient.engine.data.impl.v3.JSONEntry;
+import com.msopentech.odatajclient.engine.data.impl.v3.JSONFeed;
+import com.msopentech.odatajclient.engine.data.impl.v3.JSONLink;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 
 public class ResourceFactory {
 
     /**
-     * Gets a new instance of
-     * <code>FeedResource</code>.
+     * Gets a new instance of <tt>Feed</tt>.
      *
      * @param <T> resource type.
      * @param resourceClass reference class.
-     * @return <code>FeedResource</code> object.
+     * @return <tt>Feed</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends FeedResource> T newFeed(final Class<T> resourceClass) {
+    public static <T extends Feed> T newFeed(final Class<T> resourceClass) {
         T result = null;
 
         if (AtomFeed.class.equals(resourceClass)) {
@@ -52,37 +51,35 @@ public class ResourceFactory {
     }
 
     /**
-     * Gets a new instance of
-     * <code>EntryResource</code>.
+     * Gets a new instance of <tt>Entry</tt>.
      *
      * @param <T> resource type.
      * @param resourceClass reference class.
-     * @return <code>EntryResource</code> object.
+     * @return <tt>Entry</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends EntryResource> T newEntry(final Class<T> resourceClass) {
+    public static <T extends Entry> T newEntry(final Class<T> resourceClass) {
         T result = null;
 
         if (AtomEntry.class.equals(resourceClass)) {
             result = (T) new AtomEntry();
         }
-        if (JSONV3Entry.class.equals(resourceClass)) {
-            result = (T) new JSONV3Entry();
+        if (JSONEntry.class.equals(resourceClass)) {
+            result = (T) new JSONEntry();
         }
 
         return result;
     }
 
     /**
-     * Gets a new instance of
-     * <code>LinkResource</code>.
+     * Gets a new instance of <tt>Link</tt>.
      *
      * @param <T> resource type.
      * @param resourceClass reference class.
-     * @return <code>LinkResource</code> object.
+     * @return <tt>Link</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends LinkResource> T newLink(final Class<T> resourceClass) {
+    public static <T extends Link> T newLink(final Class<T> resourceClass) {
         T result = null;
 
         if (AtomLink.class.equals(resourceClass)) {
@@ -103,7 +100,7 @@ public class ResourceFactory {
      * @return resource reference class.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends FeedResource> Class<T> feedClassForFormat(final ODataPubFormat format) {
+    public static <T extends Feed> Class<T> feedClassForFormat(final ODataPubFormat format) {
         Class<T> result = null;
 
         switch (format) {
@@ -129,7 +126,7 @@ public class ResourceFactory {
      * @return resource reference class.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends EntryResource> Class<T> entryClassForFormat(final ODataPubFormat format) {
+    public static <T extends Entry> Class<T> entryClassForFormat(final ODataPubFormat format) {
         Class<T> result = null;
 
         switch (format) {
@@ -140,7 +137,7 @@ public class ResourceFactory {
             case JSON:
             case JSON_FULL_METADATA:
             case JSON_NO_METADATA:
-                result = (Class<T>) JSONV3Entry.class;
+                result = (Class<T>) JSONEntry.class;
                 break;
         }
 
@@ -148,16 +145,15 @@ public class ResourceFactory {
     }
 
     /**
-     * Gets
-     * <code>LinkResource</code> object from feed resource.
+     * Gets <tt>Link</tt> object from feed resource.
      *
      * @param <T> link resource type.
      * @param <K> feed resource type.
      * @param resourceClass feed reference class.
-     * @return <code>LinkResource</code> object.
+     * @return <tt>Link</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends LinkResource, K extends FeedResource> T newLinkForFeed(final Class<K> resourceClass) {
+    public static <T extends Link, K extends Feed> T newLinkForFeed(final Class<K> resourceClass) {
         T result = null;
 
         if (AtomFeed.class.equals(resourceClass)) {
@@ -171,22 +167,21 @@ public class ResourceFactory {
     }
 
     /**
-     * Gets
-     * <code>LinkResource</code> object from entry resource.
+     * Gets <tt>Link</tt> object from entry resource.
      *
      * @param <T> link resource type.
      * @param <K> entry resource type.
      * @param resourceClass entry reference class.
-     * @return <code>LinkResource</code> object.
+     * @return <tt>Link</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends LinkResource, K extends EntryResource> T newLinkForEntry(final Class<K> resourceClass) {
+    public static <T extends Link, K extends Entry> T newLinkForEntry(final Class<K> resourceClass) {
         T result = null;
 
         if (AtomEntry.class.equals(resourceClass)) {
             result = (T) new AtomLink();
         }
-        if (JSONV3Entry.class.equals(resourceClass)) {
+        if (JSONEntry.class.equals(resourceClass)) {
             result = (T) new JSONLink();
         }
 
@@ -194,16 +189,15 @@ public class ResourceFactory {
     }
 
     /**
-     * Gets
-     * <code>FeedResource</code> object from link resource.
+     * Gets <tt>Feed</tt> object from link resource.
      *
      * @param <T> link resource type.
      * @param <K> feed resource type.
      * @param resourceClass link reference class.
-     * @return <code>FeedResource</code> object.
+     * @return <tt>Feed</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends LinkResource, K extends FeedResource> Class<K> feedClassForLink(
+    public static <T extends Link, K extends Feed> Class<K> feedClassForLink(
             final Class<T> resourceClass) {
 
         Class<K> result = null;
@@ -219,16 +213,15 @@ public class ResourceFactory {
     }
 
     /**
-     * Gets
-     * <code>LinkResource</code> object from entry resource.
+     * Gets <tt>Link</tt> object from entry resource.
      *
      * @param <T> link resource type.
      * @param <K> entry resource type.
      * @param resourceClass entry reference class.
-     * @return <code>LinkResource</code> object.
+     * @return <tt>Link</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends LinkResource, K extends EntryResource> Class<T> linkClassForEntry(
+    public static <T extends Link, K extends Entry> Class<T> linkClassForEntry(
             final Class<K> resourceClass) {
 
         Class<T> result = null;
@@ -236,7 +229,7 @@ public class ResourceFactory {
         if (AtomEntry.class.equals(resourceClass)) {
             result = (Class<T>) AtomLink.class;
         }
-        if (JSONV3Entry.class.equals(resourceClass)) {
+        if (JSONEntry.class.equals(resourceClass)) {
             result = (Class<T>) JSONLink.class;
         }
 
@@ -244,50 +237,44 @@ public class ResourceFactory {
     }
 
     /**
-     * Gets
-     * <code>EntryResource</code> object from link resource.
+     * Gets <tt>Entry</tt> object from link resource.
      *
      * @param <T> link resource type.
      * @param <K> entry resource type.
      * @param resourceClass link reference class.
-     * @return <code>EntryResource</code> object.
+     * @return <tt>Entry</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends LinkResource, K extends EntryResource> Class<K> entryClassForLink(
-            final Class<T> resourceClass) {
-
+    public static <T extends Link, K extends Entry> Class<K> entryClassForLink(final Class<T> resourceClass) {
         Class<K> result = null;
 
         if (AtomLink.class.equals(resourceClass)) {
             result = (Class<K>) AtomEntry.class;
         }
         if (JSONLink.class.equals(resourceClass)) {
-            result = (Class<K>) JSONV3Entry.class;
+            result = (Class<K>) JSONEntry.class;
         }
 
         return result;
     }
 
     /**
-     * Gets
-     * <code>EntryResource</code> object from feed resource.
+     * Gets <tt>Entry</tt> object from feed resource.
      *
      * @param <T> feed resource type.
      * @param <K> entry resource type.
      * @param resourceClass feed reference class.
-     * @return <code>EntryResource</code> object.
+     * @return <tt>Entry</tt> object.
      */
     @SuppressWarnings("unchecked")
-    public static <T extends FeedResource, K extends EntryResource> Class<K> entryClassForFeed(
-            final Class<T> resourceClass) {
-
+    public static <T extends Feed, K extends Entry> Class<K> entryClassForFeed(final Class<T> resourceClass) {
         Class<K> result = null;
 
         if (AtomFeed.class.equals(resourceClass)) {
             result = (Class<K>) AtomEntry.class;
         }
         if (JSONFeed.class.equals(resourceClass)) {
-            result = (Class<K>) JSONV3Entry.class;
+            result = (Class<K>) JSONEntry.class;
         }
 
         return result;

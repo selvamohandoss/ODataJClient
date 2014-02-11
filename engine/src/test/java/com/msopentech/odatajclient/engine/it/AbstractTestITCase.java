@@ -47,13 +47,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.msopentech.odatajclient.engine.data.EntryResource;
-import com.msopentech.odatajclient.engine.data.FeedResource;
+import com.msopentech.odatajclient.engine.data.Entry;
+import com.msopentech.odatajclient.engine.data.Feed;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataInlineEntity;
 import com.msopentech.odatajclient.engine.data.ODataLink;
-import com.msopentech.odatajclient.engine.data.atom.AtomEntry;
-import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
+import com.msopentech.odatajclient.engine.data.impl.v3.AtomEntry;
+import com.msopentech.odatajclient.engine.data.impl.v3.JSONEntry;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
 import com.msopentech.odatajclient.engine.data.ODataInlineEntitySet;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
@@ -332,7 +332,7 @@ public abstract class AbstractTestITCase {
         return entity;
     }
 
-    protected void debugEntry(final EntryResource entry, final String message) {
+    protected void debugEntry(final Entry entry, final String message) {
         if (LOG.isDebugEnabled()) {
             final StringWriter writer = new StringWriter();
             client.getSerializer().entry(entry, writer);
@@ -341,7 +341,7 @@ public abstract class AbstractTestITCase {
         }
     }
 
-    protected void debugFeed(final FeedResource feed, final String message) {
+    protected void debugFeed(final Feed feed, final String message) {
         if (LOG.isDebugEnabled()) {
             final StringWriter writer = new StringWriter();
             client.getSerializer().feed(feed, writer);
@@ -366,7 +366,7 @@ public abstract class AbstractTestITCase {
             LOG.debug(message + " (Atom)\n{}", writer.toString());
 
             writer = new StringWriter();
-            client.getSerializer().entry(client.getBinder().getEntry(entity, JSONV3Entry.class), writer);
+            client.getSerializer().entry(client.getBinder().getEntry(entity, JSONEntry.class), writer);
             writer.flush();
             LOG.debug(message + " (JSON)\n{}", writer.toString());
         }

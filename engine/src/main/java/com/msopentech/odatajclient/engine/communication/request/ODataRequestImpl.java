@@ -32,8 +32,8 @@ import com.msopentech.odatajclient.engine.communication.request.invoke.InvokeReq
 import com.msopentech.odatajclient.engine.communication.request.streamed.StreamedRequestFactory;
 import com.msopentech.odatajclient.engine.communication.response.ODataResponse;
 import com.msopentech.odatajclient.engine.data.ODataError;
-import com.msopentech.odatajclient.engine.data.json.error.JSONODataError;
-import com.msopentech.odatajclient.engine.data.xml.XMLODataError;
+import com.msopentech.odatajclient.engine.data.impl.v3.JSONODataError;
+import com.msopentech.odatajclient.engine.data.impl.v3.XMLODataError;
 import com.msopentech.odatajclient.engine.format.ODataMediaFormat;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.format.ODataValueFormat;

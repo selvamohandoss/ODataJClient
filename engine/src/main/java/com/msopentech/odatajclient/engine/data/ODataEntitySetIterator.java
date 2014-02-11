@@ -20,8 +20,8 @@
 package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
-import com.msopentech.odatajclient.engine.data.atom.AtomEntry;
-import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
+import com.msopentech.odatajclient.engine.data.impl.v3.AtomEntry;
+import com.msopentech.odatajclient.engine.data.impl.v3.JSONEntry;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
 import java.io.ByteArrayInputStream;
@@ -55,7 +55,7 @@ public class ODataEntitySetIterator implements Iterator<ODataEntity> {
 
     private final ODataPubFormat format;
 
-    private EntryResource cached;
+    private Entry cached;
 
     private ODataEntitySet entitySet;
 
@@ -174,10 +174,10 @@ public class ODataEntitySetIterator implements Iterator<ODataEntity> {
         super.finalize();
     }
 
-    private JSONV3Entry nextJsonEntryFromFeed(final InputStream input, final OutputStream osFeed) {
+    private JSONEntry nextJsonEntryFromFeed(final InputStream input, final OutputStream osFeed) {
         final ByteArrayOutputStream entry = new ByteArrayOutputStream();
 
-        JSONV3Entry entity = null;
+        JSONEntry entity = null;
         try {
             int c = 0;
 
@@ -212,7 +212,7 @@ public class ODataEntitySetIterator implements Iterator<ODataEntity> {
 
                 if (c >= 0) {
                     entity = odataClient.getDeserializer().toEntry(
-                            new ByteArrayInputStream(entry.toByteArray()), JSONV3Entry.class);
+                            new ByteArrayInputStream(entry.toByteArray()), JSONEntry.class);
                 }
             } else {
                 while ((c = input.read()) >= 0) {

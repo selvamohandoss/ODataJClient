@@ -34,8 +34,8 @@ import com.msopentech.odatajclient.engine.data.ODataCollectionValue;
 import com.msopentech.odatajclient.engine.data.ODataComplexValue;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ResourceFactory;
-import com.msopentech.odatajclient.engine.data.atom.AtomEntry;
-import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
+import com.msopentech.odatajclient.engine.data.impl.v3.AtomEntry;
+import com.msopentech.odatajclient.engine.data.impl.v3.JSONEntry;
 import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import java.io.IOException;
@@ -316,7 +316,7 @@ public class BasicPerfTest extends AbstractTest {
     public void writeJSONViaOdataJClient() throws IOException {
         final StringWriter writer = new StringWriter();
         getClient().getSerializer().entry(
-                getClient().getBinder().getEntry(sampleODataEntity(), JSONV3Entry.class, true), writer);
+                getClient().getBinder().getEntry(sampleODataEntity(), JSONEntry.class, true), writer);
         assertFalse(writer.toString().isEmpty());
     }
 }

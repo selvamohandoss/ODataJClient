@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class ODataServiceDocument {
 
-    private final Map<String, URI> toplevelEntitySets = new HashMap<String, URI>();
+    private final Map<String, URI> tlEntitySets = new HashMap<String, URI>();
 
     /**
      * Add entity set.
@@ -38,7 +38,7 @@ public class ODataServiceDocument {
      * @param uri URI.
      */
     public void addEntitySet(final String name, final URI uri) {
-        toplevelEntitySets.put(name, uri);
+        tlEntitySets.put(name, uri);
     }
 
     /**
@@ -47,7 +47,7 @@ public class ODataServiceDocument {
      * @param name name.
      */
     public void removeEntitySet(final String name) {
-        toplevelEntitySets.remove(name);
+        tlEntitySets.remove(name);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ODataServiceDocument {
      * @return entity set names.
      */
     public Collection<String> getEntitySetNames() {
-        return toplevelEntitySets.keySet();
+        return tlEntitySets.keySet();
     }
 
     /**
@@ -65,7 +65,7 @@ public class ODataServiceDocument {
      * @return entity set URIs.
      */
     public Collection<URI> getEntitySetURIs() {
-        return toplevelEntitySets.values();
+        return tlEntitySets.values();
     }
 
     /**
@@ -75,7 +75,7 @@ public class ODataServiceDocument {
      * @return URI.
      */
     public URI getEntitySetURI(final String name) {
-        return toplevelEntitySets.get(name);
+        return tlEntitySets.get(name);
     }
 
     /**
@@ -84,6 +84,6 @@ public class ODataServiceDocument {
      * @return number of all top level entity sets.
      */
     public int count() {
-        return toplevelEntitySets.size();
+        return tlEntitySets.size();
     }
 }

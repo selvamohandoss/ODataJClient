@@ -33,6 +33,15 @@ public interface ODataDeserializer extends Serializable {
     AbstractEdmx<?, ?, ?, ?, ?, ?> toMetadata(InputStream input);
 
     /**
+     * Gets the ServiceDocumentResource object represented by the given InputStream.
+     *
+     * @param input stream to be de-serialized.
+     * @param format OData service document format.
+     * @return ServiceDocumentResource object.
+     */
+    V3ServiceDocument toServiceDocument(InputStream input, ODataFormat format);
+
+    /**
      * Gets a feed object from the given InputStream.
      *
      * @param <T> reference class type
@@ -40,7 +49,7 @@ public interface ODataDeserializer extends Serializable {
      * @param reference reference class (AtomFeed.class, JSONFeed.class).
      * @return FeedResource instance.
      */
-    <T extends FeedResource> T toFeed(InputStream input, Class<T> reference);
+    <T extends Feed> T toFeed(InputStream input, Class<T> reference);
 
     /**
      * Gets an entry object from the given InputStream.
@@ -50,7 +59,7 @@ public interface ODataDeserializer extends Serializable {
      * @param reference reference class (AtomEntry.class, JSONV3Entry.class).
      * @return EntryResource instance.
      */
-    <T extends EntryResource> T toEntry(InputStream input, Class<T> reference);
+    <T extends Entry> T toEntry(InputStream input, Class<T> reference);
 
     /**
      * Gets a DOM representation of the given InputStream.
@@ -62,22 +71,13 @@ public interface ODataDeserializer extends Serializable {
     Element toPropertyDOM(InputStream input, ODataFormat format);
 
     /**
-     * Gets the ServiceDocumentResource object represented by the given InputStream.
-     *
-     * @param input stream to be de-serialized.
-     * @param format OData service document format.
-     * @return ServiceDocumentResource object.
-     */
-    ServiceDocumentResource toServiceDocument(InputStream input, ODataFormat format);
-
-    /**
      * Gets a list of links from the given InputStream.
      *
      * @param input stream to be de-serialized.
      * @param format OData format.
      * @return de-serialized links.
      */
-    LinkCollectionResource toLinkCollection(InputStream input, ODataFormat format);
+    LinkCollection toLinkCollection(InputStream input, ODataFormat format);
 
     /**
      * Gets the ODataError object represented by the given InputStream.

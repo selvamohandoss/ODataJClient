@@ -47,7 +47,7 @@ public class V3JSONServiceDocumentTest extends AbstractTest {
     public void parse() {
         final ODataServiceDocument serviceDocument = getClient().getReader().readServiceDocument(
                 getClass().getResourceAsStream("serviceDocument." + getFileExtension()), getFormat());
-        assertNotNull(serviceDocument);        
+        assertNotNull(serviceDocument);
         assertTrue(serviceDocument.getEntitySetNames().contains("Persons"));
     }
 }

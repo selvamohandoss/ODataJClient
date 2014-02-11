@@ -25,12 +25,12 @@ import com.msopentech.odatajclient.engine.communication.request.cud.V3CUDRequest
 import com.msopentech.odatajclient.engine.communication.request.invoke.V3InvokeRequestFactory;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.V3RetrieveRequestFactory;
 import com.msopentech.odatajclient.engine.communication.request.streamed.V3StreamedRequestFactory;
-import com.msopentech.odatajclient.engine.data.ODataV3Binder;
-import com.msopentech.odatajclient.engine.data.ODataV3Reader;
-import com.msopentech.odatajclient.engine.data.ODataV3Writer;
-import com.msopentech.odatajclient.engine.data.ODataV3Deserializer;
-import com.msopentech.odatajclient.engine.data.ODataV3ObjectFactory;
-import com.msopentech.odatajclient.engine.data.ODataV3Serializer;
+import com.msopentech.odatajclient.engine.data.impl.v3.ODataBinderImpl;
+import com.msopentech.odatajclient.engine.data.impl.v3.ODataReaderImpl;
+import com.msopentech.odatajclient.engine.data.impl.v3.ODataWriterImpl;
+import com.msopentech.odatajclient.engine.data.impl.v3.ODataDeserializerImpl;
+import com.msopentech.odatajclient.engine.data.impl.v3.ODataObjectFactoryImpl;
+import com.msopentech.odatajclient.engine.data.impl.v3.ODataSerializerImpl;
 import com.msopentech.odatajclient.engine.uri.V3URIBuilder;
 import com.msopentech.odatajclient.engine.uri.filter.V3FilterFactory;
 import com.msopentech.odatajclient.engine.utils.ODataVersion;
@@ -43,17 +43,17 @@ public class ODataV3Client extends AbstractODataClient {
 
     private final V3FilterFactory filterFactory = new V3FilterFactory();
 
-    private final ODataV3Deserializer deserializer = new ODataV3Deserializer(this);
+    private final ODataDeserializerImpl deserializer = new ODataDeserializerImpl(this);
 
-    private final ODataV3Serializer serializer = new ODataV3Serializer(this);
+    private final ODataSerializerImpl serializer = new ODataSerializerImpl(this);
 
-    private final ODataV3Reader reader = new ODataV3Reader(this);
+    private final ODataReaderImpl reader = new ODataReaderImpl(this);
 
-    private final ODataV3Writer writer = new ODataV3Writer(this);
+    private final ODataWriterImpl writer = new ODataWriterImpl(this);
 
-    private final ODataV3Binder binder = new ODataV3Binder(this);
+    private final ODataBinderImpl binder = new ODataBinderImpl(this);
 
-    private final ODataV3ObjectFactory objectFactory = new ODataV3ObjectFactory(this);
+    private final ODataObjectFactoryImpl objectFactory = new ODataObjectFactoryImpl(this);
 
     private final V3RetrieveRequestFactory retrieveReqFact = new V3RetrieveRequestFactory(this);
 
@@ -95,32 +95,32 @@ public class ODataV3Client extends AbstractODataClient {
     }
 
     @Override
-    public ODataV3Deserializer getDeserializer() {
+    public ODataDeserializerImpl getDeserializer() {
         return deserializer;
     }
 
     @Override
-    public ODataV3Serializer getSerializer() {
+    public ODataSerializerImpl getSerializer() {
         return serializer;
     }
 
     @Override
-    public ODataV3Reader getReader() {
+    public ODataReaderImpl getReader() {
         return reader;
     }
 
     @Override
-    public ODataV3Writer getWriter() {
+    public ODataWriterImpl getWriter() {
         return writer;
     }
 
     @Override
-    public ODataV3Binder getBinder() {
+    public ODataBinderImpl getBinder() {
         return binder;
     }
 
     @Override
-    public ODataV3ObjectFactory getObjectFactory() {
+    public ODataObjectFactoryImpl getObjectFactory() {
         return objectFactory;
     }
 

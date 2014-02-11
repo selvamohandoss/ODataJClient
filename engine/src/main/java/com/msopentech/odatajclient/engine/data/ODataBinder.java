@@ -33,7 +33,7 @@ public interface ODataBinder extends Serializable {
      * @param reference reference class.
      * @return <tt>FeedResource</tt> object.
      */
-    <T extends FeedResource> T getFeed(ODataEntitySet feed, Class<T> reference);
+    <T extends Feed> T getFeed(ODataEntitySet feed, Class<T> reference);
 
     /**
      * Gets an <tt>EntryResource</tt> from the given OData entity.
@@ -43,7 +43,7 @@ public interface ODataBinder extends Serializable {
      * @param reference reference class.
      * @return <tt>EntryResource</tt> object.
      */
-    <T extends EntryResource> T getEntry(ODataEntity entity, Class<T> reference);
+    <T extends Entry> T getEntry(ODataEntity entity, Class<T> reference);
 
     /**
      * Gets an <tt>EntryResource</tt> from the given OData entity.
@@ -54,7 +54,7 @@ public interface ODataBinder extends Serializable {
      * @param setType whether to explicitly output type information.
      * @return <tt>EntryResource</tt> object.
      */
-    <T extends EntryResource> T getEntry(ODataEntity entity, Class<T> reference, boolean setType);
+    <T extends Entry> T getEntry(ODataEntity entity, Class<T> reference, boolean setType);
 
     /**
      * Gets the given OData property as DOM element.
@@ -64,7 +64,7 @@ public interface ODataBinder extends Serializable {
      */
     Element toDOMElement(ODataProperty prop);
 
-    ODataLinkCollection getLinkCollection(LinkCollectionResource linkCollection);
+    ODataLinkCollection getLinkCollection(LinkCollection linkCollection);
 
     /**
      * Gets <tt>ODataServiceDocument</tt> from the given service document resource.
@@ -72,7 +72,7 @@ public interface ODataBinder extends Serializable {
      * @param resource service document resource.
      * @return <tt>ODataServiceDocument</tt> object.
      */
-    ODataServiceDocument getODataServiceDocument(ServiceDocumentResource resource);
+    ODataServiceDocument getODataServiceDocument(V3ServiceDocument resource);
 
     /**
      * Gets <tt>ODataEntitySet</tt> from the given feed resource.
@@ -80,7 +80,7 @@ public interface ODataBinder extends Serializable {
      * @param resource feed resource.
      * @return <tt>ODataEntitySet</tt> object.
      */
-    ODataEntitySet getODataEntitySet(FeedResource resource);
+    ODataEntitySet getODataEntitySet(Feed resource);
 
     /**
      * Gets <tt>ODataEntitySet</tt> from the given feed resource.
@@ -89,7 +89,7 @@ public interface ODataBinder extends Serializable {
      * @param defaultBaseURI default base URI.
      * @return <tt>ODataEntitySet</tt> object.
      */
-    ODataEntitySet getODataEntitySet(FeedResource resource, URI defaultBaseURI);
+    ODataEntitySet getODataEntitySet(Feed resource, URI defaultBaseURI);
 
     /**
      * Gets <tt>ODataEntity</tt> from the given entry resource.
@@ -97,7 +97,7 @@ public interface ODataBinder extends Serializable {
      * @param resource entry resource.
      * @return <tt>ODataEntity</tt> object.
      */
-    ODataEntity getODataEntity(EntryResource resource);
+    ODataEntity getODataEntity(Entry resource);
 
     /**
      * Gets <tt>ODataEntity</tt> from the given entry resource.
@@ -106,7 +106,7 @@ public interface ODataBinder extends Serializable {
      * @param defaultBaseURI default base URI.
      * @return <tt>ODataEntity</tt> object.
      */
-    ODataEntity getODataEntity(EntryResource resource, URI defaultBaseURI);
+    ODataEntity getODataEntity(Entry resource, URI defaultBaseURI);
 
     /**
      * Gets a <tt>LinkResource</tt> from the given OData link.
@@ -117,7 +117,7 @@ public interface ODataBinder extends Serializable {
      * @return <tt>LinkResource</tt> object.
      */
     @SuppressWarnings("unchecked")
-    <T extends LinkResource> T getLinkResource(ODataLink link, Class<T> reference);
+    <T extends Link> T getLinkResource(ODataLink link, Class<T> reference);
 
     /**
      * Gets an <tt>ODataProperty</tt> from the given DOM element.
