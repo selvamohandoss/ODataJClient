@@ -29,6 +29,7 @@ import com.msopentech.odatajclient.engine.data.ODataV3Binder;
 import com.msopentech.odatajclient.engine.data.ODataV3Reader;
 import com.msopentech.odatajclient.engine.data.ODataV3Writer;
 import com.msopentech.odatajclient.engine.data.ODataV3Deserializer;
+import com.msopentech.odatajclient.engine.data.ODataV3ObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataV3Serializer;
 import com.msopentech.odatajclient.engine.uri.V3URIBuilder;
 import com.msopentech.odatajclient.engine.uri.filter.V3FilterFactory;
@@ -51,6 +52,8 @@ public class ODataV3Client extends AbstractODataClient {
     private final ODataV3Writer writer = new ODataV3Writer(this);
 
     private final ODataV3Binder binder = new ODataV3Binder(this);
+
+    private final ODataV3ObjectFactory objectFactory = new ODataV3ObjectFactory(this);
 
     private final V3RetrieveRequestFactory retrieveReqFact = new V3RetrieveRequestFactory(this);
 
@@ -114,6 +117,11 @@ public class ODataV3Client extends AbstractODataClient {
     @Override
     public ODataV3Binder getBinder() {
         return binder;
+    }
+
+    @Override
+    public ODataV3ObjectFactory getObjectFactory() {
+        return objectFactory;
     }
 
     @Override

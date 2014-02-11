@@ -19,8 +19,8 @@
  */
 package com.msopentech.odatajclient.engine.utils;
 
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

@@ -19,9 +19,9 @@
  */
 package com.msopentech.odatajclient.engine.utils;
 
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractSchema;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.AssociationSet;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractSchema;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.AssociationSet;
 
 /**
  * Association set binding details bean.

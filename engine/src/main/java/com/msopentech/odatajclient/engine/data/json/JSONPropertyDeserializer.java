@@ -25,7 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
 import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.io.IOException;

@@ -19,6 +19,7 @@
  */
 package com.msopentech.odatajclient.engine;
 
+import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.client.ODataClientFactory;
 import com.msopentech.odatajclient.engine.client.ODataV3Client;
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
@@ -32,6 +33,8 @@ public abstract class AbstractTest {
     protected static ODataV3Client v3Client;
 
     protected static ODataV4Client v4Client;
+
+    protected abstract ODataClient getClient();
 
     /**
      * This is needed for correct number handling (Double, for example).

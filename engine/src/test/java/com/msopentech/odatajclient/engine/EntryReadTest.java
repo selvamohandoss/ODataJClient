@@ -19,7 +19,6 @@
  */
 package com.msopentech.odatajclient.engine;
 
-import static com.msopentech.odatajclient.engine.AbstractTest.v3Client;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +37,8 @@ import org.w3c.dom.Node;
 
 public class EntryReadTest extends AbstractTest {
 
-    private ODataV3Client getClient() {
+    @Override
+    protected ODataV3Client getClient() {
         return v3Client;
     }
 

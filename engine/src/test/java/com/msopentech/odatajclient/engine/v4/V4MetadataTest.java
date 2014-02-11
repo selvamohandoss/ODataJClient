@@ -25,32 +25,32 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.msopentech.odatajclient.engine.AbstractMetadataTest;
+import com.msopentech.odatajclient.engine.AbstractTest;
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV4Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV4Type;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.StoreGeneratedPattern;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Action;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Annotation;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Annotations;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.ComplexType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EntitySet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EntityType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EnumType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Function;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.FunctionImport;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Schema;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Singleton;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.Apply;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.Collection;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.ConstExprConstruct;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.annotation.Path;
+import com.msopentech.odatajclient.engine.metadata.EdmV4Metadata;
+import com.msopentech.odatajclient.engine.metadata.EdmV4Type;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.StoreGeneratedPattern;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Action;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Annotation;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Annotations;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.ComplexType;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.EntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.EntitySet;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.EntityType;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.EnumType;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Function;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.FunctionImport;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Schema;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Singleton;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.annotation.Apply;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.annotation.Collection;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.annotation.ConstExprConstruct;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.annotation.Path;
 import java.util.List;
 import org.junit.Test;
 
-public class V4MetadataTest extends AbstractMetadataTest {
+public class V4MetadataTest extends AbstractTest {
 
     @Override
     protected ODataV4Client getClient() {

@@ -19,7 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.data;
 
-import com.msopentech.odatajclient.engine.data.metadata.AbstractEdmMetadata;
+import com.msopentech.odatajclient.engine.metadata.AbstractEdmMetadata;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.format.ODataFormat;
 import java.io.InputStream;

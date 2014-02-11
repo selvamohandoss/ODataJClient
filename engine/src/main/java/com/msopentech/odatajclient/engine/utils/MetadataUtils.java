@@ -19,17 +19,17 @@
  */
 package com.msopentech.odatajclient.engine.utils;
 
-import com.msopentech.odatajclient.engine.data.metadata.AbstractEdmMetadata;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntitySet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractSchema;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Association;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.AssociationSet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.AssociationSetEnd;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.NavigationPropertyBinding;
+import com.msopentech.odatajclient.engine.metadata.AbstractEdmMetadata;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntitySet;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractSchema;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.Association;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.AssociationSet;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.AssociationSetEnd;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.EntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.Schema;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.NavigationPropertyBinding;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

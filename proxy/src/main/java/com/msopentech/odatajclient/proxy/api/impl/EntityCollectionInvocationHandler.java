@@ -71,10 +71,10 @@ public class EntityCollectionInvocationHandler<T extends Serializable>
                 throw new IllegalStateException("This entity collection has not yet been flushed");
             }
 
-            final com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer container =
+            final com.msopentech.odatajclient.engine.metadata.edm.v3.EntityContainer container =
                     containerHandler.getFactory().getMetadata().getSchema(ClassUtils.getNamespace(itemRef)).
                     getEntityContainer(entityContainerName);
-            final com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport funcImp =
+            final com.msopentech.odatajclient.engine.metadata.edm.v3.FunctionImport funcImp =
                     container.getFunctionImport(((Operation) methodAnnots[0]).name());
 
             return functionImport((Operation) methodAnnots[0], method, args,

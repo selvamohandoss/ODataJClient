@@ -28,13 +28,13 @@ import com.msopentech.odatajclient.engine.communication.request.cud.ODataEntityC
 import com.msopentech.odatajclient.engine.communication.request.cud.ODataEntityUpdateRequest;
 import com.msopentech.odatajclient.engine.communication.response.ODataEntityCreateResponse;
 import com.msopentech.odatajclient.engine.communication.response.ODataEntityUpdateResponse;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.GeospatialCollection;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.LineString;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiLineString;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiPoint;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiPolygon;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Polygon;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.GeospatialCollection;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.LineString;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiLineString;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiPoint;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiPolygon;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +42,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Point;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Point;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 

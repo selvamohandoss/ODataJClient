@@ -38,7 +38,7 @@ public class JSONServiceDocument extends AbstractPayloadObject implements Servic
     /**
      * Static representation of a top-level entity set.
      */
-    static class JSONToplevelEntitySet extends AbstractPayloadObject {
+    public static class JSONToplevelEntitySet extends AbstractPayloadObject {
 
         private static final long serialVersionUID = -972079849037041158L;
 

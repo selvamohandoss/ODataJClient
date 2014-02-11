@@ -19,10 +19,10 @@
  */
 package com.msopentech.odatajclient.engine.utils;
 
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntitySet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractNavigationProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractSchema;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntitySet;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractNavigationProperty;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractSchema;
 
 /**
  * Navigation property binding details bean.

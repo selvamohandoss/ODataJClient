@@ -20,15 +20,15 @@
 package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.GeospatialCollection;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.LineString;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiLineString;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiPoint;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiPolygon;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Point;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Polygon;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.GeospatialCollection;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.LineString;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiLineString;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiPoint;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiPolygon;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Point;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Polygon;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
 import com.msopentech.odatajclient.engine.utils.XMLUtils;
 import java.io.StringWriter;

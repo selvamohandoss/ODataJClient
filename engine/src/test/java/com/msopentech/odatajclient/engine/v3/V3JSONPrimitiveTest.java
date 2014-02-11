@@ -20,10 +20,10 @@
 package com.msopentech.odatajclient.engine;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial.Dimension;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Point;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial.Dimension;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Point;
 import com.msopentech.odatajclient.engine.format.ODataFormat;
 import java.math.BigDecimal;
 import java.util.ArrayList;

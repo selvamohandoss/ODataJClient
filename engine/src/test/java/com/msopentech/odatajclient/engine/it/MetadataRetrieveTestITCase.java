@@ -28,11 +28,11 @@ import org.junit.Test;
 import com.msopentech.odatajclient.engine.communication.ODataClientErrorException;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataV3MetadataRequest;
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
-import com.msopentech.odatajclient.engine.data.metadata.EdmType;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Type;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityType;
+import com.msopentech.odatajclient.engine.metadata.EdmType;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Type;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntityType;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.EntityType;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 
 public class MetadataRetrieveTestITCase extends AbstractTestITCase {

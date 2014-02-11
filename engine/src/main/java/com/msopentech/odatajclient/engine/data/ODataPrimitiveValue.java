@@ -20,7 +20,7 @@
 package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.sql.Timestamp;

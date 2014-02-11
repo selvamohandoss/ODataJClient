@@ -19,21 +19,21 @@
  */
 package com.msopentech.odatajclient.plugin;
 
-import com.msopentech.odatajclient.engine.data.metadata.AbstractEdmMetadata;
-import com.msopentech.odatajclient.engine.data.metadata.EdmType;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV4Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV4Type;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntitySet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractNavigationProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractSchema;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Action;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EntitySet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Function;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.NavigationProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.NavigationPropertyBinding;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Schema;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Singleton;
+import com.msopentech.odatajclient.engine.metadata.AbstractEdmMetadata;
+import com.msopentech.odatajclient.engine.metadata.EdmType;
+import com.msopentech.odatajclient.engine.metadata.EdmV4Metadata;
+import com.msopentech.odatajclient.engine.metadata.EdmV4Type;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntitySet;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractNavigationProperty;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractSchema;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Action;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.EntitySet;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Function;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.NavigationProperty;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.NavigationPropertyBinding;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Schema;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Singleton;
 import com.msopentech.odatajclient.engine.utils.MetadataUtils;
 import com.msopentech.odatajclient.engine.utils.NavigationPropertyBindingDetails;
 import com.msopentech.odatajclient.engine.utils.QualifiedName;

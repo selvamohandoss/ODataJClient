@@ -32,7 +32,8 @@ import org.junit.Test;
 
 public class EntitySetTest extends AbstractTest {
 
-    private ODataV3Client getClient() {
+    @Override
+    protected ODataV3Client getClient() {
         return v3Client;
     }
 

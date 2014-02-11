@@ -22,7 +22,7 @@ package com.msopentech.odatajclient.engine.it.v3;
 import static org.junit.Assert.assertNotNull;
 import com.msopentech.odatajclient.engine.client.ODataClientFactory;
 import com.msopentech.odatajclient.engine.client.ODataV3Client;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
 import com.msopentech.odatajclient.engine.it.AbstractMetadataTestITCase;
 import org.junit.Test;
 

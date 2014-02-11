@@ -20,6 +20,7 @@
 package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
+import com.msopentech.odatajclient.engine.data.AbstractODataSerializer;
 
 public class ODataV4Serializer extends AbstractODataSerializer {
 

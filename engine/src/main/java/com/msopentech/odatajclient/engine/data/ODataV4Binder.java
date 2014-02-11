@@ -20,8 +20,9 @@
 package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
-import com.msopentech.odatajclient.engine.data.metadata.EdmType;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV4Type;
+import com.msopentech.odatajclient.engine.data.AbstractODataBinder;
+import com.msopentech.odatajclient.engine.metadata.EdmType;
+import com.msopentech.odatajclient.engine.metadata.EdmV4Type;
 
 public class ODataV4Binder extends AbstractODataBinder {
 

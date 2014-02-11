@@ -21,7 +21,7 @@ package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.ODataProperty.PropertyType;
-import com.msopentech.odatajclient.engine.data.metadata.EdmType;
+import com.msopentech.odatajclient.engine.metadata.EdmType;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
 import com.msopentech.odatajclient.engine.utils.ODataVersion;
 import com.msopentech.odatajclient.engine.utils.URIUtils;

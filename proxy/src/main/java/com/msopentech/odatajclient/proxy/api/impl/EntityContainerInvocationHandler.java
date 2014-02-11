@@ -104,9 +104,9 @@ public class EntityContainerInvocationHandler extends AbstractInvocationHandler 
                         EntitySetInvocationHandler.getInstance(returnType, this));
             } // 2. invoke function imports
             else if (methodAnnots[0] instanceof Operation) {
-                final com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer container =
+                final com.msopentech.odatajclient.engine.metadata.edm.v3.EntityContainer container =
                         getFactory().getMetadata().getSchema(schemaName).getEntityContainer(entityContainerName);
-                final com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport funcImp =
+                final com.msopentech.odatajclient.engine.metadata.edm.v3.FunctionImport funcImp =
                         container.getFunctionImport(((Operation) methodAnnots[0]).name());
 
                 final URIBuilder uriBuilder = client.getURIBuilder(factory.getServiceRoot()).

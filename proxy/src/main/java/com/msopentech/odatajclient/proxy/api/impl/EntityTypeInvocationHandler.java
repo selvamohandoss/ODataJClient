@@ -216,10 +216,10 @@ public class EntityTypeInvocationHandler extends AbstractInvocationHandler {
                         "Could not find any FunctionImport named " + ((Operation) methodAnnots[0]).name());
             }
 
-            final com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer container =
+            final com.msopentech.odatajclient.engine.metadata.edm.v3.EntityContainer container =
                     containerHandler.getFactory().getMetadata().getSchema(ClassUtils.getNamespace(typeRef)).
                     getEntityContainer(entityContainerName);
-            final com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport funcImp =
+            final com.msopentech.odatajclient.engine.metadata.edm.v3.FunctionImport funcImp =
                     container.getFunctionImport(((Operation) methodAnnots[0]).name());
 
             return functionImport((Operation) methodAnnots[0], method, args,

@@ -19,7 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.data;
 
-import com.msopentech.odatajclient.engine.client.ODataClient;
+import java.io.Serializable;
 import java.net.URI;
 
 /**
@@ -30,22 +30,14 @@ import java.net.URI;
  * @see ODataProperty
  * @see ODataLink
  */
-public class ODataObjectFactory {
-
-    private final ODataClient client;
-
-    public ODataObjectFactory(final ODataClient client) {
-        this.client = client;
-    }
+public interface ODataObjectFactory extends Serializable {
 
     /**
      * Instantiates a new entity set.
      *
      * @return entity set.
      */
-    public ODataEntitySet newEntitySet() {
-        return new ODataEntitySet();
-    }
+    ODataEntitySet newEntitySet();
 
     /**
      * Instantiates a new entity set.
@@ -53,9 +45,7 @@ public class ODataObjectFactory {
      * @param next next link.
      * @return entity set.
      */
-    public ODataEntitySet newEntitySet(final URI next) {
-        return new ODataEntitySet(next);
-    }
+    ODataEntitySet newEntitySet(URI next);
 
     /**
      * Instantiates a new entity.
@@ -63,9 +53,7 @@ public class ODataObjectFactory {
      * @param name OData entity name.
      * @return entity.
      */
-    public ODataEntity newEntity(final String name) {
-        return new ODataEntity(name);
-    }
+    ODataEntity newEntity(String name);
 
     /**
      * Instantiates a new entity.
@@ -74,11 +62,7 @@ public class ODataObjectFactory {
      * @param link self link.
      * @return entity.
      */
-    public ODataEntity newEntity(final String name, final URI link) {
-        final ODataEntity result = new ODataEntity(name);
-        result.setLink(link);
-        return result;
-    }
+    ODataEntity newEntity(String name, URI link);
 
     /**
      * Instantiates a new in-line entity set.
@@ -88,11 +72,7 @@ public class ODataObjectFactory {
      * @param entitySet entity set.
      * @return in-line entity set.
      */
-    public ODataInlineEntitySet newInlineEntitySet(final String name, final URI link,
-            final ODataEntitySet entitySet) {
-
-        return new ODataInlineEntitySet(client, link, ODataLinkType.ENTITY_SET_NAVIGATION, name, entitySet);
-    }
+    ODataInlineEntitySet newInlineEntitySet(String name, URI link, ODataEntitySet entitySet);
 
     /**
      * Instantiates a new in-line entity set.
@@ -103,11 +83,7 @@ public class ODataObjectFactory {
      * @param entitySet entity set.
      * @return in-line entity set.
      */
-    public ODataInlineEntitySet newInlineEntitySet(final String name, final URI baseURI, final String href,
-            final ODataEntitySet entitySet) {
-
-        return new ODataInlineEntitySet(client, baseURI, href, ODataLinkType.ENTITY_SET_NAVIGATION, name, entitySet);
-    }
+    ODataInlineEntitySet newInlineEntitySet(String name, URI baseURI, String href, ODataEntitySet entitySet);
 
     /**
      * Instantiates a new in-line entity.
@@ -117,9 +93,7 @@ public class ODataObjectFactory {
      * @param entity entity.
      * @return in-line entity.
      */
-    public ODataInlineEntity newInlineEntity(final String name, final URI link, final ODataEntity entity) {
-        return new ODataInlineEntity(client, link, ODataLinkType.ENTITY_NAVIGATION, name, entity);
-    }
+    ODataInlineEntity newInlineEntity(String name, URI link, ODataEntity entity);
 
     /**
      * Instantiates a new in-line entity.
@@ -130,11 +104,7 @@ public class ODataObjectFactory {
      * @param entity entity.
      * @return in-line entity.
      */
-    public ODataInlineEntity newInlineEntity(final String name, final URI baseURI, final String href,
-            final ODataEntity entity) {
-
-        return new ODataInlineEntity(client, baseURI, href, ODataLinkType.ENTITY_NAVIGATION, name, entity);
-    }
+    ODataInlineEntity newInlineEntity(String name, URI baseURI, String href, ODataEntity entity);
 
     /**
      * Instantiates a new entity navigation link.
@@ -143,9 +113,7 @@ public class ODataObjectFactory {
      * @param link link.
      * @return entity navigation link.
      */
-    public ODataLink newEntityNavigationLink(final String name, final URI link) {
-        return new ODataLink(client, link, ODataLinkType.ENTITY_NAVIGATION, name);
-    }
+    ODataLink newEntityNavigationLink(String name, URI link);
 
     /**
      * Instantiates a new entity navigation link.
@@ -155,9 +123,7 @@ public class ODataObjectFactory {
      * @param href href.
      * @return entity navigation link.
      */
-    public ODataLink newEntityNavigationLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(client, baseURI, href, ODataLinkType.ENTITY_NAVIGATION, name);
-    }
+    ODataLink newEntityNavigationLink(String name, URI baseURI, String href);
 
     /**
      * Instantiates a new entity set navigation link.
@@ -166,9 +132,7 @@ public class ODataObjectFactory {
      * @param link link.
      * @return entity set navigation link.
      */
-    public ODataLink newFeedNavigationLink(final String name, final URI link) {
-        return new ODataLink(client, link, ODataLinkType.ENTITY_SET_NAVIGATION, name);
-    }
+    ODataLink newFeedNavigationLink(String name, URI link);
 
     /**
      * Instantiates a new entity set navigation link.
@@ -178,9 +142,7 @@ public class ODataObjectFactory {
      * @param href href.
      * @return entity set navigation link.
      */
-    public ODataLink newFeedNavigationLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(client, baseURI, href, ODataLinkType.ENTITY_SET_NAVIGATION, name);
-    }
+    ODataLink newFeedNavigationLink(String name, URI baseURI, String href);
 
     /**
      * Instantiates a new association link.
@@ -189,9 +151,7 @@ public class ODataObjectFactory {
      * @param link link.
      * @return association link.
      */
-    public ODataLink newAssociationLink(final String name, final URI link) {
-        return new ODataLink(client, link, ODataLinkType.ASSOCIATION, name);
-    }
+    ODataLink newAssociationLink(String name, URI link);
 
     /**
      * Instantiates a new association link.
@@ -201,9 +161,7 @@ public class ODataObjectFactory {
      * @param href href.
      * @return association link.
      */
-    public ODataLink newAssociationLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(client, baseURI, href, ODataLinkType.ASSOCIATION, name);
-    }
+    ODataLink newAssociationLink(String name, URI baseURI, String href);
 
     /**
      * Instantiates a new media-edit link.
@@ -212,9 +170,7 @@ public class ODataObjectFactory {
      * @param link link.
      * @return media-edit link.
      */
-    public ODataLink newMediaEditLink(final String name, final URI link) {
-        return new ODataLink(client, link, ODataLinkType.MEDIA_EDIT, name);
-    }
+    ODataLink newMediaEditLink(String name, URI link);
 
     /**
      * Instantiates a new media-edit link.
@@ -224,9 +180,7 @@ public class ODataObjectFactory {
      * @param href href.
      * @return media-edit link.
      */
-    public ODataLink newMediaEditLink(final String name, final URI baseURI, final String href) {
-        return new ODataLink(client, baseURI, href, ODataLinkType.MEDIA_EDIT, name);
-    }
+    ODataLink newMediaEditLink(String name, URI baseURI, String href);
 
     /**
      * Instantiates a new primitive property.
@@ -235,9 +189,7 @@ public class ODataObjectFactory {
      * @param value value.
      * @return primitive property.
      */
-    public ODataProperty newPrimitiveProperty(final String name, final ODataPrimitiveValue value) {
-        return new ODataProperty(name, value);
-    }
+    ODataProperty newPrimitiveProperty(String name, ODataPrimitiveValue value);
 
     /**
      * Instantiates a new complex property.
@@ -246,9 +198,7 @@ public class ODataObjectFactory {
      * @param value value.
      * @return complex property.
      */
-    public ODataProperty newComplexProperty(final String name, final ODataComplexValue value) {
-        return new ODataProperty(name, value);
-    }
+    ODataProperty newComplexProperty(String name, ODataComplexValue value);
 
     /**
      * Instantiates a new collection property.
@@ -257,7 +207,5 @@ public class ODataObjectFactory {
      * @param value value.
      * @return collection property.
      */
-    public ODataProperty newCollectionProperty(final String name, final ODataCollectionValue value) {
-        return new ODataProperty(name, value);
-    }
+    ODataProperty newCollectionProperty(String name, ODataCollectionValue value);
 }

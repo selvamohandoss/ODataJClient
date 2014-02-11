@@ -35,9 +35,9 @@ import com.msopentech.odatajclient.engine.communication.response.ODataInvokeResp
 import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ODataEntitySet;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.EntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.FunctionImport;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 import java.io.ByteArrayInputStream;

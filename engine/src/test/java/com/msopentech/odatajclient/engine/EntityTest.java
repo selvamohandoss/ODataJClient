@@ -19,7 +19,6 @@
  */
 package com.msopentech.odatajclient.engine;
 
-import static com.msopentech.odatajclient.engine.AbstractTest.v3Client;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -30,9 +29,9 @@ import com.msopentech.odatajclient.engine.data.ODataLink;
 import com.msopentech.odatajclient.engine.data.ODataOperation;
 import com.msopentech.odatajclient.engine.data.ODataProperty;
 import com.msopentech.odatajclient.engine.data.ResourceFactory;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.GeospatialCollection;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.GeospatialCollection;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import java.io.InputStream;
 import java.util.Collections;
@@ -40,7 +39,8 @@ import org.junit.Test;
 
 public class EntityTest extends AbstractTest {
 
-    private ODataV3Client getClient() {
+    @Override
+    protected ODataV3Client getClient() {
         return v3Client;
     }
 

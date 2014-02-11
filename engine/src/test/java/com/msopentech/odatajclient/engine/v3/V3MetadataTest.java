@@ -24,21 +24,21 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.msopentech.odatajclient.engine.AbstractMetadataTest;
+import com.msopentech.odatajclient.engine.AbstractTest;
 import com.msopentech.odatajclient.engine.client.ODataV3Client;
 import com.msopentech.odatajclient.engine.client.http.HttpMethod;
-import com.msopentech.odatajclient.engine.data.metadata.EdmType;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Type;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ComplexType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
+import com.msopentech.odatajclient.engine.metadata.EdmType;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Type;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.ComplexType;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.EntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.EntityType;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.FunctionImport;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.Schema;
 import java.util.List;
 import org.junit.Test;
 
-public class V3MetadataTest extends AbstractMetadataTest {
+public class V3MetadataTest extends AbstractTest {
 
     @Override
     protected ODataV3Client getClient() {

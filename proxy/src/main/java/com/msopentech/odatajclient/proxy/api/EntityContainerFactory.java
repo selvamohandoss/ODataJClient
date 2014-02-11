@@ -25,7 +25,7 @@ import com.msopentech.odatajclient.engine.client.ODataV3Client;
 import com.msopentech.odatajclient.engine.communication.request.retrieve.ODataV3MetadataRequest;
 import com.msopentech.odatajclient.proxy.api.context.Context;
 import com.msopentech.odatajclient.engine.communication.response.ODataRetrieveResponse;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
 import com.msopentech.odatajclient.engine.uri.filter.FilterFactory;
 import com.msopentech.odatajclient.proxy.api.impl.EntityContainerInvocationHandler;
 import java.lang.reflect.Proxy;

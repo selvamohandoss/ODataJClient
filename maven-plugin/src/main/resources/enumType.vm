@@ -21,7 +21,7 @@ package ${package};
 
 import com.msopentech.odatajclient.proxy.api.annotations.Namespace;
 import com.msopentech.odatajclient.proxy.api.annotations.EnumType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
 
 #set( $enumName = $utility.capitalize($enumType.Name) )
 #set( $count = $enumType.Members.size() )

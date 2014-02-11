@@ -36,7 +36,7 @@ import com.msopentech.odatajclient.engine.data.ODataEntity;
 import com.msopentech.odatajclient.engine.data.ResourceFactory;
 import com.msopentech.odatajclient.engine.data.atom.AtomEntry;
 import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.format.ODataPubFormat;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -81,7 +81,7 @@ public class BasicPerfTest extends AbstractTest {
         }
     }
 
-    private ODataV3Client getClient() {
+    protected ODataV3Client getClient() {
         return v3Client;
     }
 

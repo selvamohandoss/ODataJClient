@@ -20,14 +20,14 @@
 package com.msopentech.odatajclient.engine.communication.request.retrieve;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV3Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.ComplexType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.DataServices;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Edmx;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.EntityType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.FunctionImport;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Schema;
+import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.ComplexType;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.DataServices;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.Edmx;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.EntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.EntityType;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.FunctionImport;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.Schema;
 import java.net.URI;
 
 public class ODataV3MetadataRequest extends ODataMetadataRequest<

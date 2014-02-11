@@ -20,8 +20,9 @@
 package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
+import com.msopentech.odatajclient.engine.data.AbstractODataDeserializer;
 import com.msopentech.odatajclient.engine.data.json.JSONV3Entry;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v3.Edmx;
+import com.msopentech.odatajclient.engine.metadata.edm.v3.Edmx;
 import java.io.IOException;
 import java.io.InputStream;
 

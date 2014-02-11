@@ -29,6 +29,7 @@ import com.msopentech.odatajclient.engine.data.ODataV4Binder;
 import com.msopentech.odatajclient.engine.data.ODataV4Reader;
 import com.msopentech.odatajclient.engine.data.ODataV4Writer;
 import com.msopentech.odatajclient.engine.data.ODataV4Deserializer;
+import com.msopentech.odatajclient.engine.data.ODataV4ObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataV4Serializer;
 import com.msopentech.odatajclient.engine.uri.URIBuilder;
 import com.msopentech.odatajclient.engine.uri.V4URIBuilder;
@@ -52,6 +53,8 @@ public class ODataV4Client extends AbstractODataClient {
     private final ODataV4Writer writer = new ODataV4Writer(this);
 
     private final ODataV4Binder binder = new ODataV4Binder(this);
+
+    private final ODataV4ObjectFactory objectFactory = new ODataV4ObjectFactory(this);
 
     private final V4RetrieveRequestFactory retrieveReqFact = new V4RetrieveRequestFactory(this);
 
@@ -114,6 +117,11 @@ public class ODataV4Client extends AbstractODataClient {
     @Override
     public ODataV4Binder getBinder() {
         return binder;
+    }
+
+    @Override
+    public ODataV4ObjectFactory getObjectFactory() {
+        return objectFactory;
     }
 
     @Override

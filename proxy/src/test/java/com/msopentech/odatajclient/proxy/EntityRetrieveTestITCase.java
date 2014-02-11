@@ -26,10 +26,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.msopentech.odatajclient.engine.data.ODataTimestamp;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial.Type;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiLineString;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Point;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial.Type;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiLineString;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Point;
 import com.msopentech.odatajclient.proxy.api.impl.EntityTypeInvocationHandler;
 import com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.DefaultContainer;
 import com.msopentech.odatajclient.proxy.defaultservice.microsoft.test.odata.services.astoriadefaultservice.types.AllSpatialTypes;

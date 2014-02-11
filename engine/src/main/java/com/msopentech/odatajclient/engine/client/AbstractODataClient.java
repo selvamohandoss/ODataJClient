@@ -20,7 +20,6 @@
 package com.msopentech.odatajclient.engine.client;
 
 import com.msopentech.odatajclient.engine.data.ODataGeospatialValue;
-import com.msopentech.odatajclient.engine.data.ODataObjectFactory;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 
 abstract class AbstractODataClient implements ODataClient {
@@ -35,11 +34,6 @@ abstract class AbstractODataClient implements ODataClient {
     @Override
     public ODataGeospatialValue.Builder getGeospatialValueBuilder() {
         return new ODataGeospatialValue.Builder(this);
-    }
-
-    @Override
-    public ODataObjectFactory getObjectFactory() {
-        return new ODataObjectFactory(this);
     }
 
 }

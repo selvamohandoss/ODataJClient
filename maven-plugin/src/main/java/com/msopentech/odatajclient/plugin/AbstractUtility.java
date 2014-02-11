@@ -20,16 +20,16 @@
 package com.msopentech.odatajclient.plugin;
 
 import com.msopentech.odatajclient.engine.utils.NavigationPropertyBindingDetails;
-import com.msopentech.odatajclient.engine.data.metadata.AbstractEdmMetadata;
-import com.msopentech.odatajclient.engine.data.metadata.EdmType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntitySet;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractEntityType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractNavigationProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractProperty;
-import com.msopentech.odatajclient.engine.data.metadata.edm.AbstractSchema;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.PropertyRef;
+import com.msopentech.odatajclient.engine.metadata.AbstractEdmMetadata;
+import com.msopentech.odatajclient.engine.metadata.EdmType;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntitySet;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractEntityType;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractNavigationProperty;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractProperty;
+import com.msopentech.odatajclient.engine.metadata.edm.AbstractSchema;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.PropertyRef;
 import com.msopentech.odatajclient.engine.utils.MetadataUtils;
 import java.io.InputStream;
 import java.util.ArrayList;

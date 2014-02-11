@@ -20,6 +20,7 @@
 package com.msopentech.odatajclient.engine.data;
 
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
+import com.msopentech.odatajclient.engine.data.AbstractODataWriter;
 
 public class ODataV4Writer extends AbstractODataWriter {
 

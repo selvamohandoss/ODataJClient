@@ -21,14 +21,14 @@ package com.msopentech.odatajclient.engine.communication.request.invoke;
 
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
 import com.msopentech.odatajclient.engine.data.ODataInvokeResult;
-import com.msopentech.odatajclient.engine.data.metadata.EdmV4Metadata;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.ComplexType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EntityContainer;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.EntityType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.DataServices;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Edmx;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.FunctionImport;
-import com.msopentech.odatajclient.engine.data.metadata.edm.v4.Schema;
+import com.msopentech.odatajclient.engine.metadata.EdmV4Metadata;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.ComplexType;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.EntityContainer;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.EntityType;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.DataServices;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Edmx;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.FunctionImport;
+import com.msopentech.odatajclient.engine.metadata.edm.v4.Schema;
 import java.net.URI;
 
 public class V4InvokeRequestFactory extends AbstractInvokeRequestFactory<

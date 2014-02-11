@@ -19,9 +19,9 @@
  */
 package com.msopentech.odatajclient.proxy.api.annotations;
 
-import com.msopentech.odatajclient.engine.data.metadata.EdmContentKind;
-import com.msopentech.odatajclient.engine.data.metadata.edm.ConcurrencyMode;
-import com.msopentech.odatajclient.engine.data.metadata.edm.StoreGeneratedPattern;
+import com.msopentech.odatajclient.engine.metadata.EdmContentKind;
+import com.msopentech.odatajclient.engine.metadata.edm.ConcurrencyMode;
+import com.msopentech.odatajclient.engine.metadata.edm.StoreGeneratedPattern;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

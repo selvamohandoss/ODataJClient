@@ -28,7 +28,7 @@ import com.msopentech.odatajclient.engine.communication.request.batch.ODataBatch
 import com.msopentech.odatajclient.engine.communication.response.ODataValueUpdateResponse;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataValue;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
 import com.msopentech.odatajclient.engine.format.ODataValueFormat;
 import com.msopentech.odatajclient.engine.utils.URIUtils;
 import java.io.IOException;

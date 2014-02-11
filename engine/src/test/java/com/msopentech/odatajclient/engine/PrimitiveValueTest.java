@@ -19,7 +19,6 @@
  */
 package com.msopentech.odatajclient.engine;
 
-import static com.msopentech.odatajclient.engine.AbstractTest.v3Client;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -30,15 +29,15 @@ import com.msopentech.odatajclient.engine.data.ODataDuration;
 import com.msopentech.odatajclient.engine.data.ODataPrimitiveValue;
 import com.msopentech.odatajclient.engine.data.ODataTimestamp;
 import com.msopentech.odatajclient.engine.data.ODataValue;
-import com.msopentech.odatajclient.engine.data.metadata.edm.EdmSimpleType;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Geospatial;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.GeospatialCollection;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.LineString;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiLineString;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiPoint;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.MultiPolygon;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Point;
-import com.msopentech.odatajclient.engine.data.metadata.edm.geospatial.Polygon;
+import com.msopentech.odatajclient.engine.metadata.edm.EdmSimpleType;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Geospatial;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.GeospatialCollection;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.LineString;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiLineString;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiPoint;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.MultiPolygon;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Point;
+import com.msopentech.odatajclient.engine.metadata.edm.geospatial.Polygon;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,7 +48,8 @@ import org.junit.Test;
 
 public class PrimitiveValueTest extends AbstractTest {
 
-    private ODataV3Client getClient() {
+    @Override
+    protected ODataV3Client getClient() {
         return v3Client;
     }
 
