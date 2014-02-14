@@ -41,7 +41,8 @@ import com.msopentech.odatajclient.engine.data.ODataProperty.PropertyType;
 import com.msopentech.odatajclient.engine.data.ODataServiceDocument;
 import com.msopentech.odatajclient.engine.data.ODataValue;
 import com.msopentech.odatajclient.engine.data.ResourceFactory;
-import com.msopentech.odatajclient.engine.data.V3ServiceDocument;
+import com.msopentech.odatajclient.engine.data.ServiceDocument;
+import com.msopentech.odatajclient.engine.data.ServiceDocumentElement;
 import com.msopentech.odatajclient.engine.metadata.EdmType;
 import com.msopentech.odatajclient.engine.utils.ODataConstants;
 import com.msopentech.odatajclient.engine.utils.ODataVersion;
@@ -62,6 +63,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public abstract class AbstractODataBinder implements ODataBinder {
+
+    private static final long serialVersionUID = 454285889193689536L;
 
     /**
      * Logger.
@@ -211,12 +214,14 @@ public abstract class AbstractODataBinder implements ODataBinder {
     }
 
     @Override
-    public ODataServiceDocument getODataServiceDocument(final V3ServiceDocument resource) {
+    public ODataServiceDocument getODataServiceDocument(final ServiceDocument resource) {
         final ODataServiceDocument serviceDocument = new ODataServiceDocument();
 
-        for (V3ServiceDocument.TLEntitySet tlEntitySet : resource.getTLEntitySets()) {
-            serviceDocument.addEntitySet(tlEntitySet.getName(),
-                    URIUtils.getURI(resource.getBaseURI(), tlEntitySet.getHref()));
+        for (ServiceDocumentElement entitySet : resource.getEntitySets()) {
+            // handles V3 JSON format oddities, where title is not contained
+            serviceDocument.getEntitySets().put(StringUtils.isBlank(entitySet.getTitle())
+                    ? entitySet.getName() : entitySet.getTitle(),
+                    URIUtils.getURI(resource.getBaseURI(), entitySet.getHref()));
         }
 
         return serviceDocument;

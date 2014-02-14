@@ -26,6 +26,14 @@ import org.w3c.dom.Element;
 public interface ODataBinder extends Serializable {
 
     /**
+     * Gets <tt>ODataServiceDocument</tt> from the given service document resource.
+     *
+     * @param resource service document resource.
+     * @return <tt>ODataServiceDocument</tt> object.
+     */
+    ODataServiceDocument getODataServiceDocument(ServiceDocument resource);
+
+    /**
      * Gets a <tt>FeedResource</tt> from the given OData entity set.
      *
      * @param <T> feed resource type.
@@ -65,14 +73,6 @@ public interface ODataBinder extends Serializable {
     Element toDOMElement(ODataProperty prop);
 
     ODataLinkCollection getLinkCollection(LinkCollection linkCollection);
-
-    /**
-     * Gets <tt>ODataServiceDocument</tt> from the given service document resource.
-     *
-     * @param resource service document resource.
-     * @return <tt>ODataServiceDocument</tt> object.
-     */
-    ODataServiceDocument getODataServiceDocument(V3ServiceDocument resource);
 
     /**
      * Gets <tt>ODataEntitySet</tt> from the given feed resource.

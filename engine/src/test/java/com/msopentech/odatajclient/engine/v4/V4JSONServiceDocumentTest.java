@@ -19,6 +19,7 @@
  */
 package com.msopentech.odatajclient.engine.v4;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -26,6 +27,7 @@ import com.msopentech.odatajclient.engine.AbstractTest;
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
 import com.msopentech.odatajclient.engine.data.ODataServiceDocument;
 import com.msopentech.odatajclient.engine.format.ODataFormat;
+import java.net.URI;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -50,6 +52,12 @@ public class V4JSONServiceDocumentTest extends AbstractTest {
         final ODataServiceDocument serviceDocument = getClient().getReader().readServiceDocument(
                 getClass().getResourceAsStream("serviceDocument." + getFileExtension()), getFormat());
         assertNotNull(serviceDocument);
-        assertTrue(serviceDocument.getEntitySetNames().contains("Persons"));
+        assertEquals(URI.create("http://host/service/$metadata"), serviceDocument.getMetadataContext());
+        assertEquals("W/\"MjAxMy0wNS0xM1QxNDo1NFo=\"", serviceDocument.getMetadataETag());
+        assertTrue(serviceDocument.getEntitySetTitles().contains("Order Details"));
+        assertEquals(URI.create("http://host/service/TopProducts"),
+                serviceDocument.getFunctionImportURI("Best-Selling Products"));
+        assertEquals(URI.create("http://host/HR/"),
+                serviceDocument.getRelatedServiceDocumentsURIs().iterator().next());
     }
 }

@@ -39,7 +39,7 @@ public interface ODataDeserializer extends Serializable {
      * @param format OData service document format.
      * @return ServiceDocumentResource object.
      */
-    V3ServiceDocument toServiceDocument(InputStream input, ODataFormat format);
+    ServiceDocument toServiceDocument(InputStream input, ODataFormat format);
 
     /**
      * Gets a feed object from the given InputStream.

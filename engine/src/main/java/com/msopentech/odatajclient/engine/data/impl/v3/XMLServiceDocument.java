@@ -19,19 +19,18 @@
  */
 package com.msopentech.odatajclient.engine.data.impl.v3;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.msopentech.odatajclient.engine.data.impl.AbstractServiceDocument;
+import com.msopentech.odatajclient.engine.data.impl.XMLServiceDocumentDeserializer;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Service document, represented via XML.
  */
+@JsonDeserialize(using = XMLServiceDocumentDeserializer.class)
 public class XMLServiceDocument extends AbstractServiceDocument {
 
     private URI baseURI;
-
-    private final List<TLEntitySet> tlEntitySets = new ArrayList<TLEntitySet>();
 
     @Override
     public URI getBaseURI() {
@@ -45,11 +44,6 @@ public class XMLServiceDocument extends AbstractServiceDocument {
      */
     public void setBaseURI(final URI baseURI) {
         this.baseURI = baseURI;
-    }
-
-    @Override
-    public List<TLEntitySet> getTLEntitySets() {
-        return tlEntitySets;
     }
 
 }

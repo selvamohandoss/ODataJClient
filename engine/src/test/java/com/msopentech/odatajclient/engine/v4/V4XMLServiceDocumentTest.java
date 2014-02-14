@@ -20,7 +20,6 @@
 package com.msopentech.odatajclient.engine.v4;
 
 import com.msopentech.odatajclient.engine.format.ODataFormat;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class V4XMLServiceDocumentTest extends V4JSONServiceDocumentTest {
@@ -31,9 +30,7 @@ public class V4XMLServiceDocumentTest extends V4JSONServiceDocumentTest {
     }
 
     @Test
-    @Ignore
-    @Override
-    public void parse() {
+    public void parseTMP() {
         super.parse();
     }
 

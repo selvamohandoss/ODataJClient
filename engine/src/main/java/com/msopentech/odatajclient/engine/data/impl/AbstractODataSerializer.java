@@ -19,7 +19,6 @@
  */
 package com.msopentech.odatajclient.engine.data.impl;
 
-import com.msopentech.odatajclient.engine.data.impl.AbstractJacksonMarshaller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.msopentech.odatajclient.engine.client.ODataClient;
@@ -46,7 +45,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public abstract class AbstractODataSerializer extends AbstractJacksonMarshaller implements ODataSerializer {
+public abstract class AbstractODataSerializer extends AbstractJacksonTool implements ODataSerializer {
 
     private static final long serialVersionUID = -357777648541325363L;
 

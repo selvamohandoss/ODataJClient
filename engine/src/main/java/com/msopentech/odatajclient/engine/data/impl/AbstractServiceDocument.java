@@ -20,86 +20,115 @@
 package com.msopentech.odatajclient.engine.data.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.msopentech.odatajclient.engine.data.V3ServiceDocument;
+import com.msopentech.odatajclient.engine.data.ServiceDocumentElement;
+import com.msopentech.odatajclient.engine.data.ServiceDocument;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public abstract class AbstractServiceDocument implements V3ServiceDocument {
+public abstract class AbstractServiceDocument implements ServiceDocument {
 
-    public static class TLEntitySet implements V3ServiceDocument.TLEntitySet {
+    private String title;
 
-        private String name;
+    @JsonProperty("value")
+    private final List<ServiceDocumentElement> entitySets = new ArrayList<ServiceDocumentElement>();
 
-        private String title;
-
-        @JsonProperty("url")
-        private String href;
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        public void setName(final String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(final String title) {
-            this.title = title;
-        }
-
-        @Override
-        public String getHref() {
-            return href;
-        }
-
-        public void setHref(final String href) {
-            this.href = href;
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            return EqualsBuilder.reflectionEquals(this, obj);
-        }
-
-        @Override
-        public int hashCode() {
-            return HashCodeBuilder.reflectionHashCode(this);
-        }
-
-        @Override
-        public String toString() {
-            return ReflectionToStringBuilder.toString(this, ToStringStyle.MULTI_LINE_STYLE);
-        }
+    @Override
+    public String getMetadataContext() {
+        return null;
     }
 
     @Override
-    public TLEntitySet getTLEntitySetByName(final String name) {
-        TLEntitySet result = null;
-        for (V3ServiceDocument.TLEntitySet tlEntitySet : getTLEntitySets()) {
-            if (name.equals(tlEntitySet.getName())) {
-                result = (TLEntitySet) tlEntitySet;
+    public String getMetadataETag() {
+        return null;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(final String title) {
+        this.title = title;
+    }
+
+    protected ServiceDocumentElement getByName(final List<ServiceDocumentElement> elements, final String name) {
+        ServiceDocumentElement result = null;
+        for (ServiceDocumentElement element : elements) {
+            if (name.equals(element.getName())) {
+                result = element;
+            }
+        }
+        return result;
+    }
+
+    protected ServiceDocumentElement getByTitle(final List<ServiceDocumentElement> elements, final String title) {
+        ServiceDocumentElement result = null;
+        for (ServiceDocumentElement element : elements) {
+            if (title.equals(element.getTitle())) {
+                result = element;
             }
         }
         return result;
     }
 
     @Override
-    public TLEntitySet getTLEntitySetByTitle(final String title) {
-        TLEntitySet result = null;
-        for (V3ServiceDocument.TLEntitySet tlEntitySet : getTLEntitySets()) {
-            if (title.equals(tlEntitySet.getTitle())) {
-                result = (TLEntitySet) tlEntitySet;
-            }
-        }
-        return result;
+    public List<ServiceDocumentElement> getEntitySets() {
+        return entitySets;
+    }
+
+    @Override
+    public ServiceDocumentElement getEntitySetByName(final String name) {
+        return getByName(getEntitySets(), name);
+    }
+
+    @Override
+    public ServiceDocumentElement getEntitySetByTitle(final String title) {
+        return getByTitle(getEntitySets(), title);
+    }
+
+    @Override
+    public List<ServiceDocumentElement> getFunctionImports() {
+        return Collections.<ServiceDocumentElement>emptyList();
+    }
+
+    @Override
+    public ServiceDocumentElement getFunctionImportByName(final String name) {
+        return getByName(getFunctionImports(), name);
+    }
+
+    @Override
+    public ServiceDocumentElement getFunctionImportByTitle(final String title) {
+        return getByTitle(getFunctionImports(), title);
+    }
+
+    @Override
+    public List<ServiceDocumentElement> getSingletons() {
+        return Collections.<ServiceDocumentElement>emptyList();
+    }
+
+    @Override
+    public ServiceDocumentElement getSingletonByName(final String name) {
+        return getByName(getSingletons(), name);
+    }
+
+    @Override
+    public ServiceDocumentElement getSingletonByTitle(final String title) {
+        return getByTitle(getSingletons(), title);
+    }
+
+    @Override
+    public List<ServiceDocumentElement> getRelatedServiceDocuments() {
+        return Collections.<ServiceDocumentElement>emptyList();
+    }
+
+    @Override
+    public ServiceDocumentElement getRelatedServiceDocumentByTitle(final String title) {
+        return getByTitle(getRelatedServiceDocuments(), title);
     }
 
     @Override

@@ -20,9 +20,13 @@
 package com.msopentech.odatajclient.engine.data.impl.v4;
 
 import com.msopentech.odatajclient.engine.client.ODataV4Client;
+import com.msopentech.odatajclient.engine.data.ODataServiceDocument;
+import com.msopentech.odatajclient.engine.data.ServiceDocument;
+import com.msopentech.odatajclient.engine.data.ServiceDocumentElement;
 import com.msopentech.odatajclient.engine.data.impl.AbstractODataBinder;
 import com.msopentech.odatajclient.engine.metadata.EdmType;
 import com.msopentech.odatajclient.engine.metadata.EdmV4Type;
+import com.msopentech.odatajclient.engine.utils.URIUtils;
 
 public class ODataBinderImpl extends AbstractODataBinder {
 
@@ -37,4 +41,26 @@ public class ODataBinderImpl extends AbstractODataBinder {
         return new EdmV4Type(expression);
     }
 
+    @Override
+    public ODataServiceDocument getODataServiceDocument(final ServiceDocument resource) {
+        final ODataServiceDocument serviceDocument = super.getODataServiceDocument(resource);
+
+        serviceDocument.setMetadataContext(URIUtils.getURI(resource.getBaseURI(), resource.getMetadataContext()));
+        serviceDocument.setMetadataETag(resource.getMetadataETag());
+
+        for (ServiceDocumentElement functionImport : resource.getFunctionImports()) {
+            serviceDocument.getFunctionImports().put(functionImport.getTitle(),
+                    URIUtils.getURI(resource.getBaseURI(), functionImport.getHref()));
+        }
+        for (ServiceDocumentElement singleton : resource.getSingletons()) {
+            serviceDocument.getSingletons().put(singleton.getTitle(),
+                    URIUtils.getURI(resource.getBaseURI(), singleton.getHref()));
+        }
+        for (ServiceDocumentElement sdoc : resource.getRelatedServiceDocuments()) {
+            serviceDocument.getRelatedServiceDocuments().put(sdoc.getTitle(),
+                    URIUtils.getURI(resource.getBaseURI(), sdoc.getHref()));
+        }
+
+        return serviceDocument;
+    }
 }

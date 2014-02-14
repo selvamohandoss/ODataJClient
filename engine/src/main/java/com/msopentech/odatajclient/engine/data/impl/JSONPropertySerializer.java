@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
  *
  * @see JSONProperty
  */
-public class JSONPropertySerializer extends ODataJsonSerializer<JSONProperty> {
+public class JSONPropertySerializer extends ODataJacksonSerializer<JSONProperty> {
 
     @Override
     public void doSerialize(final JSONProperty property, final JsonGenerator jgen, final SerializerProvider provider)

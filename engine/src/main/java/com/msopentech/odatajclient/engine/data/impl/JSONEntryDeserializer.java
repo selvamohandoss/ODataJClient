@@ -55,7 +55,7 @@ import org.w3c.dom.Element;
  * @see JSONEntry
  * @see JSONV4Entry
  */
-public class JSONEntryDeserializer extends ODataJsonDeserializer<AbstractJSONEntry> {
+public class JSONEntryDeserializer extends ODataJacksonDeserializer<AbstractJSONEntry> {
 
     private String getTitle(final Map.Entry<String, JsonNode> entry) {
         return entry.getKey().substring(0, entry.getKey().indexOf('@'));

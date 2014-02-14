@@ -59,7 +59,7 @@ public class DynExprConstructDeserializer extends AbstractEdmDeserializer<DynExp
                             getClass().getPackage().getName() + "." + simpleClassName);
             return elOrAttrClass.newInstance();
         } catch (Exception e) {
-            throw new JsonParseException("Could not instantiate " + simpleClassName, JsonLocation.NA);
+            throw new JsonParseException("Could not instantiate " + simpleClassName, JsonLocation.NA, e);
         }
     }
 

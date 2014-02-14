@@ -39,7 +39,7 @@ public class ServiceDocumentTestITCase extends AbstractTestITCase {
         assertEquals(200, res.getStatusCode());
 
         final ODataServiceDocument serviceDocument = res.getBody();
-        assertEquals(24, serviceDocument.count());
+        assertEquals(24, serviceDocument.getEntitySetTitles().size());
 
         assertEquals(URI.create(testDefaultServiceRootURL + "/ComputerDetail"),
                 serviceDocument.getEntitySetURI("ComputerDetail"));

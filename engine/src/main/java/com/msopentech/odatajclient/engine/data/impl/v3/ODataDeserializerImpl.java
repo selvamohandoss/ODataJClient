@@ -21,14 +21,11 @@ package com.msopentech.odatajclient.engine.data.impl.v3;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
 import com.msopentech.odatajclient.engine.data.impl.AbstractODataDeserializer;
-import com.msopentech.odatajclient.engine.data.impl.AbstractServiceDocument.TLEntitySet;
+import com.msopentech.odatajclient.engine.data.impl.AbstractServiceDocument;
+import com.msopentech.odatajclient.engine.format.ODataFormat;
 import com.msopentech.odatajclient.engine.metadata.edm.v3.Edmx;
-import com.msopentech.odatajclient.engine.utils.ODataConstants;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 public class ODataDeserializerImpl extends AbstractODataDeserializer {
 
@@ -48,36 +45,13 @@ public class ODataDeserializerImpl extends AbstractODataDeserializer {
     }
 
     @Override
-    protected XMLServiceDocument toServiceDocumentFromXML(final InputStream input) {
-        final Element service = toDOM(input);
-
-        final XMLServiceDocument serviceDoc = new XMLServiceDocument();
-        serviceDoc.setBaseURI(URI.create(service.getAttribute(ODataConstants.ATTR_XMLBASE)));
-
-        final NodeList collections = service.getElementsByTagName(ODataConstants.ELEM_COLLECTION);
-        for (int i = 0; i < collections.getLength(); i++) {
-            final Element collection = (Element) collections.item(i);
-
-            final NodeList title = collection.getElementsByTagName(ODataConstants.ATOM_ATTR_TITLE);
-            if (title.getLength() != 1) {
-                throw new IllegalArgumentException("Invalid collection element found");
-            }
-
-            final TLEntitySet tlEntitySet = new TLEntitySet();
-            tlEntitySet.setName(title.item(0).getTextContent());
-            tlEntitySet.setHref(collection.getAttribute(ODataConstants.ATTR_HREF));
-            serviceDoc.getTLEntitySets().add(tlEntitySet);
-        }
-
-        return serviceDoc;
-    }
-
-    @Override
-    protected JSONServiceDocument toServiceDocumentFromJSON(final InputStream input) {
+    public AbstractServiceDocument toServiceDocument(final InputStream input, final ODataFormat format) {
         try {
-            return getObjectMapper().readValue(input, JSONServiceDocument.class);
+            return format == ODataFormat.XML
+                    ? getXmlMapper().readValue(input, XMLServiceDocument.class)
+                    : getObjectMapper().readValue(input, JSONServiceDocument.class);
         } catch (IOException e) {
-            throw new IllegalArgumentException("While deserializing JSON service document", e);
+            throw new IllegalArgumentException("Could not parse Service Document", e);
         }
     }
 

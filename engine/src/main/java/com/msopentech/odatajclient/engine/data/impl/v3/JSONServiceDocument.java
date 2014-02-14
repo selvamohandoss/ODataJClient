@@ -24,8 +24,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.msopentech.odatajclient.engine.data.impl.AbstractServiceDocument;
 import com.msopentech.odatajclient.engine.uri.SegmentType;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Service document, represented via JSON.
@@ -36,9 +34,6 @@ public class JSONServiceDocument extends AbstractServiceDocument {
 
     @JsonProperty(value = "odata.metadata", required = false)
     private URI metadata;
-
-    @JsonProperty("value")
-    private final List<TLEntitySet> tlEntitySets = new ArrayList<TLEntitySet>();
 
     @JsonIgnore
     @Override
@@ -66,15 +61,5 @@ public class JSONServiceDocument extends AbstractServiceDocument {
      */
     public void setMetadata(final URI metadata) {
         this.metadata = metadata;
-    }
-
-    /**
-     * Gets top-level entity sets.
-     *
-     * @return top-level entity sets.
-     */
-    @Override
-    public List<? extends TLEntitySet> getTLEntitySets() {
-        return tlEntitySets;
     }
 }

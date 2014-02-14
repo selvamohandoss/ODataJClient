@@ -17,8 +17,12 @@
  * See the Apache License, Version 2.0 for the specific language
  * governing permissions and limitations under the License.
  */
-package com.msopentech.odatajclient.engine.data;
+package com.msopentech.odatajclient.engine.data.impl.v4;
 
-public interface V4ServiceDocument extends V3ServiceDocument {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.msopentech.odatajclient.engine.data.impl.XMLServiceDocumentDeserializer;
+
+@JsonDeserialize(using = XMLServiceDocumentDeserializer.class)
+public class XMLServiceDocument extends AbstractServiceDocument {
 
 }

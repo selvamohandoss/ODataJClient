@@ -35,6 +35,23 @@ import java.io.Serializable;
 public interface ODataReader extends Serializable {
 
     /**
+     * Parses a stream into metadata representation.
+     *
+     * @param input stream to de-serialize.
+     * @return metadata representation.
+     */
+    AbstractEdmMetadata<?, ?, ?, ?, ?, ?, ?> readMetadata(InputStream input);
+
+    /**
+     * Parses an OData service document.
+     *
+     * @param input stream to de-serialize.
+     * @param format de-serialize as XML or JSON
+     * @return List of URIs.
+     */
+    ODataServiceDocument readServiceDocument(InputStream input, ODataFormat format);
+
+    /**
      * De-Serializes a stream into an OData entity set.
      *
      * @param input stream to de-serialize.
@@ -69,23 +86,6 @@ public interface ODataReader extends Serializable {
      * @return List of URIs.
      */
     ODataLinkCollection readLinks(InputStream input, ODataFormat format);
-
-    /**
-     * Parses an OData service document.
-     *
-     * @param input stream to de-serialize.
-     * @param format de-serialize as XML or JSON
-     * @return List of URIs.
-     */
-    ODataServiceDocument readServiceDocument(InputStream input, ODataFormat format);
-
-    /**
-     * Parses a stream into metadata representation.
-     *
-     * @param input stream to de-serialize.
-     * @return metadata representation.
-     */
-    AbstractEdmMetadata<?, ?, ?, ?, ?, ?, ?> readMetadata(InputStream input);
 
     /**
      * Parses a stream into an OData error.

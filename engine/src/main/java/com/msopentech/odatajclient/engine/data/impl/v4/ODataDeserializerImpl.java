@@ -20,8 +20,8 @@
 package com.msopentech.odatajclient.engine.data.impl.v4;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
-import com.msopentech.odatajclient.engine.data.V3ServiceDocument;
 import com.msopentech.odatajclient.engine.data.impl.AbstractODataDeserializer;
+import com.msopentech.odatajclient.engine.format.ODataFormat;
 import com.msopentech.odatajclient.engine.metadata.edm.v4.Edmx;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,13 +44,15 @@ public class ODataDeserializerImpl extends AbstractODataDeserializer {
     }
 
     @Override
-    protected V3ServiceDocument toServiceDocumentFromXML(final InputStream input) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    protected V3ServiceDocument toServiceDocumentFromJSON(final InputStream input) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public AbstractServiceDocument toServiceDocument(final InputStream input, final ODataFormat format) {
+        try {
+            return format == ODataFormat.XML
+                    ? getXmlMapper().readValue(input, XMLServiceDocument.class)
+                    : null;
+//                    : getObjectMapper().readValue(input, JSONServiceDocument.class);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Could not parse Service Document", e);
+        }
     }
 
     @Override

@@ -76,9 +76,6 @@ public class ODataServiceDocumentRequest extends AbstractODataRetrieveRequest<OD
             super(client, res);
         }
 
-        /**
-         * {@inheritDoc }
-         */
         @Override
         public ODataServiceDocument getBody() {
             if (serviceDocument == null) {

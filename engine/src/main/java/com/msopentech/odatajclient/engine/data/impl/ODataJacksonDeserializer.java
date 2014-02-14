@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.msopentech.odatajclient.engine.client.ODataClient;
 import java.io.IOException;
 
-abstract class ODataJsonDeserializer<T> extends JsonDeserializer<T> {
+abstract class ODataJacksonDeserializer<T> extends JsonDeserializer<T> {
 
     protected ODataClient client;
 

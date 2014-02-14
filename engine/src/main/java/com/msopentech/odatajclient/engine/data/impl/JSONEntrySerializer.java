@@ -39,7 +39,7 @@ import org.apache.commons.lang3.StringUtils;
  * @see JSONEntry
  * @see JSONV4Entry
  */
-public class JSONEntrySerializer extends ODataJsonSerializer<AbstractJSONEntry> {
+public class JSONEntrySerializer extends ODataJacksonSerializer<AbstractJSONEntry> {
 
     @Override
     protected void doSerialize(

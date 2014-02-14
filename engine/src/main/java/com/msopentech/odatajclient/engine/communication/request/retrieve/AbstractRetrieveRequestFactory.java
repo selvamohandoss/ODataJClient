@@ -21,7 +21,6 @@ package com.msopentech.odatajclient.engine.communication.request.retrieve;
 
 import com.msopentech.odatajclient.engine.client.ODataClient;
 import java.net.URI;
-import org.apache.commons.lang3.StringUtils;
 
 public abstract class AbstractRetrieveRequestFactory implements RetrieveRequestFactory {
 
@@ -31,13 +30,6 @@ public abstract class AbstractRetrieveRequestFactory implements RetrieveRequestF
 
     protected AbstractRetrieveRequestFactory(final ODataClient client) {
         this.client = client;
-    }
-
-    @Override
-    public ODataServiceDocumentRequest getServiceDocumentRequest(final String serviceRoot) {
-        return new ODataServiceDocumentRequest(client, StringUtils.isNotBlank(serviceRoot) && serviceRoot.endsWith("/")
-                ? client.getURIBuilder(serviceRoot).build()
-                : client.getURIBuilder(serviceRoot + "/").build());
     }
 
     @Override

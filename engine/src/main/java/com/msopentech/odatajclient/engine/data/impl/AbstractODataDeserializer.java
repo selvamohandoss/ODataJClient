@@ -21,12 +21,6 @@ package com.msopentech.odatajclient.engine.data.impl;
 
 import com.fasterxml.aalto.stax.InputFactoryImpl;
 import com.fasterxml.aalto.stax.OutputFactoryImpl;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.InjectableValues;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -36,7 +30,6 @@ import com.msopentech.odatajclient.engine.data.Feed;
 import com.msopentech.odatajclient.engine.data.LinkCollection;
 import com.msopentech.odatajclient.engine.data.ODataDeserializer;
 import com.msopentech.odatajclient.engine.data.ODataError;
-import com.msopentech.odatajclient.engine.data.V3ServiceDocument;
 import com.msopentech.odatajclient.engine.data.impl.v3.AtomDeserializer;
 import com.msopentech.odatajclient.engine.data.impl.v3.AtomEntry;
 import com.msopentech.odatajclient.engine.data.impl.v3.AtomFeed;
@@ -55,16 +48,12 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public abstract class AbstractODataDeserializer extends AbstractJacksonMarshaller implements ODataDeserializer {
+public abstract class AbstractODataDeserializer extends AbstractJacksonTool implements ODataDeserializer {
 
     private static final long serialVersionUID = -4244158979195609909L;
-
-    protected static final Logger LOG = LoggerFactory.getLogger(AbstractODataDeserializer.class);
 
     private final AtomDeserializer atomDeserializer;
 
@@ -110,13 +99,6 @@ public abstract class AbstractODataDeserializer extends AbstractJacksonMarshalle
     }
 
     @Override
-    public V3ServiceDocument toServiceDocument(final InputStream input, final ODataFormat format) {
-        return format == ODataFormat.XML
-                ? toServiceDocumentFromXML(input)
-                : toServiceDocumentFromJSON(input);
-    }
-
-    @Override
     public LinkCollection toLinkCollection(final InputStream input, final ODataFormat format) {
         return format == ODataFormat.XML
                 ? toLinkCollectionFromXML(input)
@@ -138,26 +120,6 @@ public abstract class AbstractODataDeserializer extends AbstractJacksonMarshalle
     /*
      * ------------------ Protected methods ------------------
      */
-    protected XmlMapper getXmlMapper() {
-        final XmlMapper xmlMapper = new XmlMapper(
-                new XmlFactory(new InputFactoryImpl(), new OutputFactoryImpl()), new JacksonXmlModule());
-        xmlMapper.setInjectableValues(new InjectableValues.Std().addValue(ODataClient.class, client));
-        xmlMapper.addHandler(new DeserializationProblemHandler() {
-
-            @Override
-            public boolean handleUnknownProperty(final DeserializationContext ctxt, final JsonParser jp,
-                    final JsonDeserializer<?> deserializer, final Object beanOrClass, final String propertyName)
-                    throws IOException, JsonProcessingException {
-
-                // skip any unknown property
-                LOG.warn("Skipping unknown property {}", propertyName);
-                ctxt.getParser().skipChildren();
-                return true;
-            }
-        });
-        return xmlMapper;
-    }
-
     protected AtomFeed toAtomFeed(final InputStream input) {
         try {
             return atomDeserializer.feed(toDOM(input));
@@ -195,10 +157,6 @@ public abstract class AbstractODataDeserializer extends AbstractJacksonMarshalle
             throw new IllegalArgumentException("While deserializing JSON property", e);
         }
     }
-
-    protected abstract V3ServiceDocument toServiceDocumentFromXML(InputStream input);
-
-    protected abstract V3ServiceDocument toServiceDocumentFromJSON(InputStream input);
 
     protected XMLLinkCollection toLinkCollectionFromXML(final InputStream input) {
         final Element root = toDOM(input);

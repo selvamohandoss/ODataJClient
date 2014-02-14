@@ -20,13 +20,15 @@
 package com.msopentech.odatajclient.engine.data.impl.v3;
 
 import com.msopentech.odatajclient.engine.client.ODataV3Client;
+import com.msopentech.odatajclient.engine.data.ODataServiceDocument;
 import com.msopentech.odatajclient.engine.data.impl.AbstractODataReader;
+import com.msopentech.odatajclient.engine.format.ODataFormat;
 import com.msopentech.odatajclient.engine.metadata.EdmV3Metadata;
 import java.io.InputStream;
 
 public class ODataReaderImpl extends AbstractODataReader {
 
-    private static final long serialVersionUID = -7734935843256290401L;
+    private static final long serialVersionUID = -2481293269536406956L;
 
     public ODataReaderImpl(final ODataV3Client client) {
         super(client);
@@ -35,5 +37,11 @@ public class ODataReaderImpl extends AbstractODataReader {
     @Override
     public EdmV3Metadata readMetadata(final InputStream input) {
         return new EdmV3Metadata(client, input);
+    }
+
+    @Override
+    public ODataServiceDocument readServiceDocument(final InputStream input, final ODataFormat format) {
+        return ((ODataV3Client) client).getBinder().getODataServiceDocument(
+                ((ODataV3Client) client).getDeserializer().toServiceDocument(input, format));
     }
 }

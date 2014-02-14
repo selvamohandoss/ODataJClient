@@ -111,12 +111,6 @@ public abstract class AbstractODataReader implements ODataReader {
     }
 
     @Override
-    public ODataServiceDocument readServiceDocument(final InputStream input, final ODataFormat format) {
-        return client.getBinder().getODataServiceDocument(
-                client.getDeserializer().toServiceDocument(input, format));
-    }
-
-    @Override
     public ODataError readError(final InputStream inputStream, final boolean isXML) {
         return client.getDeserializer().toODataError(inputStream, isXML);
     }

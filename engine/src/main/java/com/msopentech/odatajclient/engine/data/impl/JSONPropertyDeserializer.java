@@ -45,7 +45,7 @@ import org.w3c.dom.Node;
  *
  * @see JSONProperty
  */
-public class JSONPropertyDeserializer extends ODataJsonDeserializer<JSONProperty> {
+public class JSONPropertyDeserializer extends ODataJacksonDeserializer<JSONProperty> {
 
     @Override
     protected JSONProperty doDeserialize(final JsonParser parser, final DeserializationContext ctxt)
